@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Siddhar Wisdom — Ancient Light for the Modern World</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=DM+Sans:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --sand:    #F0E9DF;
+  --sand2:   #E2D8CA;
+  --sand3:   #C8BAA4;
+  --terr:    #7A5C3E;
+  --terr2:   #5A3E26;
+  --ink:     #1C1410;
+  --sage:    #4A6741;
+  --sage2:   #6A8F60;
+  --sage-lt: #D4E3CF;
+  --rust:    #9C4A2B;
+  --rust-lt: #EDD9CF;
+  --sky:     #3A5F72;
+  --sky-lt:  #D0E3EC;
+  --warm-wh: #FAF7F2;
+  --muted:   #7A6A58;
+  --accent:  #B87333;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  background: var(--warm-wh);
+  color: var(--ink);
+  overflow-x: hidden;
+}
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: var(--warm-wh);
+  border-bottom: 1px solid var(--sand2);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 3rem;
+}
+.nav-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  color: var(--terr2);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+}
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a {
+  text-decoration: none;
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  transition: color 0.25s;
+}
+.nav-links a:hover { color: var(--terr); }
+.nav-cta {
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.6rem 1.4rem;
+  background: var(--terr2);
+  color: var(--sand);
+  text-decoration: none;
+  transition: background 0.25s;
+}
+.nav-cta:hover { background: var(--terr); }
+
+/* HERO — split layout */
+.hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-top: 57px;
+}
+.hero-left {
+  background: var(--ink);
+  padding: 6rem 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero-left::before {
+  content: '';
+  position: absolute;
+  bottom: -80px; right: -80px;
+  width: 320px; height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(184,115,51,0.15) 0%, transparent 70%);
+}
+.hero-eyebrow {
+  font-size: 0.65rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 2.5rem;
+  display: flex; align-items: center; gap: 1rem;
+}
+.hero-eyebrow::before {
+  content: '';
+  width: 30px; height: 1px;
+  background: var(--accent);
+  display: block;
+}
+.hero-h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.4rem, 4vw, 4.5rem);
+  font-weight: 400;
+  color: var(--sand);
+  line-height: 1.15;
+  margin-bottom: 2rem;
+}
+.hero-h1 em { font-style: italic; color: var(--accent); }
+.hero-desc {
+  font-size: 0.95rem;
+  line-height: 1.85;
+  color: #8A7A68;
+  max-width: 40ch;
+  margin-bottom: 3rem;
+}
+.hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+.btn-light {
+  padding: 0.85rem 2rem;
+  border: 1px solid rgba(240,233,223,0.25);
+  color: var(--sand);
+  text-decoration: none;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  transition: all 0.3s;
+}
+.btn-light:hover { background: rgba(240,233,223,0.08); border-color: var(--sand); }
+.btn-accent {
+  padding: 0.85rem 2rem;
+  background: var(--accent);
+  color: var(--warm-wh);
+  text-decoration: none;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  transition: all 0.3s;
+}
+.btn-accent:hover { background: var(--terr); }
+
+.hero-right {
+  background: var(--sand2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero-right::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Ccircle cx='30' cy='30' r='1' fill='%23C8BAA4' opacity='0.6'/%3E%3C/g%3E%3C/svg%3E");
+  opacity: 0.5;
+}
+.hero-visual {
+  position: relative; z-index: 1;
+  text-align: center;
+}
+.hero-sanskrit {
+  font-family: 'Playfair Display', serif;
+  font-size: 5rem;
+  font-style: italic;
+  color: var(--terr);
+  opacity: 0.25;
+  line-height: 1;
+  margin-bottom: 2rem;
+}
+.hero-stats {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+  background: var(--sand3);
+}
+.stat-box {
+  background: var(--warm-wh);
+  padding: 2rem 1.5rem;
+  text-align: center;
+}
+.stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  color: var(--terr2);
+  line-height: 1;
+  margin-bottom: 0.4rem;
+}
+.stat-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* PROBLEMS SECTION */
+.problems {
+  padding: 7rem 3rem;
+  background: var(--warm-wh);
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 5rem;
+  align-items: start;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.problems-left { padding-top: 0.5rem; }
+.label-tag {
+  display: inline-block;
+  font-size: 0.62rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--rust);
+  background: var(--rust-lt);
+  padding: 0.35rem 0.9rem;
+  margin-bottom: 1.5rem;
+}
+.section-h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.6rem, 3vw, 2.8rem);
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--ink);
+  margin-bottom: 1rem;
+}
+.section-h2 em { font-style: italic; color: var(--terr); }
+.bar-rule { width: 36px; height: 3px; background: var(--accent); margin: 1.5rem 0; }
+.body-p {
+  font-size: 0.95rem;
+  line-height: 1.85;
+  color: var(--muted);
+}
+.problems-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--sand2);
+  border: 1px solid var(--sand2);
+}
+.prob-card {
+  background: var(--warm-wh);
+  padding: 2.5rem 2rem;
+  position: relative;
+}
+.prob-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem;
+  color: var(--sand2);
+  line-height: 1;
+  margin-bottom: 1rem;
+  font-weight: 400;
+}
+.prob-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  color: var(--terr2);
+  margin-bottom: 0.6rem;
+}
+.prob-text {
+  font-size: 0.85rem;
+  line-height: 1.75;
+  color: var(--muted);
+}
+
+/* WISDOM BANNER */
+.wisdom-banner {
+  background: var(--terr2);
+  padding: 5rem 3rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.wisdom-banner::before {
+  content: '☯';
+  position: absolute;
+  font-size: 40rem;
+  color: rgba(255,255,255,0.02);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  line-height: 1;
+  user-select: none;
+}
+.wisdom-text {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.4rem, 3vw, 2.6rem);
+  font-style: italic;
+  color: var(--sand);
+  max-width: 720px;
+  margin: 0 auto 1.5rem;
+  line-height: 1.5;
+  position: relative;
+}
+.wisdom-attr {
+  font-size: 0.65rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--sand3);
+}
+
+/* RELEVANCE GRID */
+.relevance-section {
+  padding: 7rem 3rem;
+  background: var(--sand);
+}
+.rel-header {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 5rem;
+}
+.rel-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.rel-card {
+  background: var(--warm-wh);
+  padding: 2.5rem 2rem;
+  border-top: 3px solid transparent;
+  transition: border-color 0.3s, transform 0.3s;
+  cursor: default;
+}
+.rel-card:hover { transform: translateY(-4px); }
+.rel-card.sage { border-color: var(--sage); }
+.rel-card.rust { border-color: var(--rust); }
+.rel-card.sky  { border-color: var(--sky);  }
+.rel-card.terr { border-color: var(--terr); }
+.rel-card.accent { border-color: var(--accent); }
+.rel-card.ink { border-color: var(--ink); }
+
+.rel-icon {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+.rel-icon.sage { background: var(--sage-lt); }
+.rel-icon.rust { background: var(--rust-lt); }
+.rel-icon.sky  { background: var(--sky-lt);  }
+.rel-icon.terr { background: #EDD9C8; }
+.rel-icon.accent { background: #F2E2CC; }
+.rel-icon.ink { background: var(--sand2); }
+
+.rel-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem;
+  color: var(--ink);
+  margin-bottom: 0.7rem;
+}
+.rel-desc {
+  font-size: 0.85rem;
+  line-height: 1.8;
+  color: var(--muted);
+}
+
+/* BRIDGE */
+.bridge-section {
+  background: var(--warm-wh);
+  padding: 7rem 3rem;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 5rem;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.bridge-diagram {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.bridge-row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.2rem 0;
+  border-bottom: 1px solid var(--sand2);
+}
+.bridge-row:first-child { border-top: 1px solid var(--sand2); }
+.bridge-old {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--terr2);
+  text-align: right;
+}
+.bridge-arrow {
+  font-size: 1rem;
+  color: var(--accent);
+  text-align: center;
+}
+.bridge-new {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.bridge-text { }
+
+/* GURUKULAM */
+.gurukulam-section {
+  background: var(--sage);
+  padding: 7rem 3rem;
+  text-align: center;
+  color: var(--warm-wh);
+}
+.guru-eyebrow {
+  font-size: 0.65rem; letter-spacing: 0.4em; text-transform: uppercase;
+  color: var(--sage-lt); margin-bottom: 1.5rem;
+  display: flex; align-items: center; justify-content: center; gap: 1rem;
+}
+.guru-eyebrow::before, .guru-eyebrow::after {
+  content: ''; width: 30px; height: 1px; background: var(--sage-lt); display: block;
+}
+.guru-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 400;
+  color: var(--warm-wh);
+  margin-bottom: 0.5rem;
+}
+.guru-guide {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 1.2rem;
+  color: var(--sage-lt);
+  margin-bottom: 3rem;
+}
+.guru-features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  background: rgba(255,255,255,0.1);
+  max-width: 900px;
+  margin: 0 auto 3.5rem;
+}
+.guru-feat {
+  background: rgba(74,103,65,0.6);
+  padding: 2rem 1.5rem;
+  text-align: center;
+}
+.guru-feat-icon { font-size: 1.4rem; margin-bottom: 0.8rem; display: block; }
+.guru-feat-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.95rem;
+  color: var(--sage-lt);
+  margin-bottom: 0.4rem;
+}
+.guru-feat-desc { font-size: 0.78rem; color: rgba(212,227,207,0.7); line-height: 1.6; }
+.btn-sage {
+  display: inline-block;
+  padding: 1rem 2.5rem;
+  border: 1px solid var(--sage-lt);
+  color: var(--sage-lt);
+  text-decoration: none;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  transition: all 0.3s;
+}
+.btn-sage:hover { background: var(--sage-lt); color: var(--sage); }
+
+/* CHALLENGES */
+.challenges {
+  padding: 7rem 3rem;
+  background: var(--sand);
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: start;
+}
+.chal-list { margin-top: 2rem; }
+.chal-item {
+  display: flex; gap: 1.5rem; align-items: flex-start;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--sand2);
+}
+.chal-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--rust); flex-shrink: 0; margin-top: 0.4rem;
+}
+.chal-title { font-size: 0.9rem; color: var(--ink); margin-bottom: 0.3rem; font-weight: 400; }
+.chal-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.7; }
+.future-box {
+  background: var(--warm-wh);
+  border: 1px solid var(--sand2);
+  padding: 3rem;
+  margin-top: 2rem;
+}
+.future-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  color: var(--terr2);
+  margin-bottom: 1rem;
+}
+
+/* CTA FINAL */
+.final-cta {
+  background: var(--ink);
+  padding: 8rem 3rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.final-cta::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(184,115,51,0.1) 0%, transparent 65%);
+}
+.final-label {
+  font-size: 0.65rem; letter-spacing: 0.4em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 2rem; position: relative;
+}
+.final-h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4vw, 3.8rem);
+  font-weight: 400;
+  color: var(--sand);
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+  position: relative;
+}
+.final-h2 em { font-style: italic; color: var(--accent); }
+.final-sub {
+  font-size: 0.95rem;
+  color: #7A6A58;
+  line-height: 1.9;
+  max-width: 45ch;
+  margin: 0 auto 3rem;
+  position: relative;
+}
+.final-btns { display: flex; gap: 1rem; justify-content: center; position: relative; }
+
+/* FOOTER */
+footer {
+  background: var(--dark, #090705);
+  padding: 3rem 2rem;
+}
+.footer-content {
+  max-width: 1160px;
+  margin: 0 auto;
+}
+.footer-columns {
+  display: grid;
+  grid-template-columns: minmax(240px, 1.5fr) repeat(3, minmax(160px, 1fr));
+  gap: 2rem;
+  align-items: start;
+}
+.footer-column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.footer-brand-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.4rem, 2.2vw, 1.8rem);
+  color: var(--gold, #c9a84c);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.footer-brand-text {
+  font-size: 0.95rem;
+  line-height: 1.85;
+  color: var(--text-light, rgba(255,255,255,0.85));
+  max-width: 520px;
+}
+.footer-brand-link {
+  font-family: 'Cinzel', serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.32em;
+  color: var(--gold, #c9a84c);
+  text-transform: uppercase;
+  text-decoration: none;
+  opacity: 0.9;
+  transition: opacity 0.25s ease;
+}
+.footer-brand-link:hover {
+  opacity: 1;
+}
+.footer-heading {
+  font-family: 'Cinzel', serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.32em;
+  color: var(--gold, #c9a84c);
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  opacity: 0.85;
+}
+.footer-link-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.85rem;
+}
+.footer-link-list a {
+  color: var(--text-light, rgba(255,255,255,0.85));
+  text-decoration: none;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  transition: color 0.25s ease;
+}
+.footer-link-list a:hover {
+  color: var(--gold, #c9a84c);
+}
+.footer-note {
+  margin-top: 2.5rem;
+  font-size: 0.78rem;
+  color: var(--text-light, rgba(255,255,255,0.72));
+  letter-spacing: 0.16em;
+  opacity: 0.85;
+  text-align: center;
+}
+
+@media (max-width: 960px) {
+  .footer-columns {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 660px) {
+  .footer-columns {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; }
+  .hero-right { min-height: 40vh; }
+  .problems { grid-template-columns: 1fr; gap: 3rem; }
+  .problems-grid { grid-template-columns: 1fr; }
+  .rel-grid { grid-template-columns: 1fr 1fr; }
+  .bridge-section { grid-template-columns: 1fr; gap: 3rem; }
+  .guru-features { grid-template-columns: 1fr; }
+  .challenges { grid-template-columns: 1fr; gap: 3rem; }
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { display: none; }
+  footer { grid-template-columns: 1fr; text-align: center; }
+  .footer-note { text-align: center; }
+}
+@media (max-width: 600px) {
+  .rel-grid { grid-template-columns: 1fr; }
+}
+
+/* Animations */
+@keyframes fadeIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+.hero-left > * { animation: fadeIn 0.9s ease both; }
+.hero-eyebrow { animation-delay: 0.1s; }
+.hero-h1 { animation-delay: 0.25s; }
+.hero-desc { animation-delay: 0.4s; }
+.hero-actions { animation-delay: 0.55s; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">Shree Easanamma Gurukulam</a>
+  <ul class="nav-links">
+     <li><a href="./index.html">Home</a></li>
+    <li><a href="#relevance">Why Now</a></li>
+    <li><a href="#bridge">Ancient & Modern</a></li>
+    <li><a href="#gurukulam">The Space</a></li>
+    <li><a href="#begin">Begin</a></li>
+  </ul>
+  <a href="#begin" class="nav-cta">Seek Guidance</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Siddhar Wisdom — Tamil Tradition</p>
+    <h1 class="hero-h1">Ancient Light<br>for a <em>Modern</em><br>World</h1>
+    <p class="hero-desc">
+      In an age of information overload and inner unrest, the Siddhar tradition offers something rare: clarity without dependency, knowledge without belief, and transformation through direct understanding.
+    </p>
+    <div class="hero-actions">
+      <a href="#relevance" class="btn-accent">Explore the Wisdom</a>
+      <a href="#gurukulam" class="btn-light">The Gurukulam</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-visual">
+      <div class="hero-sanskrit">Om</div>
+      <div class="hero-stats">
+        <div class="stat-box">
+          <div class="stat-num">18</div>
+          <div class="stat-label">Siddhar Masters</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">∞</div>
+          <div class="stat-label">Timeless Wisdom</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">5</div>
+          <div class="stat-label">Domains Integrated</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">1</div>
+          <div class="stat-label">Direct Lineage</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROBLEMS -->
+<div style="background: var(--warm-wh); padding: 7rem 0;">
+<div class="problems" id="relevance">
+  <div class="problems-left">
+    <span class="label-tag">The Modern Crisis</span>
+    <h2 class="section-h2">Questions <em>Technology</em> Cannot Answer</h2>
+    <div class="bar-rule"></div>
+    <p class="body-p">
+      Despite advancement in every external field, humanity continues to face the same fundamental questions about consciousness, suffering, and wellbeing. The Siddhar tradition speaks directly to these.
+    </p>
+  </div>
+  <div class="problems-grid">
+    <div class="prob-card">
+      <div class="prob-num">01</div>
+      <div class="prob-title">Mental Instability</div>
+      <p class="prob-text">Constant stimulation and information overload leave the mind restless. Siddhar awareness practices reduce mental noise and develop lasting clarity.</p>
+    </div>
+    <div class="prob-card">
+      <div class="prob-num">02</div>
+      <div class="prob-title">Health Imbalance</div>
+      <p class="prob-text">Siddha medicine addresses root causes, not symptoms — emphasizing balance, prevention, and harmony with nature over reactive treatment.</p>
+    </div>
+    <div class="prob-card">
+      <div class="prob-num">03</div>
+      <div class="prob-title">Loss of Purpose</div>
+      <p class="prob-text">Modern self-development chases achievement and productivity. Siddhar wisdom shifts the lens inward — toward self-understanding and awareness.</p>
+    </div>
+    <div class="prob-card">
+      <div class="prob-num">04</div>
+      <div class="prob-title">Environmental Disconnect</div>
+      <p class="prob-text">Siddhars saw nature as interconnected and intelligent — a living whole. This perspective naturally cultivates ecological respect and sustainable living.</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- WISDOM BANNER -->
+<div class="wisdom-banner">
+  <p class="wisdom-text">
+    "Clarity without dependency, knowledge without belief,<br>
+    and transformation through direct understanding."
+  </p>
+  <p class="wisdom-attr">The essence of Siddhar tradition</p>
+</div>
+
+<!-- RELEVANCE GRID -->
+<div class="relevance-section">
+  <div class="rel-header">
+    <span class="label-tag" style="background:#EDD9C8; color:var(--terr2);">Six Domains of Relevance</span>
+    <h2 class="section-h2" style="margin-top:1rem;">Where Ancient Wisdom <em>Meets</em> Modern Life</h2>
+    <div class="bar-rule" style="margin: 1.5rem auto;"></div>
+  </div>
+  <div class="rel-grid">
+    <div class="rel-card sage">
+      <div class="rel-icon sage">🧠</div>
+      <div class="rel-title">Mental Health</div>
+      <p class="rel-desc">Siddhar observation-based practices align with modern mindfulness — reducing thought noise and building emotional stability from within.</p>
+    </div>
+    <div class="rel-card rust">
+      <div class="rel-icon rust">🌿</div>
+      <div class="rel-title">Physical Health</div>
+      <p class="rel-desc">Siddha medicine emphasizes prevention, balance, and natural healing — increasingly relevant in a world facing chronic illness and lifestyle disease.</p>
+    </div>
+    <div class="rel-card sky">
+      <div class="rel-icon sky">🔭</div>
+      <div class="rel-title">Consciousness Studies</div>
+      <p class="rel-desc">Scientists now explore awareness and perception — topics Siddhars investigated centuries ago through direct experience, offering a complementary lens.</p>
+    </div>
+    <div class="rel-card terr">
+      <div class="rel-icon terr">🌍</div>
+      <div class="rel-title">Environmental Awareness</div>
+      <p class="rel-desc">The Siddhar view of nature as alive and intelligent provides a philosophical foundation for sustainable living and ecological responsibility.</p>
+    </div>
+    <div class="rel-card accent">
+      <div class="rel-icon accent">🪴</div>
+      <div class="rel-title">Personal Growth</div>
+      <p class="rel-desc">Rather than chasing external success, the Siddhar tradition transforms the focus toward inner clarity, awareness, and lasting self-understanding.</p>
+    </div>
+    <div class="rel-card ink">
+      <div class="rel-icon ink">🔍</div>
+      <div class="rel-title">Spiritual Inquiry</div>
+      <p class="rel-desc">As people move away from rigid belief systems, the Siddhar path offers direct experience, authenticity, and clarity without dogma or doctrine.</p>
+    </div>
+  </div>
+</div>
+
+<!-- BRIDGE -->
+<div style="background: var(--warm-wh); padding: 7rem 0;" id="bridge">
+<div class="bridge-section">
+  <div>
+    <span class="label-tag" style="background:var(--sky-lt); color:var(--sky);">Bridging Two Worlds</span>
+    <h2 class="section-h2" style="margin-top:1rem;">Ancient Insight,<br><em>Modern Understanding</em></h2>
+    <div class="bar-rule"></div>
+    <p class="body-p">The Siddhar tradition acts as a living bridge — integrating science, spirituality, and daily life into a single coherent understanding. It transforms everyday living into a field of awareness.</p>
+    <br>
+    <p class="body-p">This is not a system to be followed. It is a way of seeing — one that applies equally to how we think, how we act, and how we observe the world around us.</p>
+  </div>
+  <div class="bridge-diagram">
+    <div class="bridge-row">
+      <div class="bridge-old">Observation & Inquiry</div>
+      <div class="bridge-arrow">↔</div>
+      <div class="bridge-new">Modern Psychology</div>
+    </div>
+    <div class="bridge-row">
+      <div class="bridge-old">Siddha Medicine</div>
+      <div class="bridge-arrow">↔</div>
+      <div class="bridge-new">Integrative Health</div>
+    </div>
+    <div class="bridge-row">
+      <div class="bridge-old">Consciousness Studies</div>
+      <div class="bridge-arrow">↔</div>
+      <div class="bridge-new">Neuroscience</div>
+    </div>
+    <div class="bridge-row">
+      <div class="bridge-old">Nature as Intelligence</div>
+      <div class="bridge-arrow">↔</div>
+      <div class="bridge-new">Systems Theory</div>
+    </div>
+    <div class="bridge-row">
+      <div class="bridge-old">Inner Clarity</div>
+      <div class="bridge-arrow">↔</div>
+      <div class="bridge-new">Personal Development</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- GURUKULAM -->
+<div class="gurukulam-section" id="gurukulam">
+  <div class="guru-eyebrow">Living Space for Authentic Practice</div>
+  <h2 class="guru-title">Shree Easanamma Gurukulam</h2>
+  <p class="guru-guide">Guided by Shree Easanamma</p>
+  <div class="guru-features">
+    <div class="guru-feat">
+      <span class="guru-feat-icon">🧘</span>
+      <div class="guru-feat-title">Discipline Maintained</div>
+      <p class="guru-feat-desc">A structured environment where the conditions for inner inquiry are preserved and protected.</p>
+    </div>
+    <div class="guru-feat">
+      <span class="guru-feat-icon">👁️</span>
+      <div class="guru-feat-title">Observation Encouraged</div>
+      <p class="guru-feat-desc">Daily life becomes the practice — every moment an opportunity for awareness and direct understanding.</p>
+    </div>
+    <div class="guru-feat">
+      <span class="guru-feat-icon">🌿</span>
+      <div class="guru-feat-title">Distractions Minimized</div>
+      <p class="guru-feat-desc">Simplicity of environment creates space for the kind of perception that cannot occur in noise.</p>
+    </div>
+  </div>
+  <a href="#begin" class="btn-sage">Connect with the Gurukulam</a>
+</div>
+
+<!-- CHALLENGES -->
+<div style="background: var(--sand); padding: 7rem 0;">
+<div class="challenges">
+  <div>
+    <span class="label-tag">Navigating Modern Adoption</span>
+    <h2 class="section-h2" style="margin-top:1rem;">Challenges in<br><em>Bringing It Forward</em></h2>
+    <div class="bar-rule"></div>
+    <p class="body-p">Despite its deep relevance, authentic Siddhar wisdom faces real obstacles in today's world. Understanding these challenges is part of approaching the tradition honestly.</p>
+    <div class="chal-list">
+      <div class="chal-item">
+        <div class="chal-dot"></div>
+        <div>
+          <div class="chal-title">Misunderstanding</div>
+          <p class="chal-desc">The tradition is often mistaken for religion, mysticism, or folk belief — losing its essential character as a method of direct inquiry.</p>
+        </div>
+      </div>
+      <div class="chal-item">
+        <div class="chal-dot"></div>
+        <div>
+          <div class="chal-title">Commercialization</div>
+          <p class="chal-desc">The broader spirituality market reduces depth to product — workshops, certifications, and branding dilute what must be lived to be understood.</p>
+        </div>
+      </div>
+      <div class="chal-item">
+        <div class="chal-dot"></div>
+        <div>
+          <div class="chal-title">Lack of Discipline</div>
+          <p class="chal-desc">Genuine transmission requires discipline, patience, and sincerity. Without these, the knowledge cannot take root.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="future-box">
+      <div class="future-title">The Future of Siddhar Knowledge</div>
+      <div class="bar-rule"></div>
+      <p class="body-p">
+        As global interest in consciousness, holistic health, and inner transformation continues to grow, Siddhar knowledge is becoming more visible.
+      </p>
+      <br>
+      <p class="body-p">
+        However, its true value lies not in popularity — but in <strong style="font-weight:400; color:var(--terr2);">authentic practice</strong>. The tradition is not bound by time. It remains relevant because it addresses fundamental human questions, universal patterns of life, and the nature of awareness itself.
+      </p>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- FINAL CTA -->
+<div class="final-cta" id="begin">
+  <p class="final-label">Begin the Inquiry</p>
+  <h2 class="final-h2">Are You Ready to<br><em>Look Inward?</em></h2>
+  <p class="final-sub">
+    Siddhar wisdom asks for no belief — only sincerity. If you carry a genuine question about consciousness, health, or the nature of life, this tradition has something to offer.
+  </p>
+  <div class="final-btns">
+    <a href="#" class="btn-accent">Connect with Us</a>
+    <a href="#relevance" class="btn-light">Learn More</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-content">
+    <div class="footer-columns">
+      <div class="footer-column footer-brand">
+        <div class="footer-brand-title">Easanamma Gurukulam</div>
+        <p class="footer-brand-text">
+          A living space of discipline, observation, and transformation — rooted in the
+          ancient Tamil Siddhar tradition under the guidance of Shree Easanamma.
+        </p>
+        <a href="./index.html" class="footer-brand-link">easanamma.com</a>
+      </div>
+
+      <div class="footer-column">
+        <div class="footer-heading">Tradition</div>
+        <ul class="footer-link-list">
+          <li><a href="./18-siddhars.html">The 18 Siddhars</a></li>
+          <li><a href="./siddhar-civilization.html">Siddhar Civilization</a></li>
+          <li><a href="./origin_tamil_siddhars.html">Origins</a></li>
+          <li><a href="./secret-life-siddhars.html">Secret Life</a></li>
+          <li><a href="./siddhar-timeline.html">Timeline</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <div class="footer-heading">Knowledge</div>
+        <ul class="footer-link-list">
+         <li><a href="./Relevance of Siddhar Wisdom in the Modern World.html">Siddha Medicine</a></li>
+         <li><a href="./ancient_tamil_spiritual.html">Ancient Tamil Spirituality</a></li>
+         <li><a href="./meditation_siddhar.html">Meditation</a></li>
+         <li><a href="./Siddhar vs Other Spiritual Traditions.html">Siddhar vs Other Spiritual Traditions</a></li>
+         <li><a href="./Why Siddhars Are Unique.html">Why Siddhars Are Unique</a></li>
+          
+        </ul>
+      </div>
+
+      
+    </div>
+
+    <p class="footer-note">© 2026 Shree Easanamma Gurukulam. All rights reserved.</p>
+  </div>
+</footer>
+
+
+</body>
+</html>

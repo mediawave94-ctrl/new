@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thought & Awareness — The Siddhar Science of Mind</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Tenor+Sans&family=Libre+Baskerville:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #0d0b06;
+  --bg2:       #130f07;
+  --bg3:       #1a1509;
+  --border:    #2e2510;
+  --border2:   #3d3118;
+  --amber:     #c8922a;
+  --amber-dim: #7a5918;
+  --amber-pale:#f0c870;
+  --amber-glow:#e0a840;
+  --text:      #ede0c4;
+  --text-mid:  #b09a72;
+  --text-low:  #6b5838;
+  --serif:     'Playfair Display', Georgia, serif;
+  --sans:      'Tenor Sans', sans-serif;
+  --body:      'Libre Baskerville', Georgia, serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--body);
+  font-size: 17px;
+  line-height: 1.85;
+  overflow-x: hidden;
+}
+
+/* ── OBSERVER BASE ── */
+[data-reveal] { will-change: opacity, transform; }
+
+/* ── CHAR SPLIT ── */
+.split-chars .c {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.split-chars.in .c { opacity: 1; transform: translateY(0); }
+
+/* ── WORD DRIFT ── */
+.split-words .w {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(14px);
+  filter: blur(4px);
+  transition: opacity 0.7s ease, transform 0.7s ease, filter 0.7s ease;
+}
+.split-words.in .w { opacity: 1; transform: translateY(0); filter: blur(0); }
+
+/* ── LINE RISE ── */
+.line-rise {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.85s cubic-bezier(.22,.61,.36,1), transform 0.85s cubic-bezier(.22,.61,.36,1);
+}
+.line-rise.in { opacity: 1; transform: translateY(0); }
+
+/* ── FADE SLOW ── */
+.fade-slow {
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+.fade-slow.in { opacity: 1; }
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 5vw;
+  background: linear-gradient(to bottom, rgba(13,11,6,.97) 0%, transparent 100%);
+}
+.nav-brand {
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: var(--amber);
+  text-decoration: none;
+}
+.nav-links {
+  display: flex;
+  gap: 2.8rem;
+  list-style: none;
+}
+.nav-links a {
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--text-low);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.nav-links a:hover { color: var(--amber-pale); }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 10rem 2rem 5rem;
+}
+
+.hero-eyebrow {
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: 0.55em;
+  text-transform: uppercase;
+  color: var(--amber-dim);
+  margin-bottom: 2.2rem;
+}
+
+.hero-hl1 {
+  font-family: var(--serif);
+  font-size: clamp(44px, 8vw, 96px);
+  font-weight: 400;
+  line-height: 1.05;
+  color: var(--text);
+  letter-spacing: -0.01em;
+  margin-bottom: 0.15em;
+}
+.hero-hl1 em {
+  font-style: italic;
+  color: var(--amber-pale);
+}
+
+.hero-amp {
+  font-family: var(--serif);
+  font-size: clamp(28px, 5vw, 56px);
+  font-style: italic;
+  color: var(--amber-dim);
+  line-height: 1;
+  display: block;
+  margin: 0.2em 0;
+}
+
+.hero-hl2 {
+  font-family: var(--serif);
+  font-size: clamp(44px, 8vw, 96px);
+  font-weight: 400;
+  line-height: 1.05;
+  color: var(--text);
+  letter-spacing: -0.01em;
+  margin-bottom: 3rem;
+}
+
+.hero-line {
+  width: 1px;
+  height: 56px;
+  background: linear-gradient(to bottom, var(--amber-dim), transparent);
+  margin: 0 auto 2.5rem;
+}
+
+.hero-intro {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(15px, 2vw, 19px);
+  color: var(--text-mid);
+  max-width: 500px;
+  line-height: 2;
+}
+
+/* ── THIN RULE ── */
+.rule {
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--amber-dim) 30%, var(--amber-dim) 70%, transparent);
+}
+
+.ornament {
+  text-align: center;
+  padding: 3.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 1.8rem;
+  max-width: 420px;
+  margin: 0 auto;
+}
+.ornament-mark {
+  font-family: var(--serif);
+  font-size: 18px;
+  color: var(--amber-dim);
+  font-style: italic;
+  flex-shrink: 0;
+}
+.ornament-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--border2));
+}
+.ornament-line.r {
+  background: linear-gradient(to left, transparent, var(--border2));
+}
+
+/* ── SECTION ── */
+section {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 3.5rem 2rem;
+}
+
+.s-label {
+  display: block;
+  font-family: var(--sans);
+  font-size: 9px;
+  letter-spacing: 0.55em;
+  text-transform: uppercase;
+  color: var(--amber-dim);
+  margin-bottom: 1.4rem;
+}
+
+.s-head {
+  font-family: var(--serif);
+  font-size: clamp(22px, 4vw, 38px);
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--text);
+  margin-bottom: 1.8rem;
+}
+
+.s-body {
+  font-family: var(--body);
+  font-size: clamp(15px, 1.8vw, 17px);
+  color: var(--text-mid);
+  line-height: 1.95;
+  margin-bottom: 1.2rem;
+}
+
+.s-italic {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(16px, 2vw, 20px);
+  color: var(--text-mid);
+  line-height: 1.85;
+  margin-bottom: 1.2rem;
+}
+
+/* ── DUALITY PAIR ── */
+.duality {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid var(--border);
+  margin: 2.5rem 0;
+}
+.duality-cell {
+  padding: 2.2rem 1.8rem;
+  position: relative;
+}
+.duality-cell + .duality-cell {
+  border-left: 1px solid var(--border);
+}
+.duality-cell::after {
+  content: '';
+  display: block;
+  width: 32px;
+  height: 1px;
+  background: var(--amber-dim);
+  margin-top: 1rem;
+}
+.duality-tag {
+  font-family: var(--sans);
+  font-size: 9px;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: var(--amber-dim);
+  display: block;
+  margin-bottom: 0.9rem;
+}
+.duality-word {
+  font-family: var(--serif);
+  font-size: clamp(22px, 3.5vw, 32px);
+  font-weight: 400;
+  color: var(--amber-pale);
+  margin-bottom: 0.7rem;
+}
+.duality-desc {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 15px;
+  color: var(--text-low);
+  line-height: 1.7;
+}
+
+/* ── STEPS ── */
+.steps {
+  margin: 2.5rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.step {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 0;
+  border-top: 1px solid var(--border);
+  padding: 1.6rem 0;
+  align-items: start;
+}
+.step:last-child { border-bottom: 1px solid var(--border); }
+.step-num {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 13px;
+  color: var(--amber-dim);
+  padding-top: 2px;
+}
+.step-content {}
+.step-title {
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--text);
+  margin-bottom: 0.4rem;
+}
+.step-body {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 15px;
+  color: var(--text-low);
+  line-height: 1.75;
+}
+
+/* ── LARGE QUOTE ── */
+.lquote {
+  text-align: center;
+  padding: 6rem 2rem;
+  max-width: 660px;
+  margin: 0 auto;
+}
+.lquote-open {
+  font-family: var(--serif);
+  font-size: 5rem;
+  color: var(--amber-dim);
+  line-height: 0.4;
+  display: block;
+  margin-bottom: 2rem;
+  font-style: italic;
+}
+.lquote-text {
+  font-family: var(--serif);
+  font-size: clamp(20px, 3.5vw, 32px);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--text);
+  line-height: 1.65;
+  margin-bottom: 2.2rem;
+}
+.lquote-text em { color: var(--amber-pale); font-style: normal; }
+.lquote-attr {
+  font-family: var(--sans);
+  font-size: 9px;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: var(--amber-dim);
+}
+
+/* ── INSIGHT GRID ── */
+.insights {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  margin: 2.5rem 0;
+}
+.insight {
+  background: var(--bg2);
+  padding: 2rem 1.5rem;
+  transition: background 0.3s;
+}
+.insight:hover { background: var(--bg3); }
+.insight-num {
+  font-family: var(--serif);
+  font-size: 11px;
+  font-style: italic;
+  color: var(--amber-dim);
+  display: block;
+  margin-bottom: 1rem;
+}
+.insight-head {
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--text);
+  margin-bottom: 0.7rem;
+}
+.insight-body {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 14px;
+  color: var(--text-low);
+  line-height: 1.7;
+}
+
+/* ── GURU SECTION ── */
+.guru {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 6rem 2rem;
+  text-align: center;
+}
+.guru-inner { max-width: 580px; margin: 0 auto; }
+.guru-pre {
+  font-family: var(--sans);
+  font-size: 9px;
+  letter-spacing: 0.55em;
+  text-transform: uppercase;
+  color: var(--amber-dim);
+  display: block;
+  margin-bottom: 1.8rem;
+}
+.guru-name {
+  font-family: var(--serif);
+  font-size: clamp(26px, 4.5vw, 44px);
+  font-weight: 400;
+  color: var(--amber-pale);
+  line-height: 1.2;
+  margin-bottom: 0.4rem;
+}
+.guru-place {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 15px;
+  color: var(--text-low);
+  margin-bottom: 2.5rem;
+}
+.guru-rule {
+  width: 48px;
+  height: 1px;
+  background: var(--amber-dim);
+  margin: 0 auto 2.5rem;
+}
+.guru-body {
+  font-family: var(--serif);
+  font-size: clamp(15px, 2vw, 18px);
+  font-style: italic;
+  color: var(--text-mid);
+  line-height: 2;
+}
+
+/* ── CONCLUSION ── */
+.conclusion {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 5rem 2rem 4rem;
+  text-align: center;
+}
+.conclusion-line {
+  display: block;
+  font-family: var(--serif);
+  font-size: clamp(17px, 2.5vw, 22px);
+  color: var(--text-mid);
+  font-style: italic;
+  line-height: 2.2;
+}
+.conclusion-line.highlight {
+  color: var(--amber-pale);
+  font-size: clamp(20px, 3vw, 28px);
+  font-style: normal;
+  font-weight: 500;
+  margin-top: 0.5rem;
+}
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 3rem 2rem;
+  text-align: center;
+}
+.footer-brand {
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: var(--amber-dim);
+  display: block;
+  margin-bottom: 0.8rem;
+}
+.footer-note {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 13px;
+  color: var(--text-low);
+}
+
+@media (max-width: 640px) {
+  nav { padding: 1.2rem 1.5rem; }
+  .nav-links { display: none; }
+  .duality { grid-template-columns: 1fr; }
+  .duality-cell + .duality-cell { border-left: none; border-top: 1px solid var(--border); }
+  .insights { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-brand">Siddhar Science</a>
+  <ul class="nav-links">
+    <li><a href="#what">Thought</a></li>
+    <li><a href="#awareness">Awareness</a></li>
+    <li><a href="#method">Method</a></li>
+    <li><a href="#guru">Guidance</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <p class="hero-eyebrow fade-slow" data-delay="200">The Siddhar Consciousness Science</p>
+
+  <h1 class="hero-hl1 split-chars" data-delay="400">
+    <!-- JS fills chars -->Thought
+  </h1>
+  <span class="hero-amp split-chars" data-delay="700">&amp;</span>
+  <h1 class="hero-hl2 split-chars" data-delay="900">
+    Awareness
+  </h1>
+
+  <div class="hero-line fade-slow" data-delay="1400"></div>
+
+  <p class="hero-intro split-words" data-delay="1600">
+    Most people never question what thought is, where it comes from,
+    or how it shapes everything they believe to be real.
+  </p>
+</div>
+
+<!-- ORNAMENT -->
+<div class="ornament line-rise" data-delay="0">
+  <div class="ornament-line"></div>
+  <span class="ornament-mark">✦</span>
+  <div class="ornament-line r"></div>
+</div>
+
+<!-- WHAT IS THOUGHT -->
+<section id="what">
+  <span class="s-label line-rise">Section One</span>
+  <h2 class="s-head split-chars">What Is Thought?</h2>
+  <p class="s-body line-rise">
+    Thought is a movement of the mind. It arises from memory, experience,
+    and conditioning — a river fed by everything you have encountered and
+    absorbed since the moment of your first breath.
+  </p>
+  <p class="s-italic line-rise">
+    It is continuous. It is repetitive. It is reactive.
+    And it is not always accurate.
+  </p>
+
+  <!-- DUALITY -->
+  <div class="duality line-rise">
+    <div class="duality-cell">
+      <span class="duality-tag">Thought is</span>
+      <div class="duality-word">Movement</div>
+      <p class="duality-desc">A constant stream arising from memory, always interpreting, always reacting, never still.</p>
+    </div>
+    <div class="duality-cell">
+      <span class="duality-tag">Awareness is</span>
+      <div class="duality-word">Stillness</div>
+      <p class="duality-desc">The silent ground beneath all thought — unchanged, unmoving, the witness that cannot be seen.</p>
+    </div>
+  </div>
+
+  <p class="s-body line-rise">
+    The Siddhars made this distinction the foundation of their entire
+    inquiry into the nature of mind. Not as philosophy — but as lived,
+    verifiable experience.
+  </p>
+</section>
+
+<div class="ornament line-rise">
+  <div class="ornament-line"></div>
+  <span class="ornament-mark">✦</span>
+  <div class="ornament-line r"></div>
+</div>
+
+<!-- IDENTIFICATION -->
+<section id="awareness">
+  <span class="s-label line-rise">Section Two</span>
+  <h2 class="s-head split-chars">The Problem of Identification</h2>
+  <p class="s-body line-rise">
+    Most people do not merely have thoughts — they become them.
+    Every passing thought is taken to be the truth of who they are.
+    This identification creates confusion, emotional disturbance,
+    and a deeply false perception of reality.
+  </p>
+
+  <!-- STEPS -->
+  <div class="steps">
+    <div class="step line-rise">
+      <span class="step-num">i.</span>
+      <div class="step-content">
+        <div class="step-title">Identification</div>
+        <p class="step-body">You believe you are your thoughts. The thought becomes the thinker. No gap remains.</p>
+      </div>
+    </div>
+    <div class="step line-rise">
+      <span class="step-num">ii.</span>
+      <div class="step-content">
+        <div class="step-title">Confusion</div>
+        <p class="step-body">Without separation, every mental movement feels personal, urgent, real — and overwhelming.</p>
+      </div>
+    </div>
+    <div class="step line-rise">
+      <span class="step-num">iii.</span>
+      <div class="step-content">
+        <div class="step-title">False Perception</div>
+        <p class="step-body">Thought shapes perception. But thought is not reality itself — only a filtered story of it.</p>
+      </div>
+    </div>
+    <div class="step line-rise">
+      <span class="step-num">iv.</span>
+      <div class="step-content">
+        <div class="step-title">Liberation</div>
+        <p class="step-body">Freedom is not the absence of thought. It is ceasing to be controlled by it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BIG QUOTE -->
+<div class="lquote">
+  <span class="lquote-open fade-slow">"</span>
+  <p class="lquote-text split-words">
+    Thought is not the enemy.
+    <em>Unobserved</em> thought is the issue.
+    Awareness transforms everything.
+  </p>
+  <span class="lquote-attr line-rise">— The Siddhar Understanding</span>
+</div>
+
+<div class="ornament line-rise">
+  <div class="ornament-line"></div>
+  <span class="ornament-mark">✦</span>
+  <div class="ornament-line r"></div>
+</div>
+
+<!-- METHOD -->
+<section id="method">
+  <span class="s-label line-rise">Section Three</span>
+  <h2 class="s-head split-chars">The Siddhar Method</h2>
+  <p class="s-body line-rise">
+    The method is simple to describe and demanding to live.
+    Observe thought without interference. Do not suppress it, do not chase it —
+    simply watch. In watching, the intensity begins to reduce.
+    Perception becomes clearer.
+  </p>
+
+  <!-- INSIGHTS -->
+  <div class="insights">
+    <div class="insight line-rise">
+      <span class="insight-num">01</span>
+      <div class="insight-head">Thoughts Slow</div>
+      <p class="insight-body">Through pure observation, the momentum of the mind loses its grip.</p>
+    </div>
+    <div class="insight line-rise">
+      <span class="insight-num">02</span>
+      <div class="insight-head">Gaps Appear</div>
+      <p class="insight-body">Between one thought and the next, a silence opens. Small at first, then wider.</p>
+    </div>
+    <div class="insight line-rise">
+      <span class="insight-num">03</span>
+      <div class="insight-head">Awareness Deepens</div>
+      <p class="insight-body">The one who watches begins to know themselves — not as thought, but as the witness.</p>
+    </div>
+    <div class="insight line-rise">
+      <span class="insight-num">04</span>
+      <div class="insight-head">Silence</div>
+      <p class="insight-body">In the gap between thoughts — there is no confusion. Only clarity. Only stillness.</p>
+    </div>
+    <div class="insight line-rise">
+      <span class="insight-num">05</span>
+      <div class="insight-head">Clarity</div>
+      <p class="insight-body">Perception untouched by reactive thought sees with unusual precision and calm.</p>
+    </div>
+    <div class="insight line-rise">
+      <span class="insight-num">06</span>
+      <div class="insight-head">Living Application</div>
+      <p class="insight-body">In relationships, decisions, daily life — this understanding changes everything.</p>
+    </div>
+  </div>
+
+  <p class="s-italic line-rise">
+    Regular observation leads not to suppression, but to stability —
+    a clarity that does not depend on circumstances.
+  </p>
+</section>
+
+<div class="ornament line-rise">
+  <div class="ornament-line"></div>
+  <span class="ornament-mark">✦</span>
+  <div class="ornament-line r"></div>
+</div>
+
+<!-- GURU -->
+<div class="guru" id="guru">
+  <div class="guru-inner">
+    <span class="guru-pre line-rise">Living Guidance</span>
+    <div class="guru-name split-chars">Shree Easanamma</div>
+    <p class="guru-place line-rise">Shree Easanamma Gurukulam</p>
+    <div class="guru-rule fade-slow"></div>
+    <p class="guru-body split-words">
+      To go deeper into this understanding, guidance is essential.
+      Not as doctrine handed down — but as living presence that
+      redirects your attention, again and again, back to the observer.
+      Back to awareness itself.
+    </p>
+  </div>
+</div>
+
+<!-- CONCLUSION -->
+<div class="conclusion">
+  <span class="s-label line-rise" style="text-align:center;display:block;">Conclusion</span>
+  <div style="margin-top: 1.5rem;">
+    <span class="conclusion-line line-rise">Thought is not the enemy.</span>
+    <span class="conclusion-line line-rise">Unobserved thought is the issue.</span>
+    <span class="conclusion-line line-rise">Awareness</span>
+    <span class="conclusion-line highlight split-chars">transforms everything.</span>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-brand fade-slow">Shree Easanamma Gurukulam</span>
+  <p class="footer-note fade-slow">The Siddhar path — from movement to stillness, from thought to pure awareness.</p>
+</footer>
+
+<script>
+// ─── SPLIT UTILITIES ───
+function splitToChars(el) {
+  const text = el.textContent.trim();
+  el.textContent = '';
+  [...text].forEach(ch => {
+    if (ch === ' ') {
+      el.appendChild(document.createTextNode('\u00a0'));
+    } else {
+      const s = document.createElement('span');
+      s.className = 'c';
+      s.textContent = ch;
+      el.appendChild(s);
+    }
+  });
+}
+
+function splitToWords(el) {
+  const text = el.textContent.trim();
+  el.textContent = '';
+  text.split(/\s+/).forEach((word, i, arr) => {
+    const s = document.createElement('span');
+    s.className = 'w';
+    s.textContent = word;
+    el.appendChild(s);
+    if (i < arr.length - 1) el.appendChild(document.createTextNode(' '));
+  });
+}
+
+// ─── PREP ALL ELEMENTS ───
+document.querySelectorAll('.split-chars').forEach(splitToChars);
+document.querySelectorAll('.split-words').forEach(splitToWords);
+
+// ─── ANIMATE IN ───
+function animateIn(el) {
+  if (el.classList.contains('split-chars')) {
+    el.querySelectorAll('.c').forEach((c, i) => {
+      setTimeout(() => {
+        c.style.opacity = '1';
+        c.style.transform = 'translateY(0)';
+      }, i * 42);
+    });
+  } else if (el.classList.contains('split-words')) {
+    el.querySelectorAll('.w').forEach((w, i) => {
+      setTimeout(() => {
+        w.style.opacity = '1';
+        w.style.transform = 'translateY(0)';
+        w.style.filter = 'blur(0)';
+      }, i * 65);
+    });
+  } else if (el.classList.contains('line-rise') || el.classList.contains('fade-slow')) {
+    el.classList.add('in');
+  }
+}
+
+// ─── OBSERVER ───
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    animateIn(e.target);
+    io.unobserve(e.target);
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.split-chars, .split-words, .line-rise, .fade-slow').forEach(el => {
+  io.observe(el);
+});
+
+// ─── HERO: fire on load with delays ───
+window.addEventListener('load', () => {
+  const heroEls = document.querySelectorAll('.hero .fade-slow, .hero .split-chars, .hero .split-words, .hero .line-rise');
+  heroEls.forEach(el => {
+    const delay = parseInt(el.dataset.delay || '0', 10);
+    setTimeout(() => {
+      io.unobserve(el);
+      animateIn(el);
+    }, delay);
+  });
+});
+</script>
+</body>
+</html>

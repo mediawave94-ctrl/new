@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meditation — The Siddhar Tradition</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Instrument+Sans:wght@300;400&family=Unbounded:wght@200;300&display=swap" rel="stylesheet">
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── THEME PALETTES ── */
+:root {
+  --ff-display: 'Fraunces', Georgia, serif;
+  --ff-ui:      'Instrument Sans', sans-serif;
+  --ff-head:    'Unbounded', sans-serif;
+  --ease-out:   cubic-bezier(.16,.84,.44,1);
+}
+
+/* THEME 1 — Deep Charcoal + Sage */
+.t1 {
+  --bg:    #0e0f0d;
+  --bg2:   #131410;
+  --line:  #222318;
+  --acc:   #7a8c5e;
+  --acc2:  #4d5c38;
+  --acc3:  #2a3020;
+  --text:  #dde0d4;
+  --mid:   #848c78;
+  --low:   #3a3e30;
+}
+
+/* THEME 2 — Void Black + Rust */
+.t2 {
+  --bg:    #0c0907;
+  --bg2:   #110c09;
+  --line:  #2a1c10;
+  --acc:   #b86840;
+  --acc2:  #7a4022;
+  --acc3:  #3a1e0c;
+  --text:  #e8d8c8;
+  --mid:   #9a7a60;
+  --low:   #3c2a1a;
+}
+
+/* THEME 3 — Midnight + Slate Blue */
+.t3 {
+  --bg:    #080a12;
+  --bg2:   #0c0f1a;
+  --line:  #161c2e;
+  --acc:   #6878c8;
+  --acc2:  #3a4890;
+  --acc3:  #1c2248;
+  --text:  #d4d8f0;
+  --mid:   #7480b0;
+  --low:   #2c3460;
+}
+
+/* THEME 4 — Obsidian + Rose */
+.t4 {
+  --bg:    #0f0909;
+  --bg2:   #140c0c;
+  --line:  #281414;
+  --acc:   #c06070;
+  --acc2:  #803848;
+  --acc3:  #3a1820;
+  --text:  #f0d8dc;
+  --mid:   #a07888;
+  --low:   #401c24;
+}
+
+/* THEME 5 — Deep Teal */
+.t5 {
+  --bg:    #060d0d;
+  --bg2:   #09120f;
+  --line:  #0e2020;
+  --acc:   #4a9488;
+  --acc2:  #28605a;
+  --acc3:  #0e3030;
+  --text:  #c8e0dc;
+  --mid:   #608c88;
+  --low:   #1c3c38;
+}
+
+/* ── BASE ── */
+html { scroll-behavior: smooth; }
+
+body {
+  background: #0e0f0d;
+  color: #dde0d4;
+  font-family: var(--ff-display);
+  font-size: 18px;
+  line-height: 1.85;
+  overflow-x: hidden;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 999;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 5vw;
+  mix-blend-mode: normal;
+}
+.nav-bg {
+  position: absolute;
+  inset: 0;
+  background: rgba(14,15,13,0.94);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: -1;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.nav-logo {
+  font-family: var(--ff-head);
+  font-size: 9px;
+  letter-spacing: 0.35em;
+  font-weight: 200;
+  color: #7a8c5e;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+.nav-links a {
+  font-family: var(--ff-ui);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #3a3e30;
+  text-decoration: none;
+  font-weight: 300;
+  transition: color 0.4s;
+}
+.nav-links a:hover { color: #848c78; }
+
+/* ── SECTION WRAPPERS ── */
+.zone {
+  background: var(--bg);
+  transition: background 0.1s;
+}
+
+/* ── SECTION INNER ── */
+.section-inner {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 5rem 2rem 5.5rem;
+}
+
+.section-wide {
+  max-width: 940px;
+  margin: 0 auto;
+  padding: 5rem 2rem 5.5rem;
+}
+
+/* ── TAG ── */
+.etag {
+  display: inline-block;
+  font-family: var(--ff-ui);
+  font-size: 8.5px;
+  letter-spacing: 0.55em;
+  text-transform: uppercase;
+  font-weight: 300;
+  color: var(--acc2);
+  border: 1px solid var(--acc3);
+  padding: 0.3rem 0.85rem;
+  margin-bottom: 2.2rem;
+}
+
+/* ── HEADINGS ── */
+.h-display {
+  font-family: var(--ff-display);
+  font-size: clamp(28px, 5.5vw, 60px);
+  font-weight: 200;
+  line-height: 1.1;
+  color: var(--text);
+  letter-spacing: -0.01em;
+  margin-bottom: 2rem;
+}
+.h-display em { font-style: italic; color: var(--acc); }
+
+.h-section {
+  font-family: var(--ff-head);
+  font-size: clamp(13px, 2vw, 18px);
+  font-weight: 200;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--acc);
+  margin-bottom: 1.8rem;
+  line-height: 1.4;
+}
+
+/* ── BODY TEXT ── */
+.prose {
+  font-family: var(--ff-display);
+  font-size: clamp(15px, 1.8vw, 18px);
+  font-weight: 300;
+  color: var(--mid);
+  line-height: 2;
+  margin-bottom: 1.4rem;
+}
+.prose-em {
+  font-family: var(--ff-display);
+  font-style: italic;
+  font-size: clamp(16px, 2.2vw, 21px);
+  font-weight: 200;
+  color: var(--mid);
+  line-height: 2;
+  margin-bottom: 1.4rem;
+}
+
+/* ── RULE ── */
+.h-rule {
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--line) 20%, var(--line) 80%, transparent);
+  margin: 0;
+}
+
+/* ── HERO ── */
+.hero-zone {
+  background: #0e0f0d;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 9rem 2rem 5rem;
+}
+.hero-super {
+  font-family: var(--ff-ui);
+  font-size: 9px;
+  letter-spacing: 0.6em;
+  text-transform: uppercase;
+  font-weight: 300;
+  color: #4d5c38;
+  margin-bottom: 3rem;
+}
+.hero-title {
+  font-family: var(--ff-display);
+  font-size: clamp(48px, 10vw, 110px);
+  font-weight: 200;
+  line-height: 0.95;
+  color: #dde0d4;
+  letter-spacing: -0.025em;
+  margin-bottom: 0.5rem;
+}
+.hero-title-em {
+  font-style: italic;
+  display: block;
+  color: #dde0d4;
+}
+.hero-tradition {
+  font-family: var(--ff-head);
+  font-size: clamp(9px, 1.4vw, 12px);
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  font-weight: 200;
+  color: #7a8c5e;
+  margin: 2rem 0 3.5rem;
+}
+.hero-vline {
+  width: 1px;
+  height: 70px;
+  background: linear-gradient(to bottom, #4d5c38, transparent);
+  margin: 0 auto 3.5rem;
+}
+.hero-sub {
+  font-family: var(--ff-display);
+  font-style: italic;
+  font-size: clamp(15px, 2vw, 20px);
+  font-weight: 200;
+  color: #848c78;
+  max-width: 480px;
+  line-height: 2;
+}
+
+/* ── WHAT IT IS / IS NOT ── */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  margin: 2.5rem 0;
+}
+.two-col-cell { background: var(--bg); padding: 2.2rem 2rem; }
+.two-col-cell + .two-col-cell { background: var(--bg2); }
+.cell-tag {
+  font-family: var(--ff-ui);
+  font-size: 8.5px;
+  letter-spacing: 0.48em;
+  text-transform: uppercase;
+  font-weight: 300;
+  color: var(--acc2);
+  display: block;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--line);
+}
+.cell-item {
+  font-family: var(--ff-display);
+  font-size: 15px;
+  font-style: italic;
+  font-weight: 300;
+  color: var(--mid);
+  padding: 0.4rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  border-bottom: 1px solid var(--line);
+}
+.cell-item:last-child { border-bottom: none; }
+.ci-neg::before { content: '—'; color: var(--acc2); font-style: normal; }
+.ci-pos::before { content: '+'; color: var(--acc); font-style: normal; }
+
+/* ── PULL STATEMENT ── */
+.pull-zone { padding: 5.5rem 2rem; text-align: center; }
+.pull-text {
+  font-family: var(--ff-display);
+  font-style: italic;
+  font-size: clamp(22px, 4.5vw, 48px);
+  font-weight: 200;
+  color: var(--text);
+  line-height: 1.45;
+  max-width: 680px;
+  margin: 0 auto 2rem;
+}
+.pull-text em { color: var(--acc); font-style: normal; }
+.pull-attr {
+  font-family: var(--ff-ui);
+  font-size: 9px;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  font-weight: 300;
+  color: var(--acc3);
+}
+
+/* ── STAGES ── */
+.stages {
+  margin: 2.5rem 0;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+.stage {
+  background: var(--bg);
+  padding: 2rem 1.4rem 1.8rem;
+  position: relative;
+  overflow: hidden;
+}
+.stage::after {
+  content: '';
+  display: block;
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 100%; height: 2px;
+  background: var(--acc3);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.6s var(--ease-out);
+}
+.stage:hover::after { transform: scaleX(1); }
+.stage-n {
+  font-family: var(--ff-head);
+  font-size: 9px;
+  font-weight: 200;
+  letter-spacing: 0.3em;
+  color: var(--acc2);
+  display: block;
+  margin-bottom: 1.2rem;
+}
+.stage-name {
+  font-family: var(--ff-display);
+  font-size: clamp(13px, 1.6vw, 16px);
+  font-weight: 300;
+  color: var(--text);
+  margin-bottom: 0.6rem;
+  line-height: 1.3;
+}
+.stage-desc {
+  font-family: var(--ff-display);
+  font-style: italic;
+  font-size: 13px;
+  font-weight: 200;
+  color: var(--low);
+  line-height: 1.65;
+}
+
+/* ── OBSERVATION CORE ── */
+.obs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  margin: 2.5rem 0;
+}
+.obs-what {}
+.obs-without {}
+.obs-group-tag {
+  font-family: var(--ff-ui);
+  font-size: 8.5px;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  font-weight: 300;
+  color: var(--acc2);
+  display: block;
+  margin-bottom: 1.2rem;
+}
+.obs-item {
+  font-family: var(--ff-display);
+  font-style: italic;
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--mid);
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+.obs-item:first-of-type { border-top: 1px solid var(--line); }
+.obs-item::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--acc3); flex-shrink: 0; }
+
+/* ── MISTAKES ── */
+.mistakes {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  margin: 2.5rem 0;
+}
+.mistake { background: var(--bg); padding: 1.8rem 1.6rem; }
+.mistake-n {
+  font-family: var(--ff-head);
+  font-size: 8px;
+  font-weight: 200;
+  letter-spacing: 0.4em;
+  color: var(--acc2);
+  display: block;
+  margin-bottom: 0.9rem;
+}
+.mistake-text {
+  font-family: var(--ff-display);
+  font-style: italic;
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--mid);
+  line-height: 1.7;
+}
+
+/* ── LIFE INTEGRATION ── */
+.life-rows { margin: 2.5rem 0; }
+.life-row {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  align-items: center;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--line);
+  gap: 2rem;
+}
+.life-row:first-child { border-top: 1px solid var(--line); }
+.life-domain {
+  font-family: var(--ff-head);
+  font-size: 8.5px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  font-weight: 200;
+  color: var(--acc2);
+}
+.life-desc {
+  font-family: var(--ff-display);
+  font-style: italic;
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--mid);
+  line-height: 1.75;
+}
+
+/* ── BREATH ── */
+.breath-visual {
+  display: grid;
+  grid-template-columns: 1fr 40px 1fr;
+  align-items: center;
+  gap: 0;
+  border: 1px solid var(--line);
+  margin: 2.5rem 0;
+}
+.breath-cell { padding: 2.2rem 1.8rem; background: var(--bg); }
+.breath-cell + .breath-cell { background: var(--bg2); }
+.breath-arr {
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--acc3);
+  font-size: 18px;
+  font-family: var(--ff-display);
+  border-left: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+}
+.breath-label {
+  font-family: var(--ff-ui);
+  font-size: 8.5px;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  font-weight: 300;
+  color: var(--acc2);
+  display: block;
+  margin-bottom: 0.9rem;
+}
+.breath-text {
+  font-family: var(--ff-display);
+  font-style: italic;
+  font-size: clamp(14px, 2vw, 18px);
+  font-weight: 200;
+  color: var(--text);
+  line-height: 1.55;
+}
+
+/* ── GURU ── */
+.guru-zone {
+  text-align: center;
+  padding: 7rem 2rem;
+}
+.guru-inner { max-width: 600px; margin: 0 auto; }
+.guru-above {
+  font-family: var(--ff-ui);
+  font-size: 8.5px;
+  letter-spacing: 0.55em;
+  text-transform: uppercase;
+  font-weight: 300;
+  color: var(--acc2);
+  display: block;
+  margin-bottom: 2rem;
+}
+.guru-name {
+  font-family: var(--ff-display);
+  font-size: clamp(28px, 5vw, 52px);
+  font-weight: 200;
+  font-style: italic;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+  line-height: 1.15;
+}
+.guru-place {
+  font-family: var(--ff-head);
+  font-size: 9px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  font-weight: 200;
+  color: var(--acc2);
+  margin-bottom: 3rem;
+}
+.guru-vline {
+  width: 1px;
+  height: 56px;
+  background: linear-gradient(to bottom, var(--acc2), transparent);
+  margin: 0 auto 3rem;
+}
+.guru-body {
+  font-family: var(--ff-display);
+  font-style: italic;
+  font-size: clamp(15px, 2vw, 19px);
+  font-weight: 200;
+  color: var(--mid);
+  line-height: 2.1;
+}
+
+/* ── CLOSING ── */
+.closing-zone {
+  padding: 7rem 2rem 6rem;
+  text-align: center;
+}
+.closing-inner { max-width: 640px; margin: 0 auto; }
+.closing-line {
+  display: block;
+  font-family: var(--ff-display);
+  font-style: italic;
+  font-size: clamp(16px, 2.3vw, 22px);
+  font-weight: 200;
+  color: var(--mid);
+  line-height: 2.5;
+}
+.closing-apex {
+  display: block;
+  font-family: var(--ff-display);
+  font-size: clamp(22px, 4vw, 42px);
+  font-weight: 200;
+  color: var(--text);
+  line-height: 1.35;
+  margin-top: 1.2rem;
+  font-style: italic;
+}
+.closing-apex em { color: var(--acc); font-style: normal; }
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid #1c1e14;
+  padding: 3rem 2rem;
+  text-align: center;
+  background: #0e0f0d;
+}
+.foot-logo {
+  font-family: var(--ff-head);
+  font-size: 9px;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  font-weight: 200;
+  color: #3a3e30;
+  display: block;
+  margin-bottom: 0.7rem;
+}
+.foot-line {
+  font-family: var(--ff-display);
+  font-style: italic;
+  font-size: 13px;
+  font-weight: 200;
+  color: #2a2e22;
+}
+
+/* ── ANIMATION ATOMS ── */
+.ch {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.48s ease, transform 0.48s ease;
+}
+.wd {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(10px);
+  filter: blur(4px);
+  transition: opacity 0.7s ease, transform 0.7s ease, filter 0.7s ease;
+}
+.lr {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.85s var(--ease-out), transform 0.85s var(--ease-out);
+}
+.lr.in { opacity: 1; transform: translateY(0); }
+.fd { opacity: 0; transition: opacity 1.1s ease; }
+.fd.in { opacity: 1; }
+.sl {
+  opacity: 0;
+  transform: translateX(-16px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.sl.in { opacity: 1; transform: translateX(0); }
+
+@media (max-width: 680px) {
+  nav { padding: 1.2rem 1.5rem; }
+  .nav-links { display: none; }
+  .two-col { grid-template-columns: 1fr; }
+  .stages { grid-template-columns: 1fr 1fr; }
+  .obs-grid { grid-template-columns: 1fr; }
+  .mistakes { grid-template-columns: 1fr; }
+  .breath-visual { grid-template-columns: 1fr; }
+  .breath-arr { display: none; }
+  .life-row { grid-template-columns: 1fr; gap: 0.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-bg"></div>
+  <a href="../index.html" class="nav-logo">Siddhar · Meditation</a>
+  <ul class="nav-links">
+    <li><a href="#what">Essence</a></li>
+    <li><a href="#observe">Observation</a></li>
+    <li><a href="#stages">Stages</a></li>
+    <li><a href="#life">Daily Life</a></li>
+    <li><a href="#guru">Guidance</a></li>
+  </ul>
+</nav>
+
+<!-- ══ HERO — THEME 1 SAGE ══ -->
+<div class="hero-zone t1">
+  <p class="hero-super fd" data-d="200">The Siddhar Tradition</p>
+
+  <h1 class="hero-title">
+    <span id="hero-w1">Meditation</span>
+    <em class="hero-title-em" id="hero-w2">Unbound</em>
+  </h1>
+
+  <p class="hero-tradition fd" data-d="1100">Beyond Technique · Beyond Method · Beyond Doing</p>
+
+  <div class="hero-vline fd" data-d="1400"></div>
+
+  <p class="hero-sub" id="hero-sub">
+    In the Siddhar tradition, meditation is not something you do.
+    It is a state that emerges when interference finally stops.
+  </p>
+</div>
+
+<!-- ══ ZONE 1 — WHAT IT IS / IS NOT — SAGE ══ -->
+<div class="zone t1" id="what">
+  <div class="h-rule"></div>
+  <div class="section-inner">
+    <span class="etag lr">The Clarification</span>
+    <h2 class="h-display" id="h1">What meditation <em>actually is</em></h2>
+
+    <div class="two-col lr">
+      <div class="two-col-cell">
+        <span class="cell-tag">Modern understanding says...</span>
+        <div class="cell-item ci-neg">A relaxation tool</div>
+        <div class="cell-item ci-neg">A productivity enhancer</div>
+        <div class="cell-item ci-neg">Stress reduction technique</div>
+        <div class="cell-item ci-neg">Concentration practice</div>
+        <div class="cell-item ci-neg">Repetition of words</div>
+        <div class="cell-item ci-neg">Forced silence</div>
+      </div>
+      <div class="two-col-cell">
+        <span class="cell-tag">The Siddhar tradition says...</span>
+        <div class="cell-item ci-pos">Observing without interference</div>
+        <div class="cell-item ci-pos">Being aware without reaction</div>
+        <div class="cell-item ci-pos">Allowing without control</div>
+        <div class="cell-item ci-pos">A natural, pre-existing state</div>
+        <div class="cell-item ci-pos">Revealed — not created</div>
+        <div class="cell-item ci-pos">Available beyond sitting</div>
+      </div>
+    </div>
+
+    <p class="prose-em lr">
+      The Siddhars held that meditation is a natural state —
+      not something to be manufactured, but something hidden beneath
+      constant thinking, distraction, and identification with thought.
+    </p>
+  </div>
+</div>
+
+<!-- ══ PULL 1 — TRANSITION — RUST ══ -->
+<div class="zone t2">
+  <div class="h-rule"></div>
+  <div class="pull-zone">
+    <div class="pull-inner">
+      <p class="pull-text" id="pq1">
+        Meditation is a natural state —
+        not something to be <em>created</em>,
+        only something to be uncovered.
+      </p>
+      <span class="pull-attr lr">— Siddhar Understanding</span>
+    </div>
+  </div>
+  <div class="h-rule"></div>
+</div>
+
+<!-- ══ ZONE 2 — OBSERVATION CORE — MIDNIGHT BLUE ══ -->
+<div class="zone t3" id="observe">
+  <div class="section-inner">
+    <span class="etag lr">The Core Method</span>
+    <h2 class="h-display" id="h2">Observation — <em>the only instrument</em></h2>
+    <p class="prose lr">
+      The Siddhar method carries a single instruction at its heart:
+      observe everything. Not as a technique to be applied — but as
+      a quality of attention to be sustained.
+    </p>
+
+    <div class="obs-grid lr">
+      <div class="obs-what">
+        <span class="obs-group-tag">What is observed</span>
+        <div class="obs-item">Thoughts as they arise</div>
+        <div class="obs-item">The movement of breath</div>
+        <div class="obs-item">Sensations in the body</div>
+        <div class="obs-item">Emotional reactions</div>
+      </div>
+      <div class="obs-without">
+        <span class="obs-group-tag">Observed without</span>
+        <div class="obs-item">Judgment or evaluation</div>
+        <div class="obs-item">Control or suppression</div>
+        <div class="obs-item">Interference of any kind</div>
+        <div class="obs-item">Expectation of result</div>
+      </div>
+    </div>
+
+    <p class="prose-em lr">
+      Sitting quietly is used as a support — it reduces movement,
+      encourages focused observation, provides stability. But meditation
+      is not contained in sitting. It is a quality that pervades.
+    </p>
+
+    <!-- BREATH -->
+    <div class="breath-visual lr">
+      <div class="breath-cell">
+        <span class="breath-label">When breath is disturbed</span>
+        <p class="breath-text">The mind is active, scattered, pulled in multiple directions at once.</p>
+      </div>
+      <div class="breath-arr">→</div>
+      <div class="breath-cell">
+        <span class="breath-label">When breath is observed</span>
+        <p class="breath-text">Attention stabilises. Mental movement naturally reduces. Space opens.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PULL 2 — ROSE DARK ══ -->
+<div class="zone t4">
+  <div class="h-rule"></div>
+  <div class="pull-zone">
+    <div class="pull-inner">
+      <p class="pull-text" id="pq2">
+        Breath is observed, not controlled.
+        In that observation, <em>both mind and breath</em>
+        find their natural rhythm.
+      </p>
+      <span class="pull-attr lr">— Siddhar Insight</span>
+    </div>
+  </div>
+  <div class="h-rule"></div>
+</div>
+
+<!-- ══ ZONE 3 — STAGES — RUST ══ -->
+<div class="zone t2" id="stages">
+  <div class="section-wide">
+    <span class="etag lr">Natural Progression</span>
+    <h2 class="h-section lr">The Five Stages of Meditation</h2>
+    <p class="prose lr">
+      These are not steps to be achieved — they are descriptions of
+      what is noticed when honest, sustained observation is maintained.
+      They arise on their own.
+    </p>
+
+    <div class="stages">
+      <div class="stage lr">
+        <span class="stage-n">Stage 01</span>
+        <div class="stage-name">Restlessness</div>
+        <p class="stage-desc">The mind is active. Movement is constant. This is the honest starting point for most.</p>
+      </div>
+      <div class="stage lr">
+        <span class="stage-n">Stage 02</span>
+        <div class="stage-name">Awareness of Activity</div>
+        <p class="stage-desc">Observation begins. The mind's movement is now noticed rather than simply experienced.</p>
+      </div>
+      <div class="stage lr">
+        <span class="stage-n">Stage 03</span>
+        <div class="stage-name">Slowing Down</div>
+        <p class="stage-desc">As the observer becomes steady, thoughts begin to lose momentum and reduce.</p>
+      </div>
+      <div class="stage lr">
+        <span class="stage-n">Stage 04</span>
+        <div class="stage-name">Gaps Appear</div>
+        <p class="stage-desc">Moments of silence emerge between thoughts. Brief at first — then wider, quieter.</p>
+      </div>
+      <div class="stage lr">
+        <span class="stage-n">Stage 05</span>
+        <div class="stage-name">Stability</div>
+        <p class="stage-desc">Awareness remains steady without effort. This is what the Siddhars called the meditative state.</p>
+      </div>
+    </div>
+
+    <!-- MISTAKES -->
+    <h2 class="h-section lr" style="margin-top:3.5rem;">Common Mistakes</h2>
+    <div class="mistakes">
+      <div class="mistake lr">
+        <span class="mistake-n">Mistake 01</span>
+        <p class="mistake-text">Forcing silence — trying to stop thoughts by effort, which only deepens tension.</p>
+      </div>
+      <div class="mistake lr">
+        <span class="mistake-n">Mistake 02</span>
+        <p class="mistake-text">Chasing experiences — seeking special states instead of resting in simple observation.</p>
+      </div>
+      <div class="mistake lr">
+        <span class="mistake-n">Mistake 03</span>
+        <p class="mistake-text">Comparing progress — measuring today's sitting against yesterday's, which creates disturbance.</p>
+      </div>
+      <div class="mistake lr">
+        <span class="mistake-n">Mistake 04</span>
+        <p class="mistake-text">Expecting results — bringing a goal to the practice, which becomes the primary obstacle.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PULL 3 — SAGE ══ -->
+<div class="zone t1">
+  <div class="h-rule"></div>
+  <div class="pull-zone">
+    <div class="pull-inner">
+      <p class="pull-text" id="pq3">
+        These common mistakes do not obstruct the path —
+        they <em>become</em> the path, when observed with honesty.
+      </p>
+      <span class="pull-attr lr">— Siddhar Teaching</span>
+    </div>
+  </div>
+  <div class="h-rule"></div>
+</div>
+
+<!-- ══ ZONE 4 — DAILY LIFE — TEAL ══ -->
+<div class="zone t5" id="life">
+  <div class="section-inner">
+    <span class="etag lr">Integration</span>
+    <h2 class="h-display" id="h4">Meditation <em>beyond sitting</em></h2>
+    <p class="prose lr">
+      In the Siddhar understanding, meditation does not end when you rise.
+      It does not live on a cushion or within a particular hour of the day.
+      It is the quality of attention brought to every moment of living.
+    </p>
+
+    <div class="life-rows">
+      <div class="life-row lr">
+        <span class="life-domain">Walking</span>
+        <p class="life-desc">Each step taken with awareness — the sensation of ground, the rhythm of movement, the automatic quality of thought.</p>
+      </div>
+      <div class="life-row lr">
+        <span class="life-domain">Speaking</span>
+        <p class="life-desc">The impulse before words — observed rather than simply released. A pause before reaction becomes possible.</p>
+      </div>
+      <div class="life-row lr">
+        <span class="life-domain">Action</span>
+        <p class="life-desc">Doing what is needed, without the noise of interpretation and judgment that usually accompanies every act.</p>
+      </div>
+      <div class="life-row lr">
+        <span class="life-domain">Relating</span>
+        <p class="life-desc">Meeting others as they are, rather than through the filter of memory, expectation, and accumulated reaction.</p>
+      </div>
+      <div class="life-row lr">
+        <span class="life-domain">Deciding</span>
+        <p class="life-desc">Choices made from clarity rather than from the urgency of anxious thought. A different quality of seeing.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ZONE 5 — GURU — MIDNIGHT BLUE ══ -->
+<div class="zone t3" id="guru">
+  <div class="h-rule"></div>
+  <div class="guru-zone">
+    <div class="guru-inner">
+      <span class="guru-above lr">Living Guidance</span>
+      <div class="guru-name" id="gname">Shree Easanamma</div>
+      <p class="guru-place lr">Shree Easanamma Gurukulam</p>
+      <div class="guru-vline fd"></div>
+      <p class="guru-body" id="guru-body">
+        Meditation can be misunderstood with great subtlety.
+        The structured environment of the Gurukulam provides silence,
+        discipline, and minimal distraction — while the Guru's presence
+        offers correct direction, clarity, and the steady orientation
+        that no technique can replace.
+      </p>
+    </div>
+  </div>
+  <div class="h-rule"></div>
+</div>
+
+<!-- ══ CLOSING — ROSE DARK ══ -->
+<div class="zone t4">
+  <div class="closing-zone">
+    <div class="closing-inner">
+      <span class="etag lr" style="display:block;text-align:center;margin-bottom:2.5rem;">Conclusion</span>
+      <span class="closing-line lr">Meditation in the Siddhar tradition</span>
+      <span class="closing-line lr">is not something you do.</span>
+      <span class="closing-apex" id="apex">
+        It is something that happens
+        when <em>interference stops</em>.
+      </span>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span class="foot-logo fd">Shree Easanamma Gurukulam · Siddhar Tradition</span>
+  <p class="foot-line fd">Observation · Awareness · Natural Stillness</p>
+</footer>
+
+<script>
+// ── SPLIT HELPERS ──
+function byChars(el) {
+  const raw = el.textContent.trim();
+  el.textContent = '';
+  [...raw].forEach(ch => {
+    if (ch === ' ' || ch === '\u00a0') { el.appendChild(document.createTextNode('\u00a0')); return; }
+    const s = document.createElement('span');
+    s.className = 'ch';
+    s.textContent = ch;
+    el.appendChild(s);
+  });
+}
+
+function byWords(el) {
+  const raw = el.textContent.trim();
+  el.textContent = '';
+  raw.split(/\s+/).forEach((word, i, arr) => {
+    const s = document.createElement('span');
+    s.className = 'wd';
+    s.textContent = word;
+    el.appendChild(s);
+    if (i < arr.length - 1) el.appendChild(document.createTextNode(' '));
+  });
+}
+
+// ── FIRE ──
+function fire(el) {
+  if (el.dataset.done) return;
+  el.dataset.done = '1';
+  const chs = el.querySelectorAll('.ch');
+  const wds = el.querySelectorAll('.wd');
+  if (chs.length) {
+    chs.forEach((c, i) => setTimeout(() => { c.style.opacity='1'; c.style.transform='translateY(0)'; }, i * 36));
+  } else if (wds.length) {
+    wds.forEach((w, i) => setTimeout(() => { w.style.opacity='1'; w.style.transform='translateY(0)'; w.style.filter='blur(0)'; }, i * 58));
+  } else {
+    el.classList.add('in');
+  }
+}
+
+// ── PREPARE ──
+const CHAR_IDS  = ['hero-w1','hero-w2','h1','h2','h4','gname','apex'];
+const WORD_IDS  = ['hero-sub','pq1','pq2','pq3','guru-body'];
+CHAR_IDS.forEach(id => { const e=document.getElementById(id); if(e) byChars(e); });
+WORD_IDS.forEach(id => { const e=document.getElementById(id); if(e) byWords(e); });
+
+// ── OBSERVER ──
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { fire(e.target); io.unobserve(e.target); } });
+}, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' });
+
+document.querySelectorAll('.lr,.fd,.sl,[id]').forEach(el => {
+  if (el.tagName==='NAV' || el.tagName==='nav' || el.tagName==='HTML' || el.tagName==='BODY') return;
+  io.observe(el);
+});
+
+// ── HERO ON LOAD ──
+window.addEventListener('load', () => {
+  setTimeout(() => { const e=document.querySelector('.hero-super'); if(e){e.dataset.done='1';e.classList.add('in');} }, 200);
+  setTimeout(() => { const e=document.getElementById('hero-w1'); if(e){e.dataset.done='1';e.querySelectorAll('.ch').forEach((c,i)=>setTimeout(()=>{c.style.opacity='1';c.style.transform='translateY(0)';},i*42));} }, 500);
+  setTimeout(() => { const e=document.getElementById('hero-w2'); if(e){e.dataset.done='1';e.querySelectorAll('.ch').forEach((c,i)=>setTimeout(()=>{c.style.opacity='1';c.style.transform='translateY(0)';},i*42));} }, 900);
+  setTimeout(() => { const e=document.querySelector('.hero-tradition'); if(e){e.dataset.done='1';e.classList.add('in');} }, 1100);
+  setTimeout(() => { const e=document.querySelector('.hero-vline'); if(e){e.dataset.done='1';e.classList.add('in');} }, 1400);
+  setTimeout(() => {
+    const e=document.getElementById('hero-sub');
+    if(e){e.dataset.done='1';e.querySelectorAll('.wd').forEach((w,i)=>setTimeout(()=>{w.style.opacity='1';w.style.transform='translateY(0)';w.style.filter='blur(0)';},i*55));}
+  }, 1600);
+});
+</script>
+</body>
+</html>

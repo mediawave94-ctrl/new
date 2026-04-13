@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Siddhar Civilization Timeline</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Philosopher:ital,wght@0,400;0,700;1,400&family=Cinzel+Decorative:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --void:    #03050F;
+  --abyss:   #060A1A;
+  --deep:    #0A1028;
+  --storm:   #0D1535;
+  --bolt:    #7EB8FF;
+  --bolt2:   #A8D4FF;
+  --electric:#4A9EFF;
+  --plasma:  #00C8FF;
+  --sacred:  #FFD166;
+  --ember:   #FF9A3C;
+  --divine:  #E8F4FF;
+  --mist:    #8BA8CC;
+  --violet:  #6B5BFF;
+  --thunder: #2A4A8A;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--void);
+  color: var(--divine);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 18px;
+  overflow-x: hidden;
+  cursor: default;
+}
+
+/* ══════════════════════════════════════
+   CANVAS — LIVE LIGHTNING BACKGROUND
+══════════════════════════════════════ */
+#lightning-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.35;
+}
+
+/* ══════════════════════════════════════
+   ANIMATED STORM BACKGROUND
+══════════════════════════════════════ */
+.storm-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(74,158,255,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 10% 50%, rgba(107,91,255,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 90% 80%, rgba(0,200,255,0.05) 0%, transparent 60%),
+    linear-gradient(180deg, #03050F 0%, #060A1A 30%, #08102A 60%, #03050F 100%);
+  pointer-events: none;
+}
+
+/* Pulsing storm core */
+.storm-bg::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 600px; height: 300px;
+  background: radial-gradient(ellipse at 50% 0%, rgba(74,158,255,0.12) 0%, transparent 70%);
+  animation: storm-pulse 4s ease-in-out infinite;
+}
+
+@keyframes storm-pulse {
+  0%,100% { opacity:0.6; transform:translateX(-50%) scaleX(1); }
+  50%      { opacity:1;   transform:translateX(-50%) scaleX(1.15); }
+}
+
+/* ══════════════════════════════════════
+   NAV
+══════════════════════════════════════ */
+nav {
+  position: fixed; top:0; width:100%; z-index:200;
+  padding: 1.1rem 4rem;
+  display: flex; justify-content:space-between; align-items:center;
+  background: linear-gradient(to bottom, rgba(3,5,15,0.97) 0%, transparent 100%);
+  border-bottom: 1px solid rgba(74,158,255,0.08);
+  backdrop-filter: blur(8px);
+}
+
+.nav-brand {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  color: var(--bolt);
+  text-shadow: 0 0 20px rgba(74,158,255,0.6);
+}
+
+.nav-links { display:flex; gap:2.5rem; list-style:none; }
+.nav-links a {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.7rem; letter-spacing:0.25em; text-transform:uppercase;
+  color: var(--mist); text-decoration:none;
+  transition: color 0.3s, text-shadow 0.3s;
+}
+.nav-links a:hover {
+  color: var(--bolt2);
+  text-shadow: 0 0 12px rgba(126,184,255,0.8);
+}
+
+/* ══════════════════════════════════════
+   HERO
+══════════════════════════════════════ */
+.hero {
+  position: relative; z-index:1;
+  min-height: 100vh;
+  display: flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  text-align:center;
+  padding: 7rem 2rem 5rem;
+  overflow: hidden;
+}
+
+/* Electric arc decorations */
+.arc-left, .arc-right {
+  position: absolute;
+  width: 3px; height: 60vh;
+  top: 20%;
+  background: linear-gradient(to bottom, transparent, rgba(74,158,255,0.6), transparent);
+  filter: blur(1px);
+  animation: arc-flicker 3s ease-in-out infinite;
+}
+.arc-left  { left: 8%; clip-path: polygon(0 0,100% 5%,80% 20%,100% 35%,70% 50%,100% 65%,80% 80%,100% 100%,0 100%); }
+.arc-right { right: 8%; clip-path: polygon(100% 0,0 8%,30% 22%,0 38%,40% 52%,0 67%,20% 82%,0 100%,100% 100%); }
+
+@keyframes arc-flicker {
+  0%,100% { opacity:0.4; }
+  25%     { opacity:1; filter:blur(0px); }
+  50%     { opacity:0.2; }
+  75%     { opacity:0.9; filter:blur(2px); }
+}
+
+.hero-eyebrow {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.68rem; letter-spacing:0.6em; text-transform:uppercase;
+  color: var(--plasma);
+  margin-bottom: 1.8rem;
+  position:relative;
+  text-shadow: 0 0 15px rgba(0,200,255,0.7);
+  animation: fade-down 0.9s ease 0.2s both;
+}
+
+.hero-eyebrow::before, .hero-eyebrow::after {
+  content:'';
+  display:inline-block;
+  width:3.5rem; height:1px;
+  background: linear-gradient(to right, transparent, var(--plasma));
+  vertical-align:middle; margin: 0 1.2rem; opacity:0.7;
+}
+.hero-eyebrow::before { background: linear-gradient(to left, transparent, var(--plasma)); }
+
+.hero h1 {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(2rem, 6vw, 5.5rem);
+  font-weight: 900;
+  line-height: 1.1;
+  color: var(--divine);
+  margin-bottom: 0.5rem;
+  animation: fade-down 1s ease 0.4s both;
+  text-shadow:
+    0 0 40px rgba(74,158,255,0.5),
+    0 0 80px rgba(74,158,255,0.2),
+    0 2px 4px rgba(0,0,0,0.8);
+}
+
+.hero h1 .glow-word {
+  color: var(--bolt);
+  text-shadow:
+    0 0 20px rgba(74,158,255,0.9),
+    0 0 60px rgba(74,158,255,0.5),
+    0 0 100px rgba(74,158,255,0.2);
+  animation: word-flicker 6s ease-in-out infinite;
+}
+
+@keyframes word-flicker {
+  0%,90%,100% { opacity:1; }
+  92%          { opacity:0.85; }
+  94%          { opacity:1; }
+  96%          { opacity:0.9; }
+}
+
+.hero-sub {
+  font-family: 'Philosopher', serif;
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-style:italic;
+  color: var(--mist);
+  max-width: 620px;
+  margin: 1.5rem auto 3rem;
+  line-height:1.8;
+  animation: fade-down 1s ease 0.6s both;
+}
+
+/* Lightning bolt divider */
+.lightning-divider {
+  display:flex; align-items:center; gap:1rem;
+  animation: fade-down 1s ease 0.8s both;
+  margin-bottom: 0;
+}
+.ld-line {
+  width:100px; height:1px;
+  background: linear-gradient(to right, transparent, rgba(74,158,255,0.5));
+}
+.ld-line.r { background: linear-gradient(to left, transparent, rgba(74,158,255,0.5)); }
+.ld-bolt { font-size:1.8rem; color:var(--bolt); text-shadow:0 0 20px rgba(74,158,255,0.9); }
+
+.scroll-cue {
+  position:absolute; bottom:2.5rem; left:50%; transform:translateX(-50%);
+  display:flex; flex-direction:column; align-items:center; gap:0.6rem;
+  animation: fade-down 1s ease 1.2s both;
+}
+.scroll-cue span {
+  font-size:0.6rem; letter-spacing:0.4em; text-transform:uppercase; color:rgba(74,158,255,0.5);
+}
+.scroll-beam {
+  width:1px; height:50px;
+  background: linear-gradient(to bottom, var(--bolt), transparent);
+  animation: beam-fall 1.8s ease-in-out infinite;
+}
+@keyframes beam-fall {
+  0% { opacity:0; transform:scaleY(0); transform-origin:top; }
+  50%{ opacity:1; transform:scaleY(1); }
+  100%{opacity:0; transform:scaleY(1) translateY(20px); }
+}
+
+/* ══════════════════════════════════════
+   INTRO STRIP
+══════════════════════════════════════ */
+.intro-strip {
+  position:relative; z-index:1;
+  padding: 5rem 2rem;
+  background: linear-gradient(135deg, rgba(10,16,40,0.9) 0%, rgba(6,10,26,0.95) 100%);
+  border-top: 1px solid rgba(74,158,255,0.15);
+  border-bottom: 1px solid rgba(74,158,255,0.15);
+  overflow:hidden;
+}
+
+.intro-strip::before {
+  content:'';
+  position:absolute; top:0; left:50%; transform:translateX(-50%);
+  width:2px; height:100%;
+  background: linear-gradient(to bottom, transparent, rgba(74,158,255,0.2), transparent);
+}
+
+.intro-inner {
+  max-width:800px; margin:0 auto; text-align:center;
+}
+
+.intro-label {
+  font-size:0.65rem; letter-spacing:0.5em; text-transform:uppercase;
+  color: var(--plasma); margin-bottom:1.5rem;
+  text-shadow: 0 0 10px rgba(0,200,255,0.5);
+}
+
+.intro-text {
+  font-family:'Philosopher', serif;
+  font-size:clamp(1.1rem,2.2vw,1.4rem);
+  line-height:1.9; color:var(--divine);
+}
+.intro-text strong { color:var(--bolt2); font-weight:700; }
+.intro-text em { color:var(--sacred); font-style:italic; }
+
+/* ══════════════════════════════════════
+   TIMELINE
+══════════════════════════════════════ */
+.timeline-section {
+  position:relative; z-index:1;
+  padding: 8rem 2rem;
+}
+
+.sec-header {
+  text-align:center; margin-bottom:6rem;
+}
+.sec-label {
+  font-size:0.65rem; letter-spacing:0.5em; text-transform:uppercase;
+  color:var(--plasma); margin-bottom:1.2rem;
+  text-shadow:0 0 12px rgba(0,200,255,0.6);
+}
+.sec-header h2 {
+  font-family:'Cinzel Decorative', serif;
+  font-size:clamp(1.5rem,3.5vw,2.8rem);
+  font-weight:700; color:var(--divine);
+  text-shadow:0 0 30px rgba(74,158,255,0.3);
+}
+.sec-ornament {
+  margin-top:1.5rem; color:var(--bolt);
+  font-size:1rem; letter-spacing:0.8rem;
+  text-shadow:0 0 15px rgba(74,158,255,0.8);
+}
+
+/* Vertical lightning spine */
+.timeline-wrap {
+  position:relative; max-width:860px; margin:0 auto;
+}
+
+.timeline-spine {
+  position:absolute;
+  left: 50%; top:0; bottom:0;
+  width:2px;
+  background: linear-gradient(to bottom,
+    transparent 0%,
+    rgba(74,158,255,0.6) 5%,
+    rgba(74,158,255,0.3) 50%,
+    rgba(74,158,255,0.6) 95%,
+    transparent 100%);
+  transform: translateX(-50%);
+  animation: spine-pulse 3s ease-in-out infinite;
+}
+
+.timeline-spine::after {
+  content:'';
+  position:absolute; left:50%; top:0; bottom:0;
+  width:8px; transform:translateX(-50%);
+  background: linear-gradient(to bottom,
+    transparent, rgba(74,158,255,0.15), transparent);
+  filter:blur(4px);
+  animation: spine-glow 3s ease-in-out infinite;
+}
+
+@keyframes spine-pulse {
+  0%,100%{opacity:0.6;} 50%{opacity:1;}
+}
+@keyframes spine-glow {
+  0%,100%{opacity:0.4;} 50%{opacity:0.8;}
+}
+
+/* Timeline items — alternating */
+.tl-item {
+  display:grid;
+  grid-template-columns:1fr 60px 1fr;
+  gap:0;
+  margin-bottom:5rem;
+  opacity:0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.tl-item.visible { opacity:1; transform:translateY(0); }
+
+/* Content either left or right */
+.tl-item:nth-child(odd)  .tl-content { grid-column:1; text-align:right; padding-right:2.5rem; }
+.tl-item:nth-child(odd)  .tl-center  { grid-column:2; }
+.tl-item:nth-child(odd)  .tl-empty   { grid-column:3; }
+
+.tl-item:nth-child(even) .tl-empty   { grid-column:1; }
+.tl-item:nth-child(even) .tl-center  { grid-column:2; }
+.tl-item:nth-child(even) .tl-content { grid-column:3; text-align:left; padding-left:2.5rem; }
+
+/* Node */
+.tl-center {
+  display:flex; flex-direction:column; align-items:center; justify-content:flex-start;
+  padding-top:0.6rem;
+}
+.tl-node {
+  width:20px; height:20px;
+  border-radius:50%;
+  border:2px solid var(--bolt);
+  background:var(--void);
+  box-shadow:
+    0 0 0 4px rgba(74,158,255,0.15),
+    0 0 20px rgba(74,158,255,0.6),
+    inset 0 0 8px rgba(74,158,255,0.3);
+  flex-shrink:0;
+  position:relative;
+  z-index:2;
+  animation: node-pulse 2.5s ease-in-out infinite;
+}
+@keyframes node-pulse {
+  0%,100%{ box-shadow:0 0 0 4px rgba(74,158,255,0.15),0 0 15px rgba(74,158,255,0.5),inset 0 0 6px rgba(74,158,255,0.2); }
+  50%    { box-shadow:0 0 0 8px rgba(74,158,255,0.08),0 0 35px rgba(74,158,255,0.9),inset 0 0 12px rgba(74,158,255,0.5); }
+}
+
+/* Phase label in node */
+.tl-node span {
+  position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+  font-size:0.5rem; font-weight:700; color:var(--bolt2); letter-spacing:0;
+}
+
+/* Card */
+.tl-content { grid-row:1; }
+
+.tl-card {
+  background: linear-gradient(135deg, rgba(10,16,40,0.9) 0%, rgba(6,10,26,0.7) 100%);
+  border:1px solid rgba(74,158,255,0.18);
+  padding:2rem 2rem 2rem;
+  position:relative;
+  overflow:hidden;
+  transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+
+.tl-card:hover {
+  border-color: rgba(74,158,255,0.5);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 40px rgba(74,158,255,0.15);
+}
+
+/* Corner lightning accents */
+.tl-item:nth-child(odd) .tl-card {
+  border-right: 2px solid rgba(74,158,255,0.4);
+  border-radius: 4px 0 0 4px;
+}
+.tl-item:nth-child(even) .tl-card {
+  border-left: 2px solid rgba(74,158,255,0.4);
+  border-radius: 0 4px 4px 0;
+}
+
+/* Inner glow sweep on hover */
+.tl-card::before {
+  content:'';
+  position:absolute; inset:0;
+  background: linear-gradient(135deg, rgba(74,158,255,0.04) 0%, transparent 60%);
+  opacity:0; transition:opacity 0.3s;
+}
+.tl-card:hover::before { opacity:1; }
+
+/* Top lightning streak */
+.tl-card::after {
+  content:'';
+  position:absolute; top:0; left:0; right:0; height:1px;
+  background: linear-gradient(to right, transparent, rgba(74,158,255,0.6), transparent);
+  animation: streak 3s linear infinite;
+}
+@keyframes streak {
+  0%  { background-position:-200% 0; }
+  100%{ background-position:200% 0; }
+}
+
+.phase-badge {
+  font-size:0.6rem; letter-spacing:0.35em; text-transform:uppercase;
+  color:var(--plasma); margin-bottom:0.8rem;
+  text-shadow:0 0 10px rgba(0,200,255,0.5);
+}
+
+.tl-card h3 {
+  font-family:'Cinzel Decorative', serif;
+  font-size:clamp(0.75rem,1.5vw,1rem);
+  font-weight:700; color:var(--bolt2);
+  margin-bottom:1rem; line-height:1.3;
+  text-shadow:0 0 15px rgba(74,158,255,0.4);
+}
+
+.tl-card p {
+  font-family:'Philosopher', serif;
+  font-size:0.95rem; color:var(--mist); line-height:1.8;
+  margin-bottom:0.8rem;
+}
+
+.tl-tags {
+  display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:1rem;
+  justify-content: flex-start;
+}
+.tl-item:nth-child(odd) .tl-tags { justify-content:flex-end; }
+
+.tag {
+  font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase;
+  padding:0.25rem 0.7rem;
+  border:1px solid rgba(74,158,255,0.25);
+  color:var(--bolt2);
+  background:rgba(74,158,255,0.05);
+  transition:background 0.3s, border-color 0.3s;
+}
+.tag:hover { background:rgba(74,158,255,0.12); border-color:rgba(74,158,255,0.5); }
+
+/* ══════════════════════════════════════
+   SACRED INSIGHT BAND
+══════════════════════════════════════ */
+.insight-band {
+  position:relative; z-index:1;
+  padding:7rem 2rem;
+  background: linear-gradient(180deg, rgba(6,10,26,0.95) 0%, rgba(10,16,40,0.9) 50%, rgba(6,10,26,0.95) 100%);
+  border-top:1px solid rgba(74,158,255,0.12);
+  border-bottom:1px solid rgba(74,158,255,0.12);
+  overflow:hidden;
+}
+
+/* Massive background glyph */
+.insight-band::before {
+  content:'⚡';
+  position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+  font-size:30rem;
+  opacity:0.015; pointer-events:none;
+  color:var(--bolt);
+  filter:blur(2px);
+}
+
+.insight-inner {
+  max-width:720px; margin:0 auto; text-align:center; position:relative;
+}
+
+.quote-glyph {
+  font-family:'Cinzel Decorative', serif;
+  font-size:5rem; color:var(--bolt); opacity:0.3; line-height:0.5;
+  margin-bottom:2.5rem;
+  text-shadow:0 0 30px rgba(74,158,255,0.5);
+}
+
+blockquote {
+  font-family:'Philosopher', serif;
+  font-size:clamp(1.3rem,3vw,2.1rem);
+  font-style:italic; color:var(--divine);
+  line-height:1.6; margin-bottom:2rem;
+}
+
+blockquote strong { color:var(--sacred); font-style:normal; }
+
+cite {
+  display:block; font-style:normal;
+  font-size:0.7rem; letter-spacing:0.4em; text-transform:uppercase;
+  color:var(--plasma);
+  text-shadow:0 0 10px rgba(0,200,255,0.5);
+}
+
+/* ══════════════════════════════════════
+   KEY CHARACTERISTICS
+══════════════════════════════════════ */
+.chars-section {
+  position:relative; z-index:1;
+  padding:7rem 2rem;
+}
+
+.chars-grid {
+  display:grid;
+  grid-template-columns: repeat(3,1fr);
+  gap:1.5rem;
+  max-width:960px; margin:4rem auto 0;
+}
+
+.char-card {
+  padding:2.5rem 2rem;
+  background: linear-gradient(135deg, rgba(10,16,40,0.8) 0%, rgba(6,10,26,0.9) 100%);
+  border:1px solid rgba(74,158,255,0.12);
+  position:relative; overflow:hidden;
+  text-align:center;
+  opacity:0; transform:translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease, border-color 0.3s, box-shadow 0.3s;
+}
+.char-card.visible { opacity:1; transform:translateY(0); }
+.char-card:hover {
+  border-color:rgba(74,158,255,0.4);
+  box-shadow:0 4px 30px rgba(74,158,255,0.12), inset 0 0 30px rgba(74,158,255,0.04);
+}
+
+/* Top edge lightning */
+.char-card::before {
+  content:'';
+  position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(to right, transparent, var(--bolt), transparent);
+  opacity:0; transition:opacity 0.3s;
+}
+.char-card:hover::before { opacity:1; }
+
+.char-icon {
+  font-size:2.2rem; margin-bottom:1.2rem; display:block;
+  filter:drop-shadow(0 0 12px rgba(74,158,255,0.6));
+}
+.char-card h3 {
+  font-family:'Cinzel Decorative', serif;
+  font-size:0.8rem; color:var(--bolt2); margin-bottom:0.8rem;
+  text-shadow:0 0 12px rgba(74,158,255,0.4);
+}
+.char-card p {
+  font-family:'Philosopher', serif;
+  font-size:0.95rem; color:var(--mist); line-height:1.7;
+}
+
+/* ══════════════════════════════════════
+   GURUKULAM SECTION
+══════════════════════════════════════ */
+.guru-section {
+  position:relative; z-index:1;
+  padding:7rem 2rem;
+  background: linear-gradient(135deg, rgba(6,10,26,0.98) 0%, rgba(10,16,40,0.95) 100%);
+  border-top:1px solid rgba(74,158,255,0.12);
+  overflow:hidden;
+}
+
+/* Electric border frame */
+.guru-section::before, .guru-section::after {
+  content:'';
+  position:absolute; left:4%; right:4%;
+  height:1px;
+  background:linear-gradient(to right, transparent, rgba(74,158,255,0.4), transparent);
+}
+.guru-section::before { top:3rem; }
+.guru-section::after  { bottom:3rem; }
+
+.guru-inner {
+  max-width:800px; margin:0 auto; text-align:center;
+}
+
+.guru-inner p {
+  font-family:'Philosopher', serif;
+  font-size:1.1rem; color:var(--mist); line-height:1.9; margin-bottom:1.5rem;
+}
+
+.guru-name {
+  display:inline-block;
+  font-family:'Cinzel Decorative', serif;
+  font-size:clamp(1rem,2.5vw,1.6rem);
+  color:var(--sacred);
+  margin:2rem 0;
+  padding:1.2rem 3rem;
+  border:1px solid rgba(255,209,102,0.3);
+  position:relative;
+  text-shadow:0 0 20px rgba(255,209,102,0.5);
+  box-shadow:0 0 30px rgba(255,209,102,0.08), inset 0 0 30px rgba(255,209,102,0.03);
+  animation: sacred-glow 3s ease-in-out infinite;
+}
+
+@keyframes sacred-glow {
+  0%,100%{ box-shadow:0 0 20px rgba(255,209,102,0.08), inset 0 0 20px rgba(255,209,102,0.03); }
+  50%    { box-shadow:0 0 50px rgba(255,209,102,0.18), inset 0 0 40px rgba(255,209,102,0.08); }
+}
+
+.guru-name::before, .guru-name::after {
+  content:'';
+  position:absolute;
+  width:20px; height:20px;
+  border-color:rgba(255,209,102,0.5);
+  border-style:solid;
+}
+.guru-name::before { top:-2px; left:-2px; border-width:2px 0 0 2px; }
+.guru-name::after  { bottom:-2px; right:-2px; border-width:0 2px 2px 0; }
+
+.guru-label {
+  display:block; font-size:0.6rem; letter-spacing:0.4em; text-transform:uppercase;
+  color:rgba(255,209,102,0.5); margin-top:0.5rem;
+}
+
+/* ══════════════════════════════════════
+   CONCLUSION
+══════════════════════════════════════ */
+.conclusion {
+  position:relative; z-index:1;
+  padding:8rem 2rem;
+  text-align:center;
+  overflow:hidden;
+}
+
+.conclusion::before {
+  content:'';
+  position:absolute; inset:0;
+  background:radial-gradient(ellipse 60% 80% at 50% 50%, rgba(74,158,255,0.05) 0%, transparent 70%);
+}
+
+.conclusion-text {
+  max-width:700px; margin:3rem auto;
+  font-family:'Philosopher', serif;
+  font-size:clamp(1.2rem,2.5vw,1.8rem);
+  line-height:1.7; color:var(--divine);
+}
+.conclusion-text strong { color:var(--bolt2); }
+
+/* FOOTER */
+footer {
+  background: var(--dark, #090705);
+  padding: 3rem 2rem;
+}
+.footer-content {
+  max-width: 1160px;
+  margin: 0 auto;
+}
+.footer-columns {
+  display: grid;
+  grid-template-columns: minmax(240px, 1.5fr) repeat(3, minmax(160px, 1fr));
+  gap: 2rem;
+  align-items: start;
+}
+.footer-column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.footer-brand-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.4rem, 2.2vw, 1.8rem);
+  color: var(--gold, #c9a84c);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.footer-brand-text {
+  font-size: 0.95rem;
+  line-height: 1.85;
+  color: var(--text-light, rgba(255,255,255,0.85));
+  max-width: 520px;
+}
+.footer-brand-link {
+  font-family: 'Cinzel', serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.32em;
+  color: var(--gold, #c9a84c);
+  text-transform: uppercase;
+  text-decoration: none;
+  opacity: 0.9;
+  transition: opacity 0.25s ease;
+}
+.footer-brand-link:hover {
+  opacity: 1;
+}
+.footer-heading {
+  font-family: 'Cinzel', serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.32em;
+  color: var(--gold, #c9a84c);
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  opacity: 0.85;
+}
+.footer-link-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.85rem;
+}
+.footer-link-list a {
+  color: var(--text-light, rgba(255,255,255,0.85));
+  text-decoration: none;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  transition: color 0.25s ease;
+}
+.footer-link-list a:hover {
+  color: var(--gold, #c9a84c);
+}
+.footer-note {
+  margin-top: 2.5rem;
+  font-size: 0.78rem;
+  color: var(--text-light, rgba(255,255,255,0.72));
+  letter-spacing: 0.16em;
+  opacity: 0.85;
+  text-align: center;
+}
+
+/* ══════════════════════════════════════
+   UTILS
+══════════════════════════════════════ */
+@keyframes fade-down {
+  from{opacity:0;transform:translateY(-20px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+/* Floating particles */
+.particle {
+  position:fixed;
+  width:2px; height:2px;
+  background:var(--bolt);
+  border-radius:50%;
+  pointer-events:none;
+  z-index:0;
+  animation:float-up linear infinite;
+  box-shadow:0 0 6px rgba(74,158,255,0.8);
+}
+@keyframes float-up {
+  0%  {transform:translateY(100vh) translateX(0); opacity:0;}
+  10% {opacity:1;}
+  90% {opacity:0.5;}
+  100%{transform:translateY(-100px) translateX(var(--dx,20px)); opacity:0;}
+}
+
+/* ══════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════ */
+@media(max-width:768px) {
+  nav{ padding:1rem 1.5rem; }
+  .nav-links{ display:none; }
+  .tl-item { grid-template-columns:30px 1fr !important; gap:1rem; }
+  .tl-empty { display:none !important; }
+  .tl-item:nth-child(odd)  .tl-content,
+  .tl-item:nth-child(even) .tl-content { grid-column:2 !important; text-align:left !important; padding:0 !important; }
+  .tl-item:nth-child(odd)  .tl-center,
+  .tl-item:nth-child(even) .tl-center  { grid-column:1 !important; }
+  .tl-item:nth-child(odd) .tl-tags { justify-content:flex-start; }
+  .chars-grid { grid-template-columns:1fr; }
+  .timeline-spine { left:15px; }
+  .arc-left,.arc-right { display:none; }
+}
+</style>
+</head>
+<body>
+
+<!-- LIVE LIGHTNING CANVAS -->
+<canvas id="lightning-canvas"></canvas>
+<div class="storm-bg"></div>
+
+<!-- FLOATING PARTICLES -->
+<div id="particles"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">⚡ Siddhar Civilization</div>
+  <ul class="nav-links">
+     <li><a href="./index.html">Home</a></li>
+    <li><a href="#timeline">Timeline</a></li>
+    <li><a href="#pillars">Pillars</a></li>
+    <li><a href="#lineage">Lineage</a></li>
+    <li><a href="#gurukulam">Gurukulam</a></li>
+  </ul>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="arc-left"></div>
+  <div class="arc-right"></div>
+
+  <div class="hero-eyebrow">Tamil Spiritual Heritage · Ancient Wisdom</div>
+  <h1>Siddhar<br><span class="glow-word">Civilization</span><br>Timeline</h1>
+  <p class="hero-sub">Mapping the unmapped — a journey through phases of human understanding that transcends linear time, encoded in lightning-struck insight across the ages.</p>
+
+  <div class="lightning-divider">
+    <div class="ld-line"></div>
+    <div class="ld-bolt">⚡</div>
+    <div class="ld-line r"></div>
+  </div>
+
+  <div class="scroll-cue">
+    <span>Descend</span>
+    <div class="scroll-beam"></div>
+  </div>
+</section>
+
+<!-- ══ INTRO ══ -->
+<section class="intro-strip">
+  <div class="intro-inner">
+    <div class="intro-label">Mapping the Unmapped</div>
+    <p class="intro-text">
+      Creating a timeline for the Siddhar civilization is <strong>unlike any conventional history</strong>.<br><br>
+      Their knowledge did not evolve through conquest or politics — it evolved through <em>insight</em>, <em>transmission</em>, and <em>realization</em>. What we can trace are <strong>phases of development</strong> — not dates, but <strong>stages of human consciousness unfolding</strong>.
+    </p>
+  </div>
+</section>
+
+<!-- ══ TIMELINE ══ -->
+<section class="timeline-section" id="timeline">
+  <div class="sec-header">
+    <div class="sec-label">Eight Sacred Phases</div>
+    <h2>The Unfolding Timeline</h2>
+    <div class="sec-ornament">⚡ &nbsp; ⚡ &nbsp; ⚡</div>
+  </div>
+
+  <div class="timeline-wrap">
+    <div class="timeline-spine"></div>
+
+    <!-- Phase 1 -->
+    <div class="tl-item">
+      <div class="tl-content">
+        <div class="tl-card">
+          <div class="phase-badge">Phase One</div>
+          <h3>Pre-Formal Knowledge Era</h3>
+          <p>The earliest and most primordial phase — a time of pure, direct experience with no written records, no institutions, no doctrine. Knowledge was lived and felt, not spoken.</p>
+          <div class="tl-tags">
+            <span class="tag">Direct Observation</span>
+            <span class="tag">Intuition</span>
+            <span class="tag">Pre-Verbal</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-center"><div class="tl-node"></div></div>
+      <div class="tl-empty"></div>
+    </div>
+
+    <!-- Phase 2 -->
+    <div class="tl-item">
+      <div class="tl-empty"></div>
+      <div class="tl-center"><div class="tl-node"></div></div>
+      <div class="tl-content">
+        <div class="tl-card">
+          <div class="phase-badge">Phase Two</div>
+          <h3>Early Siddhar Emergence</h3>
+          <p>Individual masters began to emerge from the wilderness of direct experience. Basic principles were discovered, early healing arts were developed. The sage <strong style="color:var(--bolt2)">Agastya</strong> stands as a luminous figure of this era.</p>
+          <div class="tl-tags">
+            <span class="tag">Agastya</span>
+            <span class="tag">Early Medicine</span>
+            <span class="tag">First Masters</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 3 -->
+    <div class="tl-item">
+      <div class="tl-content">
+        <div class="tl-card">
+          <div class="phase-badge">Phase Three</div>
+          <h3>Expansion of Knowledge Systems</h3>
+          <p>A great blossoming. Siddhar knowledge expanded into multiple dimensions — medicine, yoga, alchemy, and cosmology — through deeper experimentation, refinement, and the courage to explore the unknown.</p>
+          <div class="tl-tags">
+            <span class="tag">Alchemy</span>
+            <span class="tag">Yoga</span>
+            <span class="tag">Cosmology</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-center"><div class="tl-node"></div></div>
+      <div class="tl-empty"></div>
+    </div>
+
+    <!-- Phase 4 -->
+    <div class="tl-item">
+      <div class="tl-empty"></div>
+      <div class="tl-center"><div class="tl-node"></div></div>
+      <div class="tl-content">
+        <div class="tl-card">
+          <div class="phase-badge">Phase Four</div>
+          <h3>Literary Encoding</h3>
+          <p>The masters began to record — not in plain speech, but through poetry, symbols, and layered metaphor. Only sincere seekers could unlock their meaning. The immortal texts of <strong style="color:var(--bolt2)">Thirumoolar</strong> arose in this sacred era.</p>
+          <div class="tl-tags">
+            <span class="tag">Thirumoolar</span>
+            <span class="tag">Encoded Poetry</span>
+            <span class="tag">Manuscripts</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 5 -->
+    <div class="tl-item">
+      <div class="tl-content">
+        <div class="tl-card">
+          <div class="phase-badge">Phase Five</div>
+          <h3>Lineage Formation</h3>
+          <p>Knowledge transmission became intentional and structured through the sacred Guru-disciple relationship. Direct teaching, experiential guidance, and silent transmission ensured that the inner fire was passed unbroken across generations.</p>
+          <div class="tl-tags">
+            <span class="tag">Guru Parampara</span>
+            <span class="tag">Transmission</span>
+            <span class="tag">Continuity</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-center"><div class="tl-node"></div></div>
+      <div class="tl-empty"></div>
+    </div>
+
+    <!-- Phase 6 -->
+    <div class="tl-item">
+      <div class="tl-empty"></div>
+      <div class="tl-center"><div class="tl-node"></div></div>
+      <div class="tl-content">
+        <div class="tl-card">
+          <div class="phase-badge">Phase Six</div>
+          <h3>Hidden Continuation</h3>
+          <p>The Siddhar tradition chose depth over expansion. It remained hidden from mass society — not lost, but deliberately withdrawn. Quietly active beneath the surface of visible history, alive in silence and solitude.</p>
+          <div class="tl-tags">
+            <span class="tag">Hidden</span>
+            <span class="tag">Non-Institutional</span>
+            <span class="tag">Silent</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 7 -->
+    <div class="tl-item">
+      <div class="tl-content">
+        <div class="tl-card">
+          <div class="phase-badge">Phase Seven</div>
+          <h3>Modern Re-Emergence</h3>
+          <p>In our age, interest in consciousness has surged. Holistic medicine gains recognition. Ancient knowledge is being revisited by scientists, seekers, and scholars alike — creating a powerful renewed relevance for Siddhar wisdom.</p>
+          <div class="tl-tags">
+            <span class="tag">Consciousness Studies</span>
+            <span class="tag">Holistic Medicine</span>
+            <span class="tag">Rediscovery</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-center"><div class="tl-node"></div></div>
+      <div class="tl-empty"></div>
+    </div>
+
+    <!-- Phase 8 -->
+    <div class="tl-item">
+      <div class="tl-empty"></div>
+      <div class="tl-center"><div class="tl-node"></div></div>
+      <div class="tl-content">
+        <div class="tl-card">
+          <div class="phase-badge">Phase Eight · Present</div>
+          <h3>The Living Gurukulam Era</h3>
+          <p>The tradition lives and breathes today. Through sacred environments of learning and living, under the direct guidance of <strong style="color:var(--sacred)">Shree Easanamma</strong>, the Siddhar path is not studied — it is <em>lived</em> daily.</p>
+          <div class="tl-tags">
+            <span class="tag">Shree Easanamma</span>
+            <span class="tag">Gurukulam</span>
+            <span class="tag">Living Tradition</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ INSIGHT ══ -->
+<section class="insight-band">
+  <div class="insight-inner">
+    <div class="quote-glyph">⚡</div>
+    <blockquote>
+      The Siddhar timeline is not about dates.<br>
+      It is about <strong>stages of human understanding</strong><br>unfolding across generations.
+    </blockquote>
+    <cite>— Siddhar Tradition · Timeless Wisdom</cite>
+  </div>
+</section>
+
+<!-- ══ CHARACTERISTICS ══ -->
+<section class="chars-section" id="pillars">
+  <div class="sec-header">
+    <div class="sec-label">Nature of the Path</div>
+    <h2>Defining Characteristics</h2>
+    <div class="sec-ornament">⚡ &nbsp; ⚡ &nbsp; ⚡</div>
+  </div>
+
+  <div class="chars-grid">
+    <div class="char-card">
+      <span class="char-icon">🌀</span>
+      <h3>Cyclical</h3>
+      <p>Not a line from past to future — but a spiral. Wisdom rediscovered in each era, deepening with every turn of the cycle of time.</p>
+    </div>
+    <div class="char-card">
+      <span class="char-icon">🏔️</span>
+      <h3>Layered</h3>
+      <p>Each phase of the Siddhar tradition holds multiple dimensions — outer practice, inner experience, and the silent ground beneath both.</p>
+    </div>
+    <div class="char-card">
+      <span class="char-icon">🔥</span>
+      <h3>Experiential</h3>
+      <p>The Siddhar path cannot be known through books alone. It must be lived, breathed, and realized in the fire of direct personal experience.</p>
+    </div>
+    <div class="char-card">
+      <span class="char-icon">⚡</span>
+      <h3>Timeless</h3>
+      <p>Not bound by any era. The truth the Siddhars realized is as alive today as in the deepest antiquity. It is rediscovered, not inherited.</p>
+    </div>
+    <div class="char-card">
+      <span class="char-icon">🌿</span>
+      <h3>Holistic</h3>
+      <p>Medicine, yoga, alchemy, philosophy — never separated. The Siddhar sees the universe and the body as one continuous, living intelligence.</p>
+    </div>
+    <div class="char-card">
+      <span class="char-icon">🔮</span>
+      <h3>Encoded</h3>
+      <p>Sacred knowledge was protected through metaphor and poetry — accessible only to those who approach with sincerity, patience, and humility.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ GURUKULAM ══ -->
+<section class="guru-section" id="gurukulam">
+  <div class="guru-inner">
+    <div class="sec-header" style="margin-bottom:3rem;">
+      <div class="sec-label">The Living Flame</div>
+      <h2>Shree Easanamma Gurukulam</h2>
+      <div class="sec-ornament">⚡ &nbsp; ⚡ &nbsp; ⚡</div>
+    </div>
+
+    <p>The Siddhar tradition never needed institutions — its power flows through living relationship between master and disciple. This sacred flame continues today, unbroken, through one of the most profound living expressions of the Siddhar path.</p>
+
+    <div class="guru-name">
+      Shree Easanamma Gurukulam
+      <span class="guru-label">Living Tradition · Present Day</span>
+    </div>
+
+    <p>Here, under the direct guidance of <strong style="color:var(--sacred)">Shree Easanamma</strong>, the ancient wisdom is not studied as history. It is practiced as life itself — breath by breath, day by day — carrying the Siddhar lineage into the present moment and beyond.</p>
+  </div>
+</section>
+
+<!-- ══ CONCLUSION ══ -->
+<section class="conclusion" id="lineage">
+  <div class="sec-header">
+    <div class="sec-label">The Living Understanding</div>
+    <h2>Timeline Insight</h2>
+    <div class="sec-ornament">⚡ &nbsp; ⚡ &nbsp; ⚡</div>
+  </div>
+  <p class="conclusion-text">
+    Unlike any other timeline, the Siddhar evolution is <strong>cyclical, layered, and experiential</strong>.<br><br>
+    It is not bound by time — it is <strong>rediscovered repeatedly</strong>, in every sincere heart that turns inward and asks the question the Siddhars first asked: <em>What is the nature of the observer itself?</em>
+  </p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-content">
+    <div class="footer-columns">
+      <div class="footer-column footer-brand">
+        <div class="footer-brand-title">Easanamma Gurukulam</div>
+        <p class="footer-brand-text">
+          A living space of discipline, observation, and transformation — rooted in the
+          ancient Tamil Siddhar tradition under the guidance of Shree Easanamma.
+        </p>
+        <a href="./index.html" class="footer-brand-link">easanamma.com</a>
+      </div>
+
+      <div class="footer-column">
+        <div class="footer-heading">Tradition</div>
+        <ul class="footer-link-list">
+          <li><a href="./18-siddhars.html">The 18 Siddhars</a></li>
+          <li><a href="./siddhar-civilization.html">Siddhar Civilization</a></li>
+          <li><a href="./origin_tamil_siddhars.html">Origins</a></li>
+          <li><a href="./secret-life-siddhars.html">Secret Life</a></li>
+          <li><a href="./siddhar-timeline.html">Timeline</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <div class="footer-heading">Knowledge</div>
+        <ul class="footer-link-list">
+         <li><a href="./Relevance of Siddhar Wisdom in the Modern World.html">Siddha Medicine</a></li>
+         <li><a href="./ancient_tamil_spiritual.html">Ancient Tamil Spirituality</a></li>
+         <li><a href="./meditation_siddhar.html">Meditation</a></li>
+         <li><a href="./Siddhar vs Other Spiritual Traditions.html">Siddhar vs Other Spiritual Traditions</a></li>
+         <li><a href="./Why Siddhars Are Unique.html">Why Siddhars Are Unique</a></li>
+          
+        </ul>
+      </div>
+
+      
+    </div>
+
+    <p class="footer-note">© 2026 Shree Easanamma Gurukulam. All rights reserved.</p>
+  </div>
+</footer>
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-brand">⚡ Siddhar Civilization</div>
+  <div class="footer-line"></div>
+  <div class="footer-sub">Tamil Spiritual Heritage · Ancient Wisdom · Living Tradition</div>
+</footer>
+
+<!-- ══════════════════════════════════════
+   SCRIPTS
+══════════════════════════════════════ -->
+<script>
+/* ── LIGHTNING CANVAS ── */
+const canvas = document.getElementById('lightning-canvas');
+const ctx = canvas.getContext('2d');
+
+function resize() {
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+function rand(a,b){ return a + Math.random()*(b-a); }
+
+function drawBolt(x1,y1,x2,y2,branches,alpha,width){
+  if(branches<=0 || alpha<0.05) return;
+  ctx.beginPath();
+  ctx.moveTo(x1,y1);
+  let cx=x1, cy=y1;
+  const segs=12;
+  const dx=(x2-x1)/segs, dy=(y2-y1)/segs;
+  const pts=[[x1,y1]];
+  for(let i=0;i<segs;i++){
+    cx += dx + rand(-60,60);
+    cy += dy + rand(-10,10);
+    pts.push([cx,cy]);
+  }
+  pts.push([x2,y2]);
+
+  ctx.moveTo(pts[0][0],pts[0][1]);
+  for(let i=1;i<pts.length;i++) ctx.lineTo(pts[i][0],pts[i][1]);
+
+  // glow
+  ctx.shadowBlur=20; ctx.shadowColor=`rgba(74,158,255,${alpha})`;
+  ctx.strokeStyle=`rgba(168,212,255,${alpha})`;
+  ctx.lineWidth=width; ctx.stroke();
+
+  // bright core
+  ctx.beginPath();
+  ctx.moveTo(pts[0][0],pts[0][1]);
+  for(let i=1;i<pts.length;i++) ctx.lineTo(pts[i][0],pts[i][1]);
+  ctx.strokeStyle=`rgba(255,255,255,${alpha*0.6})`;
+  ctx.lineWidth=width*0.3; ctx.stroke();
+
+  // branches
+  for(let i=2;i<pts.length-2;i+=3){
+    if(Math.random()>0.5){
+      const bx=pts[i][0]+rand(-80,80), by=pts[i][1]+rand(60,200);
+      drawBolt(pts[i][0],pts[i][1],bx,by,branches-1,alpha*0.5,width*0.5);
+    }
+  }
+}
+
+let lastStrike=0, nextStrike=3000;
+function animate(ts){
+  requestAnimationFrame(animate);
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  if(ts-lastStrike>nextStrike){
+    lastStrike=ts;
+    nextStrike=rand(2500,6000);
+    const count=Math.floor(rand(1,3));
+    for(let i=0;i<count;i++){
+      const x=rand(canvas.width*0.1,canvas.width*0.9);
+      drawBolt(x,0, x+rand(-100,100),canvas.height*rand(0.4,0.85), 3, rand(0.4,0.8), rand(1.5,3));
+    }
+  }
+}
+requestAnimationFrame(animate);
+
+/* ── FLOATING PARTICLES ── */
+const pContainer=document.getElementById('particles');
+for(let i=0;i<25;i++){
+  const p=document.createElement('div');
+  p.className='particle';
+  p.style.cssText=`
+    left:${Math.random()*100}%;
+    --dx:${(Math.random()-0.5)*80}px;
+    animation-duration:${6+Math.random()*12}s;
+    animation-delay:${Math.random()*10}s;
+    opacity:${0.3+Math.random()*0.7};
+    width:${1+Math.random()*3}px;
+    height:${1+Math.random()*3}px;
+  `;
+  pContainer.appendChild(p);
+}
+
+/* ── SCROLL REVEAL ── */
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach((e,i)=>{
+    if(e.isIntersecting){
+      setTimeout(()=>e.target.classList.add('visible'), e.target.dataset.delay||0);
+    }
+  });
+},{threshold:0.15});
+
+document.querySelectorAll('.tl-item').forEach((el,i)=>{
+  el.dataset.delay=i*80;
+  observer.observe(el);
+});
+document.querySelectorAll('.char-card').forEach((el,i)=>{
+  el.dataset.delay=i*100;
+  observer.observe(el);
+});
+
+/* ── ACTIVE NAV ── */
+const sections=document.querySelectorAll('section[id]');
+const navLinks=document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll',()=>{
+  let cur='';
+  sections.forEach(s=>{ if(window.scrollY>=s.offsetTop-220) cur=s.id; });
+  navLinks.forEach(a=>{
+    a.style.color=a.getAttribute('href')===`#${cur}` ? 'var(--bolt2)' : '';
+    a.style.textShadow=a.getAttribute('href')===`#${cur}` ? '0 0 12px rgba(126,184,255,0.8)' : '';
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Silence as a Practice — Siddhar Tradition</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Cinzel:wght@400;500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0a0906;
+    --parchment: #f4ede0;
+    --gold: #c9a84c;
+    --gold-dim: #8a6d2e;
+    --ash: #2a2520;
+    --smoke: #4a4540;
+    --fog: #8a8278;
+    --whisper: #c4bfb8;
+    --ember: #e8c97a;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--ink);
+    color: var(--whisper);
+    font-family: 'EB Garamond', serif;
+    font-size: 18px;
+    line-height: 1.85;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.022;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px 256px;
+  }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 1s cubic-bezier(0.22,1,0.36,1), transform 1s cubic-bezier(0.22,1,0.36,1);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-slow { transition-duration: 1.6s; }
+  .reveal-delay-1 { transition-delay: 0.15s; }
+  .reveal-delay-2 { transition-delay: 0.3s; }
+  .reveal-delay-3 { transition-delay: 0.45s; }
+  .reveal-delay-4 { transition-delay: 0.6s; }
+
+  /* ── LETTER SPLIT ANIMATION ── */
+  .word-reveal .word {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+    margin-right: 0.22em;
+  }
+  .word-reveal .word span {
+    display: inline-block;
+    transform: translateY(105%);
+    transition: transform 0.9s cubic-bezier(0.22,1,0.36,1);
+  }
+  .word-reveal.visible .word span {
+    transform: translateY(0);
+  }
+  .word-reveal .word:nth-child(1) span  { transition-delay: 0.0s; }
+  .word-reveal .word:nth-child(2) span  { transition-delay: 0.07s; }
+  .word-reveal .word:nth-child(3) span  { transition-delay: 0.14s; }
+  .word-reveal .word:nth-child(4) span  { transition-delay: 0.21s; }
+  .word-reveal .word:nth-child(5) span  { transition-delay: 0.28s; }
+  .word-reveal .word:nth-child(6) span  { transition-delay: 0.35s; }
+  .word-reveal .word:nth-child(7) span  { transition-delay: 0.42s; }
+  .word-reveal .word:nth-child(8) span  { transition-delay: 0.49s; }
+  .word-reveal .word:nth-child(9) span  { transition-delay: 0.56s; }
+  .word-reveal .word:nth-child(10) span { transition-delay: 0.63s; }
+
+  /* ── CHAR-LEVEL FADE ── */
+  .char-reveal { overflow: hidden; }
+  .char-reveal .char {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(0.4em) rotate(2deg);
+    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22,1,0.36,1);
+  }
+  .char-reveal.visible .char {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg);
+  }
+
+  /* ── LINE WIPE REVEAL ── */
+  .line-wipe {
+    position: relative;
+    overflow: hidden;
+  }
+  .line-wipe::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--ink);
+    transform: scaleX(1);
+    transform-origin: left;
+    transition: transform 1.2s cubic-bezier(0.76,0,0.24,1);
+  }
+  .line-wipe.visible::after { transform: scaleX(0); transform-origin: left; }
+
+  /* ── NAVIGATION ── */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.8rem 4rem;
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+    background: rgba(10,9,6,0.82);
+    backdrop-filter: blur(12px);
+  }
+  .nav-mark {
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.3em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+  .nav-links {
+    display: flex;
+    gap: 3rem;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    color: var(--fog);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.4s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 8rem 2rem 6rem;
+    position: relative;
+  }
+  .hero-eyebrow {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.45em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: 2.5rem;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(4rem, 10vw, 9rem);
+    font-weight: 300;
+    line-height: 0.95;
+    color: var(--parchment);
+    letter-spacing: -0.02em;
+    margin-bottom: 0.15em;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .hero-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+    font-style: italic;
+    font-weight: 300;
+    color: var(--fog);
+    margin-top: 2.5rem;
+    letter-spacing: 0.04em;
+  }
+  .hero-rule {
+    width: 1px;
+    height: 80px;
+    background: linear-gradient(to bottom, transparent, var(--gold-dim), transparent);
+    margin: 4rem auto 0;
+  }
+
+  /* ── ORNAMENTAL DIVIDER ── */
+  .ornament {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin: 0 auto;
+    max-width: 320px;
+  }
+  .ornament-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold-dim));
+  }
+  .ornament-line.right {
+    background: linear-gradient(to left, transparent, var(--gold-dim));
+  }
+  .ornament-glyph {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    color: var(--gold-dim);
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    padding: 7rem 2rem;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+  section.wide { max-width: 1100px; }
+  section.full { max-width: none; padding-left: 0; padding-right: 0; }
+
+  /* ── INTRO SECTION ── */
+  .intro-pull {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+    font-weight: 400;
+    line-height: 1.4;
+    color: var(--parchment);
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  .intro-pull em { font-style: italic; color: var(--ember); }
+
+  .body-text {
+    font-size: 1.05rem;
+    color: var(--whisper);
+    line-height: 1.9;
+    text-align: center;
+    max-width: 620px;
+    margin: 0 auto;
+  }
+
+  /* ── DUAL COLUMN CONTRAST ── */
+  .contrast-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: rgba(201,168,76,0.12);
+    margin: 5rem 0;
+    border: 1px solid rgba(201,168,76,0.12);
+  }
+  .contrast-cell {
+    padding: 3.5rem;
+    background: var(--ink);
+    position: relative;
+  }
+  .contrast-cell::before {
+    content: attr(data-label);
+    font-family: 'Cinzel', serif;
+    font-size: 0.58rem;
+    letter-spacing: 0.35em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 1.5rem;
+  }
+  .contrast-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.4rem;
+    font-weight: 300;
+    color: var(--parchment);
+    margin-bottom: 1rem;
+    line-height: 1.1;
+  }
+  .contrast-desc {
+    font-size: 0.95rem;
+    color: var(--fog);
+    line-height: 1.8;
+  }
+
+  /* ── PRINCIPLES ── */
+  .principles {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .principle-item {
+    display: grid;
+    grid-template-columns: 3.5rem 1fr;
+    gap: 2rem;
+    padding: 2.8rem 0;
+    border-bottom: 1px solid rgba(201,168,76,0.08);
+    align-items: start;
+  }
+  .principle-item:first-child { border-top: 1px solid rgba(201,168,76,0.08); }
+  .principle-num {
+    font-family: 'Cinzel', serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    color: var(--gold-dim);
+    padding-top: 0.3rem;
+  }
+  .principle-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.55rem;
+    font-weight: 500;
+    color: var(--parchment);
+    margin-bottom: 0.6rem;
+    line-height: 1.2;
+  }
+  .principle-body {
+    font-size: 0.97rem;
+    color: var(--fog);
+    line-height: 1.85;
+  }
+
+  /* ── PULLQUOTE ── */
+  .pullquote-wrap {
+    padding: 7rem 4rem;
+    text-align: center;
+    background: var(--ash);
+    border-top: 1px solid rgba(201,168,76,0.1);
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+  }
+  .pullquote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.8rem, 4vw, 3.2rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--parchment);
+    line-height: 1.35;
+    max-width: 800px;
+    margin: 0 auto 2rem;
+  }
+  .pullquote-attr {
+    font-family: 'Cinzel', serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.3em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+  }
+
+  /* ── PRACTICE GRID ── */
+  .practice-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.1);
+    margin: 4rem 0;
+  }
+  .practice-card {
+    background: var(--ink);
+    padding: 2.8rem 2rem;
+    text-align: center;
+    transition: background 0.4s;
+  }
+  .practice-card:hover { background: #111008; }
+  .practice-icon {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.8rem;
+    color: var(--gold-dim);
+    display: block;
+    margin-bottom: 1.2rem;
+    line-height: 1;
+  }
+  .practice-name {
+    font-family: 'Cinzel', serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    color: var(--whisper);
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+  }
+  .practice-detail {
+    font-size: 0.9rem;
+    color: var(--fog);
+    line-height: 1.7;
+  }
+
+  /* ── GURUKULAM SECTION ── */
+  .gurukulam-wrap {
+    border: 1px solid rgba(201,168,76,0.18);
+    padding: 5rem;
+    position: relative;
+    margin: 5rem 0;
+  }
+  .gurukulam-wrap::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: 3rem; right: 3rem;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold-dim), transparent);
+  }
+  .gurukulam-wrap::after {
+    content: '';
+    position: absolute;
+    bottom: -1px; left: 3rem; right: 3rem;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold-dim), transparent);
+  }
+  .gurukulam-kicker {
+    font-family: 'Cinzel', serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.35em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+  .gurukulam-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 300;
+    color: var(--parchment);
+    text-align: center;
+    margin-bottom: 2rem;
+    line-height: 1.2;
+  }
+  .gurukulam-body {
+    font-size: 1rem;
+    color: var(--fog);
+    line-height: 1.9;
+    text-align: center;
+    max-width: 580px;
+    margin: 0 auto;
+  }
+
+  /* ── CLOSING ── */
+  .closing {
+    text-align: center;
+    padding: 8rem 2rem 10rem;
+  }
+  .closing-head {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 6vw, 5.5rem);
+    font-weight: 300;
+    color: var(--parchment);
+    line-height: 1.1;
+    margin-bottom: 2rem;
+  }
+  .closing-head em { font-style: italic; color: var(--gold); }
+  .closing-body {
+    font-size: 1rem;
+    color: var(--fog);
+    max-width: 480px;
+    margin: 0 auto 3.5rem;
+    line-height: 1.85;
+  }
+  .closing-rule {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+  .closing-rule-line {
+    flex: 1;
+    height: 1px;
+    background: rgba(201,168,76,0.25);
+  }
+  .closing-glyph {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    color: var(--gold-dim);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid rgba(201,168,76,0.08);
+    padding: 2.5rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-text {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    color: var(--smoke);
+    text-transform: uppercase;
+  }
+
+  /* ── SECTION HEADINGS ── */
+  .section-kicker {
+    font-family: 'Cinzel', serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.38em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+    text-align: center;
+  }
+  .section-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4.5vw, 3.4rem);
+    font-weight: 300;
+    color: var(--parchment);
+    text-align: center;
+    line-height: 1.15;
+    margin-bottom: 1rem;
+  }
+  .section-heading em { font-style: italic; color: var(--ember); }
+  .section-intro {
+    font-size: 1rem;
+    color: var(--fog);
+    text-align: center;
+    max-width: 540px;
+    margin: 0 auto 4rem;
+    line-height: 1.85;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 1.4rem 1.5rem; }
+    .nav-links { display: none; }
+    .contrast-grid { grid-template-columns: 1fr; }
+    .practice-grid { grid-template-columns: 1fr; }
+    section { padding: 5rem 1.5rem; }
+    .gurukulam-wrap { padding: 3rem 2rem; }
+    .pullquote-wrap { padding: 5rem 2rem; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-mark">Siddhar Tradition</a>
+  <ul class="nav-links">
+    <li><a href="#intro">The Practice</a></li>
+    <li><a href="#principles">Principles</a></li>
+    <li><a href="#gurukulam">Gurukulam</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <p class="hero-eyebrow reveal">A Siddhar Inquiry</p>
+
+  <h1 class="hero-title word-reveal" id="hero-title">
+    <span class="word"><span>Silence</span></span>
+    <span class="word"><span>as</span></span>
+    <span class="word"><span>a</span></span><br>
+    <span class="word"><span><em>Practice</em></span></span>
+  </h1>
+
+  <p class="hero-subtitle reveal reveal-delay-3">
+    Not the absence of sound — but the presence of awareness.
+  </p>
+
+  <div class="hero-rule reveal reveal-delay-4"></div>
+</div>
+
+<!-- INTRO -->
+<section id="intro">
+  <p class="section-kicker reveal">The Nature of Silence</p>
+
+  <h2 class="section-heading word-reveal">
+    <span class="word"><span>Beyond</span></span>
+    <span class="word"><span>the</span></span>
+    <span class="word"><span>absence</span></span>
+    <span class="word"><span>of</span></span>
+    <span class="word"><span><em>sound</em></span></span>
+  </h2>
+
+  <p class="intro-pull reveal reveal-delay-2">
+    Silence is often mistaken for the mere absence of sound, or the stilling of speech. In the <em>Siddhar tradition</em>, it reaches much deeper.
+  </p>
+
+  <p class="body-text reveal reveal-delay-3">
+    It is a state of inner stillness — a quality of mind that persists regardless of external conditions. The Siddhars were not interested in surface quiet. They sought the cessation of inner movement itself.
+  </p>
+
+  <!-- CONTRAST GRID -->
+  <div class="contrast-grid reveal reveal-delay-2">
+    <div class="contrast-cell" data-label="Surface">
+      <div class="contrast-label">External<br>Silence</div>
+      <div class="contrast-desc">The discipline of not speaking. A useful beginning. A container — but not the destination.</div>
+    </div>
+    <div class="contrast-cell" data-label="Depth">
+      <div class="contrast-label">Internal<br>Silence</div>
+      <div class="contrast-desc">The cessation of mental noise. The Siddhars focused here — where the real practice lives.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PULLQUOTE 1 -->
+<div class="pullquote-wrap full">
+  <blockquote class="pullquote word-reveal">
+    <span class="word"><span>Silence</span></span>
+    <span class="word"><span>is</span></span>
+    <span class="word"><span>not</span></span>
+    <span class="word"><span>emptiness.</span></span>
+    <span class="word"><span>It</span></span>
+    <span class="word"><span>is</span></span>
+    <span class="word"><span>the</span></span>
+    <span class="word"><span>space</span></span>
+    <span class="word"><span>where</span></span>
+    <span class="word"><span>clarity</span></span>
+    <span class="word"><span>emerges</span></span>
+    <span class="word"><span>naturally.</span></span>
+  </blockquote>
+  <p class="pullquote-attr reveal">Siddhar Teaching</p>
+</div>
+
+<!-- PRINCIPLES -->
+<section id="principles">
+  <p class="section-kicker reveal">The Way In</p>
+  <h2 class="section-heading word-reveal">
+    <span class="word"><span>Why</span></span>
+    <span class="word"><span>Silence</span></span>
+    <span class="word"><span><em>Matters</em></span></span>
+  </h2>
+  <p class="section-intro reveal reveal-delay-2">The mind moves constantly. Silence offers a rare quality of stopping — not by force, but through clear-eyed observation.</p>
+
+  <div class="principles">
+    <div class="principle-item reveal">
+      <span class="principle-num">I</span>
+      <div>
+        <div class="principle-title">Reduction of Mental Movement</div>
+        <div class="principle-body">The mind generates a ceaseless stream of commentary. Silence creates the conditions in which that stream begins, naturally, to slow. What was noise becomes visible. What was urgent loses its grip.</div>
+      </div>
+    </div>
+    <div class="principle-item reveal reveal-delay-1">
+      <span class="principle-num">II</span>
+      <div>
+        <div class="principle-title">Silence Is Not Forced</div>
+        <div class="principle-body">Suppression and silence are opposites. Forced quiet creates tension — a second layer of noise. True silence emerges through <em>observation</em>: watching the mind without trying to change it.</div>
+      </div>
+    </div>
+    <div class="principle-item reveal reveal-delay-2">
+      <span class="principle-num">III</span>
+      <div>
+        <div class="principle-title">The Conservation of Energy</div>
+        <div class="principle-body">Speech disperses attention. Limiting unnecessary speech is not social withdrawal — it is the careful conservation of vital energy, redirected inward toward awareness itself.</div>
+      </div>
+    </div>
+    <div class="principle-item reveal reveal-delay-3">
+      <span class="principle-num">IV</span>
+      <div>
+        <div class="principle-title">Silence as Mirror</div>
+        <div class="principle-body">In silence, the mind's patterns become visible. Emotional tendencies that usually hide beneath distraction surface calmly. The practitioner sees — without judgment — the shape of their inner landscape.</div>
+      </div>
+    </div>
+    <div class="principle-item reveal reveal-delay-4">
+      <span class="principle-num">V</span>
+      <div>
+        <div class="principle-title">Silence Within Activity</div>
+        <div class="principle-body">The mature practice is not isolation. Silence can exist within conversation, within work, within movement. It is an inner state — a quality of presence that does not depend on external conditions.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRACTICE WAYS -->
+<section class="wide" id="practice">
+  <p class="section-kicker reveal">How to Begin</p>
+  <h2 class="section-heading word-reveal">
+    <span class="word"><span>Simple</span></span>
+    <span class="word"><span>Approaches</span></span>
+    <span class="word"><span>to</span></span>
+    <span class="word"><span><em>Practice</em></span></span>
+  </h2>
+
+  <div class="practice-grid reveal reveal-delay-2">
+    <div class="practice-card">
+      <span class="practice-icon">◦</span>
+      <div class="practice-name">Sit Quietly</div>
+      <div class="practice-detail">Without agenda. Without expectation. Let the mind do what it does — and simply watch.</div>
+    </div>
+    <div class="practice-card">
+      <span class="practice-icon">○</span>
+      <div class="practice-name">Observe Breath</div>
+      <div class="practice-detail">The breath is always present. Use it as an anchor. Not control — only witnessing.</div>
+    </div>
+    <div class="practice-card">
+      <span class="practice-icon">◌</span>
+      <div class="practice-name">Reduce Speech</div>
+      <div class="practice-detail">Speak when necessary. Observe what remains unsaid. Notice what impulse drove unnecessary words.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PULLQUOTE 2 -->
+<div class="pullquote-wrap full">
+  <blockquote class="pullquote word-reveal">
+    <span class="word"><span>Many</span></span>
+    <span class="word"><span>people</span></span>
+    <span class="word"><span>fear</span></span>
+    <span class="word"><span>silence</span></span>
+    <span class="word"><span>—</span></span>
+    <span class="word"><span>because</span></span>
+    <span class="word"><span>in</span></span>
+    <span class="word"><span>it,</span></span>
+    <span class="word"><span>thoughts</span></span>
+    <span class="word"><span>become</span></span>
+    <span class="word"><span>visible.</span></span>
+  </blockquote>
+  <p class="pullquote-attr reveal">On the Fear of Stillness</p>
+</div>
+
+<!-- GURUKULAM -->
+<section id="gurukulam">
+  <p class="section-kicker reveal">Structured Practice</p>
+  <h2 class="section-heading word-reveal">
+    <span class="word"><span>The</span></span>
+    <span class="word"><span>Role</span></span>
+    <span class="word"><span>of</span></span>
+    <span class="word"><span><em>Guidance</em></span></span>
+  </h2>
+  <p class="section-intro reveal reveal-delay-1">Silence, without proper guidance, can easily be misunderstood — or used as a subtle form of avoidance. A teacher holds the space clearly.</p>
+
+  <div class="gurukulam-wrap reveal reveal-delay-2">
+    <p class="gurukulam-kicker">Place of Practice</p>
+    <h3 class="gurukulam-name">Shree Easanamma Gurukulam</h3>
+    <p class="gurukulam-body">At Shree Easanamma Gurukulam, silence is woven into the daily structure — not as an imposed restriction, but as a living invitation. Practitioners find that consistent, held silence over days and weeks creates a depth of observation that shorter practice rarely achieves.</p>
+  </div>
+
+  <div class="gurukulam-wrap reveal reveal-delay-3">
+    <p class="gurukulam-kicker">The Teacher</p>
+    <h3 class="gurukulam-name">Shree Easanamma</h3>
+    <p class="gurukulam-body">Silence can be misunderstood. It can masquerade as suppression, withdrawal, or spiritual performance. The guidance of Shree Easanamma helps practitioners navigate inner resistance, confusion, and the subtle movements the mind makes even in apparent quiet.</p>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<div class="closing">
+  <div class="ornament reveal">
+    <div class="ornament-line"></div>
+    <span class="ornament-glyph">❧</span>
+    <div class="ornament-line right"></div>
+  </div>
+
+  <h2 class="closing-head word-reveal" style="margin-top:3.5rem;">
+    <span class="word"><span>Where</span></span>
+    <span class="word"><span>clarity</span></span><br>
+    <span class="word"><span>emerges</span></span>
+    <span class="word"><span><em>naturally.</em></span></span>
+  </h2>
+
+  <p class="closing-body reveal reveal-delay-2">
+    Silence is not an achievement. It is not a technique to master. It is the natural condition of awareness when the noise — however briefly — ceases. Begin there.
+  </p>
+
+  <div class="closing-rule reveal reveal-delay-3">
+    <div class="closing-rule-line"></div>
+    <span class="closing-glyph">◦</span>
+    <div class="closing-rule-line"></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-text">Siddhar Tradition · Shree Easanamma Gurukulam</span>
+  <span class="footer-text">Silence as a Practice</span>
+</footer>
+
+<script>
+  // ── WORD REVEAL: Split text nodes into word wrappers
+  function prepareWordReveal(el) {
+    // Already structured manually in HTML for the hero
+    // This handles dynamic word reveals for elements NOT manually split
+  }
+
+  // ── INTERSECTION OBSERVER ──
+  const observerOpts = { threshold: 0.15, rootMargin: '0px 0px -60px 0px' };
+
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, observerOpts);
+
+  // Observe all reveal targets
+  document.querySelectorAll('.reveal, .word-reveal, .char-reveal, .line-wipe').forEach(el => {
+    revealObserver.observe(el);
+  });
+
+  // ── HERO IMMEDIATE REVEAL ──
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.querySelector('.hero .hero-eyebrow')?.classList.add('visible');
+    }, 300);
+    setTimeout(() => {
+      document.querySelector('#hero-title')?.classList.add('visible');
+    }, 600);
+    setTimeout(() => {
+      document.querySelectorAll('.hero .reveal').forEach(el => el.classList.add('visible'));
+    }, 900);
+  });
+</script>
+</body>
+</html>

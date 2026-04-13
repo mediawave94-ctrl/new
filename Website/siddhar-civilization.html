@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>History of Siddhar Civilization</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600;700&family=Raleway:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A96E;
+    --gold-light: #E8D5A3;
+    --gold-dark: #8B6914;
+    --deep: #0D0A07;
+    --dark: #120E09;
+    --mid: #1E1710;
+    --warm: #2A2015;
+    --cream: #F5EDD8;
+    --cream-dim: #C8B896;
+    --rust: #8B4513;
+    --sage: #6B7B5E;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--deep);
+    color: var(--cream);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.8;
+    overflow-x: hidden;
+  }
+
+  /* ─── NOISE TEXTURE OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.5;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+    padding: 1.2rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(to bottom, rgba(13,10,7,0.95) 0%, transparent 100%);
+    backdrop-filter: blur(4px);
+  }
+
+  .nav-brand {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cream-dim);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* ─── HERO ─── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+    padding: 6rem 2rem 4rem;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 60% at 50% 50%, rgba(201,169,110,0.08) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(139,69,19,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 50% at 80% 20%, rgba(107,123,94,0.05) 0%, transparent 60%),
+      var(--deep);
+  }
+
+  /* Mandala SVG background */
+  .hero-mandala {
+    position: absolute;
+    width: min(800px, 90vw);
+    height: min(800px, 90vw);
+    opacity: 0.06;
+    animation: mandala-rotate 120s linear infinite;
+  }
+
+  @keyframes mandala-rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .hero-eyebrow {
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 2rem;
+    position: relative;
+    animation: fade-up 1s ease 0.2s both;
+  }
+
+  .hero-eyebrow::before,
+  .hero-eyebrow::after {
+    content: '';
+    display: inline-block;
+    width: 3rem;
+    height: 1px;
+    background: var(--gold);
+    vertical-align: middle;
+    margin: 0 1rem;
+    opacity: 0.6;
+  }
+
+  .hero h1 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(2.5rem, 7vw, 6rem);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--cream);
+    margin-bottom: 1.5rem;
+    position: relative;
+    animation: fade-up 1s ease 0.4s both;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--gold);
+    font-weight: 300;
+    font-size: 1.15em;
+  }
+
+  .hero-sub {
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--cream-dim);
+    max-width: 600px;
+    margin-bottom: 3.5rem;
+    position: relative;
+    animation: fade-up 1s ease 0.6s both;
+  }
+
+  .hero-divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    animation: fade-up 1s ease 0.8s both;
+  }
+
+  .divider-line {
+    width: 80px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold));
+  }
+  .divider-line.right {
+    background: linear-gradient(to left, transparent, var(--gold));
+  }
+
+  .divider-symbol {
+    color: var(--gold);
+    font-size: 1.5rem;
+  }
+
+  .scroll-indicator {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    animation: fade-up 1s ease 1.2s both;
+  }
+
+  .scroll-indicator span {
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold-dark);
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scroll-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes scroll-pulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.2); }
+  }
+
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── SECTIONS ─── */
+  section {
+    position: relative;
+    z-index: 1;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* ─── INTRO BAND ─── */
+  .intro-band {
+    background: var(--mid);
+    padding: 5rem 2rem;
+    border-top: 1px solid rgba(201,169,110,0.15);
+    border-bottom: 1px solid rgba(201,169,110,0.15);
+  }
+
+  .intro-band .container {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 5rem;
+    align-items: start;
+  }
+
+  .section-label {
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    padding-top: 0.5rem;
+  }
+
+  .intro-text {
+    font-size: 1.35rem;
+    color: var(--cream);
+    line-height: 1.9;
+    font-style: italic;
+  }
+
+  .intro-text strong {
+    color: var(--gold);
+    font-style: normal;
+  }
+
+  /* ─── TIMELINE ─── */
+  .timeline-section {
+    padding: 7rem 2rem;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 5rem;
+  }
+
+  .section-header .eyebrow {
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.2rem;
+  }
+
+  .section-header h2 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    color: var(--cream);
+    font-weight: 400;
+  }
+
+  .section-header .ornament {
+    margin-top: 1.5rem;
+    color: var(--gold);
+    font-size: 1.2rem;
+    letter-spacing: 0.5rem;
+  }
+
+  .timeline {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 2.5rem;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--gold) 10%, var(--gold) 90%, transparent);
+    opacity: 0.3;
+  }
+
+  .timeline-item {
+    display: flex;
+    gap: 2.5rem;
+    margin-bottom: 4rem;
+    position: relative;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .timeline-item.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .timeline-dot {
+    flex-shrink: 0;
+    width: 5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid var(--gold);
+    background: var(--deep);
+    box-shadow: 0 0 12px rgba(201,169,110,0.4);
+    flex-shrink: 0;
+    margin-top: 0.5rem;
+  }
+
+  .timeline-content {
+    flex: 1;
+    background: linear-gradient(135deg, rgba(42,32,21,0.6) 0%, rgba(30,23,16,0.4) 100%);
+    border: 1px solid rgba(201,169,110,0.12);
+    border-left: 2px solid var(--gold);
+    padding: 2rem 2.5rem;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .timeline-content h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    letter-spacing: 0.05em;
+  }
+
+  .timeline-content p {
+    color: var(--cream-dim);
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+
+  .timeline-content ul {
+    list-style: none;
+    margin-top: 0.8rem;
+  }
+
+  .timeline-content ul li {
+    padding: 0.3rem 0 0.3rem 1.5rem;
+    position: relative;
+    color: var(--cream-dim);
+    font-size: 1rem;
+  }
+
+  .timeline-content ul li::before {
+    content: '◆';
+    position: absolute;
+    left: 0;
+    color: var(--gold);
+    font-size: 0.5rem;
+    top: 0.6rem;
+  }
+
+  /* ─── PILLARS ─── */
+  .pillars-section {
+    padding: 7rem 2rem;
+    background: var(--mid);
+    border-top: 1px solid rgba(201,169,110,0.1);
+    border-bottom: 1px solid rgba(201,169,110,0.1);
+  }
+
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-top: 4rem;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .pillar-card {
+    background: linear-gradient(160deg, rgba(42,32,21,0.8) 0%, rgba(18,14,9,0.8) 100%);
+    border: 1px solid rgba(201,169,110,0.15);
+    padding: 2.5rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s, border-color 0.3s;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease, border-color 0.3s;
+  }
+
+  .pillar-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .pillar-card:hover {
+    border-color: rgba(201,169,110,0.5);
+    transform: translateY(-4px) !important;
+  }
+
+  .pillar-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .pillar-card:hover::before { opacity: 1; }
+
+  .pillar-icon {
+    font-size: 2rem;
+    margin-bottom: 1.2rem;
+    display: block;
+  }
+
+  .pillar-card h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+  }
+
+  .pillar-card p {
+    font-size: 0.95rem;
+    color: var(--cream-dim);
+    line-height: 1.7;
+  }
+
+  /* ─── QUOTE ─── */
+  .quote-section {
+    padding: 8rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .quote-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(201,169,110,0.05) 0%, transparent 70%);
+  }
+
+  .quote-mark {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 8rem;
+    color: var(--gold);
+    opacity: 0.15;
+    line-height: 0.5;
+    margin-bottom: 2rem;
+  }
+
+  blockquote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+    font-style: italic;
+    color: var(--cream);
+    max-width: 750px;
+    margin: 0 auto 2rem;
+    line-height: 1.5;
+    position: relative;
+  }
+
+  blockquote cite {
+    display: block;
+    font-size: 0.9rem;
+    font-style: normal;
+    font-family: 'Raleway', sans-serif;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-top: 1.5rem;
+  }
+
+  /* ─── MASTERS ─── */
+  .masters-section {
+    padding: 7rem 2rem;
+    background: var(--dark);
+  }
+
+  .masters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2rem;
+    max-width: 900px;
+    margin: 4rem auto 0;
+  }
+
+  .master-card {
+    border: 1px solid rgba(201,169,110,0.2);
+    padding: 3rem 2rem;
+    position: relative;
+    background: linear-gradient(135deg, rgba(42,32,21,0.4) 0%, rgba(18,14,9,0.6) 100%);
+    opacity: 0;
+    transform: scale(0.96);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .master-card.visible {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .master-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 60px;
+    height: 60px;
+    border-bottom: 2px solid var(--gold);
+    border-right: 2px solid var(--gold);
+    opacity: 0.4;
+  }
+
+  .master-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 60px;
+    height: 60px;
+    border-top: 2px solid var(--gold);
+    border-left: 2px solid var(--gold);
+    opacity: 0.4;
+  }
+
+  .master-name {
+    font-family: 'Cinzel', serif;
+    font-size: 1.4rem;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+  }
+
+  .master-role {
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold-dark);
+    margin-bottom: 1.5rem;
+  }
+
+  .master-desc {
+    font-size: 1rem;
+    color: var(--cream-dim);
+    line-height: 1.8;
+  }
+
+  /* ─── RELEVANCE ─── */
+  .relevance-section {
+    padding: 7rem 2rem;
+    background: linear-gradient(180deg, var(--dark) 0%, var(--deep) 100%);
+  }
+
+  .relevance-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    max-width: 900px;
+    margin: 4rem auto 0;
+  }
+
+  .relevance-card {
+    padding: 2rem;
+    border: 1px solid rgba(201,169,110,0.1);
+    background: rgba(42,32,21,0.3);
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+    opacity: 0;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    transform: translateY(16px);
+  }
+
+  .relevance-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .relevance-icon {
+    font-size: 1.8rem;
+    flex-shrink: 0;
+  }
+
+  .relevance-card h4 {
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.05em;
+  }
+
+  .relevance-card p {
+    font-size: 0.95rem;
+    color: var(--cream-dim);
+    line-height: 1.7;
+  }
+
+  /* ─── LINEAGE ─── */
+  .lineage-section {
+    padding: 7rem 2rem;
+    background: var(--mid);
+    text-align: center;
+    border-top: 1px solid rgba(201,169,110,0.12);
+  }
+
+  .lineage-content {
+    max-width: 700px;
+    margin: 3rem auto 0;
+  }
+
+  .lineage-content p {
+    font-size: 1.15rem;
+    color: var(--cream-dim);
+    line-height: 1.9;
+    margin-bottom: 1.5rem;
+  }
+
+  .lineage-highlight {
+    display: inline-block;
+    font-family: 'Cinzel', serif;
+    font-size: 1.3rem;
+    color: var(--gold);
+    border: 1px solid rgba(201,169,110,0.4);
+    padding: 1rem 2.5rem;
+    margin: 1.5rem 0;
+    letter-spacing: 0.1em;
+    position: relative;
+  }
+
+  .lineage-highlight::before,
+  .lineage-highlight::after {
+    content: '✦';
+    color: var(--gold);
+    font-size: 0.7rem;
+    vertical-align: middle;
+    margin: 0 0.8rem;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--dark, #090705);
+    padding: 3rem 2rem;
+  }
+  .footer-content {
+    max-width: 1160px;
+    margin: 0 auto;
+  }
+  .footer-columns {
+    display: grid;
+    grid-template-columns: minmax(240px, 1.5fr) repeat(3, minmax(160px, 1fr));
+    gap: 2rem;
+    align-items: start;
+  }
+  .footer-column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+  .footer-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .footer-brand-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.4rem, 2.2vw, 1.8rem);
+    color: var(--gold, #c9a84c);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .footer-brand-text {
+    font-size: 0.95rem;
+    line-height: 1.85;
+    color: var(--text-light, rgba(255,255,255,0.85));
+    max-width: 520px;
+  }
+  .footer-brand-link {
+    font-family: 'Cinzel', serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.32em;
+    color: var(--gold, #c9a84c);
+    text-transform: uppercase;
+    text-decoration: none;
+    opacity: 0.9;
+    transition: opacity 0.25s ease;
+  }
+  .footer-brand-link:hover {
+    opacity: 1;
+  }
+  .footer-heading {
+    font-family: 'Cinzel', serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.32em;
+    color: var(--gold, #c9a84c);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    opacity: 0.85;
+  }
+  .footer-link-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.85rem;
+  }
+  .footer-link-list a {
+    color: var(--text-light, rgba(255,255,255,0.85));
+    text-decoration: none;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    transition: color 0.25s ease;
+  }
+  .footer-link-list a:hover {
+    color: var(--gold, #c9a84c);
+  }
+  .footer-note {
+    margin-top: 2.5rem;
+    font-size: 0.78rem;
+    color: var(--text-light, rgba(255,255,255,0.72));
+    letter-spacing: 0.16em;
+    opacity: 0.85;
+    text-align: center;
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .intro-band .container { grid-template-columns: 1fr; gap: 2rem; }
+    .section-label { writing-mode: horizontal-tb; transform: none; }
+    .relevance-grid { grid-template-columns: 1fr; }
+    .timeline::before { display: none; }
+    .timeline-item { flex-direction: column; gap: 1rem; }
+    .timeline-dot { width: auto; flex-direction: row; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">Siddhar Civilization</div>
+  <ul class="nav-links">
+     <li><a href="./index.html">Home</a></li>
+    <li><a href="#history">History</a></li>
+    <li><a href="#pillars">Pillars</a></li>
+    <li><a href="#masters">Masters</a></li>
+    <li><a href="#lineage">Lineage</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+
+  <!-- Mandala SVG -->
+  <svg class="hero-mandala" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="200" cy="200" r="190" fill="none" stroke="#C9A96E" stroke-width="0.5"/>
+    <circle cx="200" cy="200" r="160" fill="none" stroke="#C9A96E" stroke-width="0.3"/>
+    <circle cx="200" cy="200" r="130" fill="none" stroke="#C9A96E" stroke-width="0.5"/>
+    <circle cx="200" cy="200" r="100" fill="none" stroke="#C9A96E" stroke-width="0.3"/>
+    <circle cx="200" cy="200" r="70" fill="none" stroke="#C9A96E" stroke-width="0.5"/>
+    <circle cx="200" cy="200" r="40" fill="none" stroke="#C9A96E" stroke-width="0.3"/>
+    <circle cx="200" cy="200" r="10" fill="none" stroke="#C9A96E" stroke-width="0.5"/>
+    <!-- Petals -->
+    <g stroke="#C9A96E" stroke-width="0.4" fill="none">
+      <ellipse cx="200" cy="120" rx="12" ry="40" transform="rotate(0 200 200)"/>
+      <ellipse cx="200" cy="120" rx="12" ry="40" transform="rotate(30 200 200)"/>
+      <ellipse cx="200" cy="120" rx="12" ry="40" transform="rotate(60 200 200)"/>
+      <ellipse cx="200" cy="120" rx="12" ry="40" transform="rotate(90 200 200)"/>
+      <ellipse cx="200" cy="120" rx="12" ry="40" transform="rotate(120 200 200)"/>
+      <ellipse cx="200" cy="120" rx="12" ry="40" transform="rotate(150 200 200)"/>
+      <ellipse cx="200" cy="120" rx="12" ry="40" transform="rotate(180 200 200)"/>
+      <ellipse cx="200" cy="120" rx="12" ry="40" transform="rotate(210 200 200)"/>
+      <ellipse cx="200" cy="120" rx="12" ry="40" transform="rotate(240 200 200)"/>
+      <ellipse cx="200" cy="120" rx="12" ry="40" transform="rotate(270 200 200)"/>
+      <ellipse cx="200" cy="120" rx="12" ry="40" transform="rotate(300 200 200)"/>
+      <ellipse cx="200" cy="120" rx="12" ry="40" transform="rotate(330 200 200)"/>
+    </g>
+    <!-- Outer geometry -->
+    <polygon points="200,20 380,310 20,310" fill="none" stroke="#C9A96E" stroke-width="0.4"/>
+    <polygon points="200,380 380,90 20,90" fill="none" stroke="#C9A96E" stroke-width="0.4"/>
+  </svg>
+
+  <div class="hero-eyebrow">Tamil Spiritual Heritage</div>
+  <h1>History of<br><em>Siddhar Civilization</em></h1>
+  <p class="hero-sub">A civilization not written in chronicles, but encoded in awareness — preserved across millennia in the silence between words.</p>
+
+  <div class="hero-divider">
+    <div class="divider-line"></div>
+    <span class="divider-symbol">✦</span>
+    <div class="divider-line right"></div>
+  </div>
+
+  <div class="scroll-indicator">
+    <span>Explore</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- INTRO -->
+<section class="intro-band" id="history">
+  <div class="container">
+    <div class="section-label">Introduction</div>
+    <div class="intro-text">
+      <p>The Siddhar tradition is not a religion, nor a philosophy alone. It is a <strong>living science of consciousness</strong> — born from deep observation of nature, refined through inner exploration, and transmitted through an unbroken chain of masters across the ages.</p>
+      <br>
+      <p>Their history is preserved in <strong>fragments</strong>: poetic verses, encoded manuscripts, oral traditions, and lived practices. To understand Siddhar history is not to read events — it is to trace the <strong>evolution of human understanding</strong>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section class="timeline-section" id="timeline">
+  <div class="section-header">
+    <div class="eyebrow">The Unfolding Path</div>
+    <h2>Stages of the Civilization</h2>
+    <div class="ornament">✦ ✦ ✦</div>
+  </div>
+
+  <div class="timeline">
+
+    <div class="timeline-item">
+      <div class="timeline-dot"><div class="dot"></div></div>
+      <div class="timeline-content">
+        <h3>Early Phase — Observation of Nature</h3>
+        <p>The earliest Siddhars were devoted observers of the natural world. Through patient study, they uncovered hidden patterns binding all living systems.</p>
+        <ul>
+          <li>Plants, herbs, and their healing properties</li>
+          <li>Animal behavior and seasonal cycles</li>
+          <li>Celestial movements and cosmic rhythms</li>
+        </ul>
+        <p style="margin-top:1rem;">This phase laid the foundation for <strong style="color:var(--gold)">Siddha medicine</strong>, early cosmology, and environmental understanding.</p>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"><div class="dot"></div></div>
+      <div class="timeline-content">
+        <h3>The Inner Turn — From Nature to Consciousness</h3>
+        <p>At a pivotal moment, the Siddhars turned the gaze inward and posed a profound question:</p>
+        <p style="margin:0.8rem 0;font-style:italic;color:var(--gold);font-size:1.1rem;">"What is the nature of the observer itself?"</p>
+        <p>This marked the shift from outer science to the exploration of mind and consciousness — from matter to awareness itself.</p>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"><div class="dot"></div></div>
+      <div class="timeline-content">
+        <h3>Development of Consciousness Science</h3>
+        <p>The Siddhars began a systematic study of the inner world, observing that the mind is constantly moving, that identification creates illusion, and that stillness reveals clarity. This gave rise to:</p>
+        <ul>
+          <li>Advanced meditation techniques</li>
+          <li>Breath awareness (Pranayama) practices</li>
+          <li>Methods of sustained inner observation</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"><div class="dot"></div></div>
+      <div class="timeline-content">
+        <h3>The Rise of Siddhar Literature</h3>
+        <p>As discoveries deepened, the masters began recording their insights — not in plain language, but in poetry, metaphor, and symbolic expression. This ensured knowledge was preserved and protected, accessible only to sincere seekers.</p>
+        <p style="margin-top:1rem;">The works of <strong style="color:var(--gold)">Thirumoolar</strong> stand as enduring pillars of this encoded wisdom.</p>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"><div class="dot"></div></div>
+      <div class="timeline-content">
+        <h3>Integration — A Unified Science</h3>
+        <p>The Siddhar civilization never separated disciplines. Medicine, yoga, cosmology, and philosophy were woven together into one living whole. Understanding the breath influenced medicine. Understanding the body illuminated cosmology. This holistic integration remains one of their most defining contributions.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PILLARS -->
+<section class="pillars-section" id="pillars">
+  <div class="section-header">
+    <div class="eyebrow">Core Knowledge</div>
+    <h2>Four Pillars of Siddhar Wisdom</h2>
+    <div class="ornament">✦ ✦ ✦</div>
+  </div>
+
+  <div class="pillars-grid">
+    <div class="pillar-card">
+      <span class="pillar-icon">🌿</span>
+      <h3>Siddha Medicine</h3>
+      <p>A holistic healing system rooted in the deep study of nature — herbs, minerals, and the body's energy channels treated as one unified field.</p>
+    </div>
+    <div class="pillar-card">
+      <span class="pillar-icon">🧘</span>
+      <h3>Yoga &amp; Breath</h3>
+      <p>Precise techniques for mastering the body, breath, and mind — pathways to expanded states of consciousness and liberation.</p>
+    </div>
+    <div class="pillar-card">
+      <span class="pillar-icon">✨</span>
+      <h3>Cosmology</h3>
+      <p>An understanding of the universe that mirrors the inner world — the macrocosm reflected perfectly in the microcosm of the human being.</p>
+    </div>
+    <div class="pillar-card">
+      <span class="pillar-icon">📜</span>
+      <h3>Philosophy</h3>
+      <p>Non-dual inquiry into the nature of consciousness, identity, and ultimate reality — expressed through poetry, paradox, and lived wisdom.</p>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<section class="quote-section">
+  <div class="quote-mark">"</div>
+  <blockquote>
+    The history of Siddhar civilization is not a story of events. It is a story of awareness evolving through human experience.
+    <cite>— Siddhar Tradition</cite>
+  </blockquote>
+</section>
+
+<!-- MASTERS -->
+<section class="masters-section" id="masters">
+  <div class="section-header">
+    <div class="eyebrow">The Lineage Holders</div>
+    <h2>The Great Masters</h2>
+    <div class="ornament">✦ ✦ ✦</div>
+  </div>
+
+  <div class="masters-grid">
+    <div class="master-card">
+      <div class="master-name">Agastya</div>
+      <div class="master-role">Primordial Sage · Language &amp; Medicine</div>
+      <p class="master-desc">Revered as one of the earliest and most foundational sages, Agastya is credited with establishing the Tamil language, Siddha medicine, and vast bodies of spiritual knowledge. He is a transmitter and expander of primordial insight.</p>
+    </div>
+
+    <div class="master-card">
+      <div class="master-name">Thirumoolar</div>
+      <div class="master-role">Saint Poet · Consciousness Science</div>
+      <p class="master-desc">Author of the Tirumantiram, a monumental work of 3,000 verses encoding the deepest truths of yoga, tantra, and consciousness — written in metaphor to protect sacred knowledge from misuse.</p>
+    </div>
+
+    <div class="master-card">
+      <div class="master-name">Bogar</div>
+      <div class="master-role">Alchemist · Siddha Sciences</div>
+      <p class="master-desc">A master of Siddha alchemy and medicine, Bogar represents the integration of material and spiritual science. He is said to have travelled widely, synthesizing knowledge across traditions and civilizations.</p>
+    </div>
+  </div>
+</section>
+
+<!-- MODERN RELEVANCE -->
+<section class="relevance-section" id="relevance">
+  <div class="section-header">
+    <div class="eyebrow">Timeless Knowledge</div>
+    <h2>Modern Relevance</h2>
+    <div class="ornament">✦ ✦ ✦</div>
+  </div>
+
+  <div class="relevance-grid">
+    <div class="relevance-card">
+      <span class="relevance-icon">🧠</span>
+      <div>
+        <h4>Consciousness Studies</h4>
+        <p>Contemporary neuroscience and philosophy are converging on questions the Siddhars explored millennia ago — the nature of awareness, attention, and the observer.</p>
+      </div>
+    </div>
+    <div class="relevance-card">
+      <span class="relevance-icon">🌱</span>
+      <div>
+        <h4>Holistic Medicine</h4>
+        <p>Modern integrative medicine mirrors the Siddha understanding that healing must address the whole person — body, breath, mind, and spirit together.</p>
+      </div>
+    </div>
+    <div class="relevance-card">
+      <span class="relevance-icon">🔗</span>
+      <div>
+        <h4>Systems Thinking</h4>
+        <p>The Siddhar vision of interconnected systems — where nothing exists in isolation — prefigures modern ecology, complexity science, and systems biology.</p>
+      </div>
+    </div>
+    <div class="relevance-card">
+      <span class="relevance-icon">🕊️</span>
+      <div>
+        <h4>Inner Sciences</h4>
+        <p>Meditation, mindfulness, and contemplative practices — now validated by research — trace their roots to the very methods the Siddhars refined and transmitted.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LINEAGE -->
+<section class="lineage-section" id="lineage">
+  <div class="section-header">
+    <div class="eyebrow">Preservation &amp; Continuity</div>
+    <h2>The Living Lineage</h2>
+    <div class="ornament">✦ ✦ ✦</div>
+  </div>
+
+  <div class="lineage-content">
+    <p>Since the Siddhars never created institutions, their knowledge was preserved through the sacred channel of <em>Guru Parampara</em> — the unbroken lineage from teacher to student. This ensured continuity, accuracy, and most crucially, <strong>experiential transmission</strong>.</p>
+
+    <p>The civilization remained hidden from mainstream society, yet continuously active — not disappeared, but dwelling outside mass awareness, waiting for sincere seekers.</p>
+
+    <div class="lineage-highlight">Shree Easanamma Gurukulam</div>
+
+    <p>This living tradition continues today, carrying the flame of Siddhar knowledge forward — not as museum history, but as a living, breathing path of transformation open to sincere seekers.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-content">
+    <div class="footer-columns">
+      <div class="footer-column footer-brand">
+        <div class="footer-brand-title">Easanamma Gurukulam</div>
+        <p class="footer-brand-text">
+          A living space of discipline, observation, and transformation — rooted in the
+          ancient Tamil Siddhar tradition under the guidance of Shree Easanamma.
+        </p>
+        <a href="./index.html" class="footer-brand-link">easanamma.com</a>
+      </div>
+
+      <div class="footer-column">
+        <div class="footer-heading">Tradition</div>
+        <ul class="footer-link-list">
+          <li><a href="./18-siddhars.html">The 18 Siddhars</a></li>
+          <li><a href="./siddhar-civilization.html">Siddhar Civilization</a></li>
+          <li><a href="./origin_tamil_siddhars.html">Origins</a></li>
+          <li><a href="./secret-life-siddhars.html">Secret Life</a></li>
+          <li><a href="./siddhar-timeline.html">Timeline</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <div class="footer-heading">Knowledge</div>
+        <ul class="footer-link-list">
+         <li><a href="./Relevance of Siddhar Wisdom in the Modern World.html">Siddha Medicine</a></li>
+         <li><a href="./ancient_tamil_spiritual.html">Ancient Tamil Spirituality</a></li>
+         <li><a href="./meditation_siddhar.html">Meditation</a></li>
+         <li><a href="./Siddhar vs Other Spiritual Traditions.html">Siddhar vs Other Spiritual Traditions</a></li>
+         <li><a href="./Why Siddhars Are Unique.html">Why Siddhars Are Unique</a></li>
+          
+        </ul>
+      </div>
+
+      
+    </div>
+
+    <p class="footer-note">© 2026 Shree Easanamma Gurukulam. All rights reserved.</p>
+  </div>
+</footer>
+
+
+<script>
+  // Intersection Observer for scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.timeline-item, .pillar-card, .master-card, .relevance-card').forEach((el, i) => {
+    el.style.transitionDelay = `${i * 0.1}s`;
+    observer.observe(el);
+  });
+
+  // Smooth active nav highlight
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 200) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === `#${current}` ? 'var(--gold)' : '';
+    });
+  });
+</script>
+</body>
+</html>

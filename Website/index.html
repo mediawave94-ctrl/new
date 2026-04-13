@@ -1,0 +1,1848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shree Easanamma Gurukulam — Siddhar Tradition</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --gold-pale: #f5e4b0;
+    --gold-dim: #6b5520;
+    --ink: #0a0806;
+    --ink-mid: #16100a;
+    --ink-soft: #221a0f;
+    --ink-lighter: #2e2015;
+    --ash: #a89070;
+    --ash-light: #cdb898;
+    --cream: #f0e6d2;
+    --white: #faf7f0;
+    --accent-red: #8b2a1a;
+    --shadow: rgba(0,0,0,0.8);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--ink);
+    color: var(--ash-light);
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.8;
+    overflow-x: hidden;
+    cursor: crosshair;
+  }
+
+  /* ── CURSOR ── */
+  .cursor-dot {
+    width: 8px; height: 8px;
+    background: var(--gold);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9999;
+    transition: transform 0.1s;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 1;
+    opacity: 0.4;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 1000;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.5rem 4rem;
+    background: linear-gradient(to bottom, rgba(10,8,6,0.95), transparent);
+    transition: background 0.4s;
+  }
+  nav.scrolled {
+    background: rgba(10,8,6,0.98);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+  }
+  .nav-logo {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--ash); font-size: 0.75rem; display: block; letter-spacing: 0.3em; }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    color: var(--ash);
+    text-decoration: none;
+    transition: color 0.3s;
+    text-transform: uppercase;
+  }
+  .nav-links a:hover { color: var(--gold-light); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(ellipse at 60% 40%, #1a0f05 0%, var(--ink) 70%);
+  }
+
+  /* Kolam geometry background */
+  .hero-geometry {
+    position: absolute; inset: 0;
+    opacity: 0.06;
+    background-image:
+      radial-gradient(circle at 50% 50%, transparent 30px, rgba(201,168,76,0.3) 31px, transparent 32px),
+      radial-gradient(circle at 50% 50%, transparent 60px, rgba(201,168,76,0.2) 61px, transparent 62px),
+      radial-gradient(circle at 50% 50%, transparent 100px, rgba(201,168,76,0.15) 101px, transparent 102px),
+      radial-gradient(circle at 50% 50%, transparent 150px, rgba(201,168,76,0.1) 151px, transparent 152px),
+      radial-gradient(circle at 50% 50%, transparent 220px, rgba(201,168,76,0.08) 221px, transparent 222px);
+  }
+
+  /* Diagonal light beam */
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: -200px; right: -100px;
+    width: 400px; height: 120vh;
+    background: linear-gradient(180deg, rgba(201,168,76,0.04), rgba(201,168,76,0.01), transparent);
+    transform: rotate(-15deg);
+    pointer-events: none;
+  }
+
+  .hero-content {
+    text-align: center;
+    position: relative; z-index: 2;
+    padding: 2rem;
+    animation: heroReveal 2s ease forwards;
+    opacity: 0;
+  }
+  @keyframes heroReveal {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-symbol {
+    font-size: 3rem;
+    color: var(--gold);
+    margin-bottom: 2rem;
+    display: block;
+    animation: symbolPulse 4s ease-in-out infinite;
+  }
+  @keyframes symbolPulse {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; }
+  }
+
+  .hero-eyebrow {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.5em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    animation: heroReveal 2s 0.3s ease forwards;
+    opacity: 0;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    font-weight: 300;
+    line-height: 1.05;
+    color: var(--gold-pale);
+    letter-spacing: -0.01em;
+    margin-bottom: 0.5rem;
+    animation: heroReveal 2s 0.5s ease forwards;
+    opacity: 0;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold-light);
+    font-weight: 300;
+  }
+
+  .hero-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+    font-style: italic;
+    color: var(--ash);
+    margin: 1.5rem 0 3rem;
+    animation: heroReveal 2s 0.7s ease forwards;
+    opacity: 0;
+  }
+
+  .hero-divider {
+    width: 120px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 0 auto 2rem;
+    animation: heroReveal 2s 0.9s ease forwards;
+    opacity: 0;
+  }
+
+  .hero-quote {
+    font-size: 1rem;
+    font-style: italic;
+    color: var(--ash);
+    max-width: 500px;
+    margin: 0 auto 3rem;
+    animation: heroReveal 2s 1.1s ease forwards;
+    opacity: 0;
+  }
+
+  .hero-cta {
+    display: inline-block;
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-decoration: none;
+    border: 1px solid rgba(201,168,76,0.4);
+    padding: 1rem 2.5rem;
+    transition: all 0.4s;
+    animation: heroReveal 2s 1.3s ease forwards;
+    opacity: 0;
+  }
+  .hero-cta:hover {
+    background: rgba(201,168,76,0.08);
+    border-color: var(--gold);
+    letter-spacing: 0.5em;
+  }
+
+  /* Scroll indicator */
+  .scroll-indicator {
+    position: absolute;
+    bottom: 2rem; left: 50%;
+    transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center;
+    gap: 0.5rem;
+    animation: heroReveal 2s 1.6s ease forwards, scrollBounce 2s 3s ease-in-out infinite;
+    opacity: 0;
+  }
+  @keyframes scrollBounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(6px); }
+  }
+  .scroll-indicator span {
+    font-family: 'Cinzel', serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.3em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+  }
+  .scroll-line {
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, var(--gold-dim), transparent);
+  }
+
+  /* ── SECTION COMMON ── */
+  section { position: relative; z-index: 2; }
+
+  .section-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.5em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--gold-pale);
+  }
+
+  .section-divider {
+    width: 80px; height: 1px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+    margin: 1.5rem 0;
+  }
+
+  /* ── INTRO BAND ── */
+  .intro-band {
+    background: var(--ink-mid);
+    padding: 6rem 4rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+    border-top: 1px solid rgba(201,168,76,0.1);
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+  }
+
+  .intro-band .section-title { font-size: clamp(2.5rem, 4vw, 3.5rem); }
+
+  .intro-text {
+    font-size: 1.05rem;
+    line-height: 2;
+    color: var(--ash-light);
+  }
+  .intro-text p + p { margin-top: 1.5rem; }
+
+  .intro-highlight {
+    background: rgba(201,168,76,0.06);
+    border-left: 2px solid var(--gold);
+    padding: 1.5rem 2rem;
+    margin-top: 2rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-style: italic;
+    color: var(--gold-light);
+    line-height: 1.6;
+  }
+
+  /* ── THREE PILLARS ── */
+  .pillars {
+    padding: 8rem 4rem;
+    background: var(--ink);
+  }
+  .pillars-header {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 5rem;
+  }
+  .pillars-header .section-title { font-size: clamp(2.5rem, 4vw, 3.5rem); }
+  .pillars-header .section-divider { margin: 1.5rem auto; }
+
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: rgba(201,168,76,0.1);
+  }
+
+  .pillar-card {
+    background: var(--ink-mid);
+    padding: 4rem 3rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.4s;
+  }
+  .pillar-card:hover { background: var(--ink-soft); }
+  .pillar-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    transform: scaleX(0);
+    transition: transform 0.4s;
+  }
+  .pillar-card:hover::after { transform: scaleX(1); }
+
+  .pillar-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 5rem;
+    font-weight: 300;
+    color: rgba(201,168,76,0.08);
+    line-height: 1;
+    margin-bottom: 1rem;
+    position: absolute;
+    top: 1.5rem; right: 2rem;
+  }
+
+  .pillar-icon { font-size: 2rem; margin-bottom: 1.5rem; display: block; }
+  .pillar-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+  }
+  .pillar-desc {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: var(--ash);
+  }
+
+  /* ── KNOWLEDGE SECTION ── */
+  .knowledge {
+    background: linear-gradient(to bottom, var(--ink-mid), var(--ink));
+    padding: 8rem 4rem;
+  }
+
+  .knowledge-header {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 4rem;
+    margin-bottom: 5rem;
+    align-items: start;
+  }
+  .knowledge-header.centered {
+    display: block;
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+  .knowledge-header .section-title { font-size: clamp(2rem, 3.5vw, 3rem); }
+
+  .knowledge-intro {
+    font-size: 1.05rem;
+    line-height: 2;
+    color: var(--ash);
+    padding-top: 0.5rem;
+  }
+
+  .knowledge-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .knowledge-card {
+    background: rgba(201,168,76,0.03);
+    border: 1px solid rgba(201,168,76,0.12);
+    padding: 2.5rem 2rem;
+    transition: all 0.4s;
+    position: relative;
+    cursor: pointer;
+  }
+  .knowledge-card:hover {
+    border-color: rgba(201,168,76,0.35);
+    background: rgba(201,168,76,0.06);
+    transform: translateY(-4px);
+  }
+
+  .knowledge-card-num {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    color: var(--gold-dim);
+    margin-bottom: 1rem;
+  }
+  .knowledge-card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--gold-pale);
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+  }
+  .knowledge-card-desc {
+    font-size: 0.9rem;
+    color: var(--ash);
+    line-height: 1.7;
+  }
+  .knowledge-card-button {
+    display: block;
+    width: max-content;
+    margin: 1.5rem auto 0;
+    padding: 0.85rem 1.5rem;
+    border: 1px solid rgba(201,168,76,0.4);
+    color: var(--gold);
+    text-decoration: none;
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    transition: all 0.3s;
+  }
+  .knowledge-card-button:hover {
+    background: rgba(201,168,76,0.08);
+    border-color: var(--gold);
+    color: var(--gold-light);
+  }
+  .knowledge-card-arrow {
+    position: absolute;
+    bottom: 1.5rem; right: 2rem;
+    color: var(--gold-dim);
+    font-size: 1.2rem;
+    transition: all 0.3s;
+  }
+  .knowledge-card:hover .knowledge-card-arrow {
+    color: var(--gold);
+    transform: translateX(4px);
+  }
+
+  /* ── SIDDHARS SECTION ── */
+  .siddhars {
+    padding: 8rem 4rem;
+    background: var(--ink-soft);
+    position: relative;
+    overflow: hidden;
+  }
+  .siddhars::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 800px; height: 800px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.05);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+  .siddhars::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.08);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .siddhars-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative; z-index: 2;
+  }
+
+  .siddhars-header {
+    text-align: center;
+    margin-bottom: 5rem;
+  }
+  .siddhars-header .section-title { font-size: clamp(2.5rem, 4vw, 3.5rem); }
+  .siddhars-header .section-divider { margin: 1.5rem auto; }
+  .siddhars-header p {
+    max-width: 600px;
+    margin: 0 auto;
+    color: var(--ash);
+    font-style: italic;
+  }
+
+  .siddhars-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+  }
+
+  .siddhar-item {
+    padding: 2.5rem 2rem;
+    border-bottom: 1px solid rgba(201,168,76,0.08);
+    border-right: 1px solid rgba(201,168,76,0.08);
+    transition: background 0.3s;
+  }
+  .siddhar-item:hover { background: rgba(201,168,76,0.04); }
+  .siddhar-item:nth-child(3n) { border-right: none; }
+  .siddhar-item:nth-last-child(-n+3) { border-bottom: none; }
+
+  .siddhar-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--gold-light);
+    margin-bottom: 0.4rem;
+  }
+  .siddhar-domain {
+    font-size: 0.8rem;
+    color: var(--gold-dim);
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.15em;
+  }
+
+  /* ── BIG QUOTE ── */
+  .big-quote {
+    padding: 8rem 4rem;
+    background: var(--ink);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .big-quote::before {
+    content: '\201C';
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20rem;
+    color: rgba(201,168,76,0.04);
+    position: absolute;
+    top: -3rem; left: 50%;
+    transform: translateX(-50%);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .big-quote-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-style: italic;
+    font-weight: 300;
+    color: var(--gold-pale);
+    max-width: 900px;
+    margin: 0 auto 2rem;
+    line-height: 1.4;
+    position: relative; z-index: 2;
+  }
+
+  .big-quote-source {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+  }
+
+  /* ── GURUKULAM ── */
+  .gurukulam {
+    padding: 8rem 4rem;
+    background: var(--ink-mid);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8rem;
+    align-items: center;
+  }
+
+  .gurukulam .section-title { font-size: clamp(2.5rem, 4vw, 3.8rem); }
+
+  .gurukulam-text {
+    font-size: 1.05rem;
+    line-height: 2;
+    color: var(--ash-light);
+  }
+  .gurukulam-text p + p { margin-top: 1.5rem; }
+
+  .gurukulam-principles {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .principle {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    padding: 1.2rem 0;
+    border-bottom: 1px solid rgba(201,168,76,0.08);
+  }
+  .principle-num {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    min-width: 2rem;
+    padding-top: 0.2rem;
+  }
+  .principle-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    color: var(--ash-light);
+    line-height: 1.5;
+  }
+  .principle-sub {
+    font-size: 0.85rem;
+    color: var(--ash);
+    margin-top: 0.3rem;
+    font-family: 'EB Garamond', serif;
+  }
+
+  .gurukulam-visual {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .visual-frame {
+    background: rgba(201,168,76,0.04);
+    border: 1px solid rgba(201,168,76,0.15);
+    padding: 3rem;
+    position: relative;
+  }
+  .visual-frame::before {
+    content: '';
+    position: absolute;
+    top: 8px; right: 8px; bottom: 8px; left: 8px;
+    border: 1px solid rgba(201,168,76,0.06);
+    pointer-events: none;
+  }
+
+  .visual-frame-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  .mandala-svg {
+    width: 100%;
+    max-width: 280px;
+    margin: 0 auto;
+    display: block;
+    opacity: 0.6;
+    animation: mandalaSpin 40s linear infinite;
+  }
+  @keyframes mandalaSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .life-phases {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: rgba(201,168,76,0.1);
+  }
+  .phase {
+    background: var(--ink-soft);
+    padding: 1.5rem;
+  }
+  .phase-name {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .phase-desc {
+    font-size: 0.85rem;
+    color: var(--ash);
+    line-height: 1.6;
+  }
+
+  /* ── JOURNEY SECTION ── */
+  .journey {
+    padding: 8rem 4rem;
+    background: var(--ink);
+  }
+  .journey-header {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto 6rem;
+  }
+  .journey-header .section-title { font-size: clamp(2.5rem, 4vw, 3.5rem); }
+  .journey-header .section-divider { margin: 1.5rem auto; }
+
+  .journey-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .journey-steps::before {
+    content: '';
+    position: absolute;
+    left: 2.5rem;
+    top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--gold-dim), var(--gold-dim), transparent);
+  }
+
+  .step {
+    display: grid;
+    grid-template-columns: 5rem 1fr;
+    gap: 3rem;
+    padding: 3rem 0;
+    border-bottom: 1px solid rgba(201,168,76,0.06);
+    position: relative;
+  }
+  .step:last-child { border-bottom: none; }
+
+  .step-num-wrap {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    position: relative;
+  }
+  .step-num {
+    width: 5rem; height: 5rem;
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    color: var(--gold);
+    background: var(--ink);
+    flex-shrink: 0;
+    z-index: 2;
+    position: relative;
+    transition: all 0.4s;
+  }
+  .step:hover .step-num {
+    background: rgba(201,168,76,0.08);
+    border-color: var(--gold);
+  }
+
+  .step-content {}
+  .step-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: var(--gold-pale);
+    margin-bottom: 0.75rem;
+  }
+  .step-desc {
+    font-size: 0.95rem;
+    color: var(--ash);
+    line-height: 1.8;
+    max-width: 600px;
+  }
+
+  /* ── APPLY SECTION ── */
+  .apply-section {
+    padding: 8rem 4rem;
+    background: var(--ink-soft);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .apply-section::before {
+    content: 'ॐ';
+    position: absolute;
+    font-size: 40rem;
+    color: rgba(201,168,76,0.02);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    font-family: 'EB Garamond', serif;
+  }
+
+  .apply-section .section-title { font-size: clamp(2.5rem, 5vw, 4.5rem); margin-bottom: 1.5rem; }
+  .apply-section p {
+    max-width: 600px;
+    margin: 0 auto 3rem;
+    color: var(--ash);
+    font-size: 1.1rem;
+    font-style: italic;
+    line-height: 2;
+    position: relative; z-index: 2;
+  }
+
+  .apply-questions {
+    max-width: 700px;
+    margin: 0 auto 4rem;
+    text-align: left;
+    position: relative; z-index: 2;
+  }
+
+  .apply-question {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+  }
+  .apply-question-marker {
+    color: var(--gold);
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    margin-top: 0.3rem;
+    flex-shrink: 0;
+  }
+  .apply-question-text {
+    color: var(--ash-light);
+    font-size: 1rem;
+    line-height: 1.6;
+    font-style: italic;
+  }
+
+  .apply-cta-group {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    position: relative; z-index: 2;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--ink);
+    background: var(--gold);
+    text-decoration: none;
+    padding: 1.2rem 3rem;
+    transition: all 0.4s;
+  }
+  .btn-primary:hover {
+    background: var(--gold-light);
+    letter-spacing: 0.5em;
+  }
+
+  .btn-secondary {
+    display: inline-block;
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-decoration: none;
+    border: 1px solid rgba(201,168,76,0.4);
+    padding: 1.2rem 3rem;
+    transition: all 0.4s;
+  }
+  .btn-secondary:hover {
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.06);
+  }
+
+  /* ── FAQ ── */
+  .faq {
+    padding: 8rem 4rem;
+    background: var(--ink-mid);
+  }
+  .faq-inner {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .faq-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+  .faq-header .section-title { font-size: clamp(2rem, 3.5vw, 3rem); }
+  .faq-header .section-divider { margin: 1.5rem auto; }
+
+  .faq-item {
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+    overflow: hidden;
+  }
+
+  .faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 0;
+    cursor: pointer;
+    color: var(--ash-light);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    transition: color 0.3s;
+    gap: 1rem;
+  }
+  .faq-question:hover { color: var(--gold-pale); }
+
+  .faq-toggle {
+    color: var(--gold-dim);
+    font-size: 1.2rem;
+    flex-shrink: 0;
+    transition: transform 0.3s;
+    font-family: 'Cinzel', serif;
+  }
+  .faq-item.open .faq-toggle { transform: rotate(45deg); color: var(--gold); }
+
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+  .faq-item.open .faq-answer { max-height: 500px; }
+  .faq-answer-inner {
+    padding: 0 0 1.5rem;
+    font-size: 0.95rem;
+    color: var(--ash);
+    line-height: 1.9;
+    font-style: italic;
+  }
+
+  /* ── CLOSING PAGE ── */
+  .closing {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 6rem 4rem;
+    background: radial-gradient(ellipse at center, #0e0904 0%, var(--ink) 70%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .closing-geometry {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    pointer-events: none;
+  }
+
+  .closing-content { position: relative; z-index: 2; }
+
+  .closing-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 6vw, 5.5rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--gold-pale);
+    line-height: 1.2;
+    margin-bottom: 2rem;
+  }
+
+  .closing-text {
+    font-size: 1.1rem;
+    color: var(--ash);
+    max-width: 500px;
+    margin: 0 auto 1.5rem;
+    line-height: 2;
+  }
+
+  .closing-truth {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-style: italic;
+    color: var(--gold);
+    margin: 3rem 0;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--dark, #090705);
+    padding: 3rem 2rem;
+    display: grid;
+    grid-template-columns: minmax(240px, 1.5fr) repeat(3, minmax(160px, 1fr));
+    gap: 2rem;
+    align-items: start;
+  }
+
+  .footer-brand .nav-logo {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    display: block;
+    color: var(--gold, #c9a84c);
+    text-decoration: none;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .footer-brand p {
+    font-size: 0.95rem;
+    color: var(--text-light, rgba(255,255,255,0.85));
+    line-height: 1.85;
+    max-width: 280px;
+    margin-bottom: 1rem;
+  }
+
+  .footer-col-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.32em;
+    color: var(--gold, #c9a84c);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    opacity: 0.85;
+  }
+
+  .footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.85rem;
+  }
+  .footer-links a {
+    font-size: 0.95rem;
+    color: var(--text-light, rgba(255,255,255,0.85));
+    text-decoration: none;
+    transition: color 0.25s ease;
+    line-height: 1.7;
+  }
+  .footer-links a:hover { color: var(--gold, #c9a84c); }
+
+  .footer-note {
+    margin-top: 2.5rem;
+    font-size: 0.78rem;
+    color: var(--text-light, rgba(255,255,255,0.72));
+    letter-spacing: 0.16em;
+    opacity: 0.85;
+    text-align: center;
+    grid-column: 1 / -1;
+  }
+
+  /* ── SCROLL ANIMATIONS ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1.2rem 2rem; }
+    .nav-links { gap: 1.5rem; }
+    .intro-band, .gurukulam { grid-template-columns: 1fr; gap: 3rem; padding: 4rem 2rem; }
+    .pillars { padding: 5rem 2rem; }
+    .pillars-grid { grid-template-columns: 1fr; }
+    .knowledge { padding: 5rem 2rem; }
+    .knowledge-header { grid-template-columns: 1fr; gap: 2rem; }
+    .knowledge-grid { grid-template-columns: 1fr; }
+    .siddhars { padding: 5rem 2rem; }
+    .siddhars-list { grid-template-columns: 1fr 1fr; }
+    .big-quote { padding: 5rem 2rem; }
+    .journey { padding: 5rem 2rem; }
+    .apply-section { padding: 5rem 2rem; }
+    .faq { padding: 5rem 2rem; }
+    footer { grid-template-columns: 1fr 1fr; padding: 3rem 2rem; }
+  }
+
+  @media (max-width: 600px) {
+    .nav-links { display: none; }
+    .siddhars-list { grid-template-columns: 1fr; }
+    .hero-title { font-size: 3rem; }
+    .journey-steps::before { display: none; }
+    .step { grid-template-columns: 1fr; gap: 1rem; }
+    .step-num-wrap { justify-content: flex-start; }
+    footer { grid-template-columns: 1fr; }
+  }
+
+  /* Gold shimmer on hover elements */
+  @keyframes shimmer {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor-dot" id="cursor"></div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="./index.html" class="nav-logo">
+    Easanamma
+    <span>Gurukulam</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#tradition">Tradition</a></li>
+    <li><a href="#knowledge">Knowledge</a></li>
+    <li><a href="#siddhars">Siddhars</a></li>
+    <li><a href="#gurukulam">Gurukulam</a></li>
+    <li><a href="#apply">Request Visit</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-geometry"></div>
+  <div class="hero-content">
+    <span class="hero-symbol">𑁍</span>
+    <p class="hero-eyebrow">Shree Easanamma Gurukulam</p>
+    <h1 class="hero-title">
+      The Ancient<br><em>Siddhar</em><br>Tradition
+    </h1>
+    <p class="hero-subtitle">A Living Science of Consciousness & Transformation</p>
+    <div class="hero-divider"></div>
+    <p class="hero-quote">
+      "Truth is not taught. It is seen — when distortion ends."
+    </p>
+    <a href="#tradition" class="hero-cta">Enter the Path</a>
+  </div>
+  <div class="scroll-indicator">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- INTRO BAND -->
+<section class="intro-band" id="tradition">
+  <div>
+    <p class="section-label reveal">The Siddhar Way</p>
+    <h2 class="section-title reveal reveal-delay-1">
+      A Civilization<br>Hidden<br>in Silence
+    </h2>
+    <div class="section-divider reveal reveal-delay-2"></div>
+  </div>
+  <div class="reveal reveal-delay-2">
+    <div class="intro-text">
+      <p>
+        The Tamil Siddhar tradition stands as one of the most profound and least understood knowledge systems in human history. Emerging from the ancient Tamil landscape, this tradition represents a unique synthesis of spirituality, science, medicine, and direct experiential inquiry into the nature of existence.
+      </p>
+      <p>
+        Unlike many philosophical or religious systems that rely heavily on belief, ritual, or doctrine, the Siddhar tradition is rooted in observation, experimentation, and inner transformation. The Siddhars were not merely thinkers or teachers — they were explorers of consciousness who dedicated their lives to understanding reality at its deepest level.
+      </p>
+    </div>
+    <blockquote class="intro-highlight">
+      "The Siddhars did not create followers. They created seekers."
+    </blockquote>
+  </div>
+</section>
+
+<!-- THREE PILLARS -->
+<section class="pillars">
+  <div class="pillars-header">
+    <p class="section-label reveal">What This Tradition Offers</p>
+    <h2 class="section-title reveal reveal-delay-1">Three Dimensions<br>of Understanding</h2>
+    <div class="section-divider reveal reveal-delay-2"></div>
+    <p class="reveal reveal-delay-3" style="color: var(--ash); font-style: italic;">
+      The Siddhars approached life as a unified field — body, consciousness, and cosmos are not separate.
+    </p>
+  </div>
+  <div class="pillars-grid">
+    <div class="pillar-card reveal">
+      <div class="pillar-number">01</div>
+      <span class="pillar-icon">🜁</span>
+      <div class="pillar-title">Siddhar Civilization</div>
+      <p class="pillar-desc">Tracing the origins, timeline, and cultural roots of the Tamil Siddhar tradition — a movement not of religion, but of pure inquiry.</p>
+    </div>
+    <div class="pillar-card reveal reveal-delay-2">
+      <div class="pillar-number">02</div>
+      <span class="pillar-icon">🜃</span>
+      <div class="pillar-title">Consciousness Science</div>
+      <p class="pillar-desc">The Siddhars mapped the mind with extraordinary precision — layers of awareness, thought dynamics, meditation, silence, and liberation.</p>
+    </div>
+    <div class="pillar-card reveal reveal-delay-3">
+      <div class="pillar-number">03</div>
+      <span class="pillar-icon">🜂</span>
+      <div class="pillar-title">Siddhar Science</div>
+      <p class="pillar-desc">From Siddha medicine to Kundalini, Nadis, Yoga, the human body, prana, and cosmic understanding — a holistic science of existence.</p>
+    </div>
+  </div>
+</section>
+
+<!-- KNOWLEDGE -->
+<section class="knowledge" id="knowledge">
+  <div class="knowledge-header ">
+    <div>
+      <p class="section-label reveal">Deep Study</p>
+      <h2 class="section-title reveal reveal-delay-1">The Knowledge<br>System</h2>
+      <div class="section-divider reveal reveal-delay-2"></div>
+    </div>
+    <p class="knowledge-intro reveal reveal-delay-2">
+      The Siddhar tradition offers a comprehensive framework for understanding life — not as abstract philosophy, but as direct, lived investigation. Each domain interconnects with the others in a unified view of existence.
+    </p>
+  </div>
+  <h1 class="section-title  reveal reveal-delay-1" style="text-align: center;">SIDDHAR TRADITION</h1>
+  
+  <div class="knowledge-grid">
+    <div class="knowledge-card reveal">
+      <!-- 3 -->
+      <div class="knowledge-card-num">01 </div>
+      <div class="knowledge-card-title">Meditation in the Siddhar Tradition</div>
+      <p class="knowledge-card-desc">Not a by-product of the brain — consciousness is the field in which all existence appears.</p>
+      <a href="meditation_siddhar.html" class="knowledge-card-button">Read more</a>
+      <span class="knowledge-card-arrow">→</span>
+    </div>
+    <div class="knowledge-card reveal reveal-delay-1">
+      <!-- 4 -->
+      <div class="knowledge-card-num">02</div>
+      <div class="knowledge-card-title">The Origin of the tamil Siddhar</div>
+      <p class="knowledge-card-desc">The surface mind, memory, subconscious patterns, reactive mind, and the silent observer within.</p>
+      <a href="origin_tamil_siddhars.html" class="knowledge-card-button">Read more</a>
+      <span class="knowledge-card-arrow">→</span>
+    </div>
+    <div class="knowledge-card reveal reveal-delay-2">
+      <div class="knowledge-card-num">03</div>
+      <!-- 1 -->
+      <div class="knowledge-card-title">18 siddhars</div> 
+      <p class="knowledge-card-desc">Not a technique. Not relaxation. A natural state of deep observation that emerges when interference stops.</p>
+      <a href="18-siddhars.html" class="knowledge-card-button">Read more</a>
+      <span class="knowledge-card-arrow">→</span>
+    </div>
+    <div class="knowledge-card reveal reveal-delay-1">
+      <!-- 8 -->
+      <div class="knowledge-card-num">04 </div>
+      <div class="knowledge-card-title">Siddhar Civilization</div>
+      <p class="knowledge-card-desc">Not a distant event. A state of clarity in which illusion no longer binds perception.</p>
+      <a href="siddhar-civilization.html" class="knowledge-card-button">Read more</a>
+      <span class="knowledge-card-arrow">→</span>
+    </div>
+    <div class="knowledge-card reveal reveal-delay-2">
+      <!-- 9 -->
+      <div class="knowledge-card-num">05</div>
+      <div class="knowledge-card-title">Siddhar Timeline</div>
+      <p class="knowledge-card-desc">A living microcosm of the universe — a field of intelligence, energy, and awareness.</p>
+      <a href="siddhar-timeline.html" class="knowledge-card-button">Read more</a>
+      <span class="knowledge-card-arrow">→</span>
+    </div>
+    <div class="knowledge-card reveal reveal-delay-3">
+      <!-- 2 -->
+      <div class="knowledge-card-num">06</div>
+      <div class="knowledge-card-title">Ancient Tamil Spiritual Knowledge</div>
+      <p class="knowledge-card-desc">The bridge between body, mind, and life-force — observed, not controlled.</p>
+      <a href="ancient_tamil_spiritual.html" class="knowledge-card-button">Read more</a>
+      <span class="knowledge-card-arrow">→</span>
+    </div>
+    <div class="knowledge-card reveal">
+      <!-- 5 -->
+      <div class="knowledge-card-num">07 Relevance of siddhars wisdom</div>
+      <div class="knowledge-card-title">Foundations of Siddha Medicine</div>
+      <p class="knowledge-card-desc">One of the oldest healing systems — prevention, balance, and harmony over symptom suppression.</p>
+       <a href="Relevance of Siddhar Wisdom in the Modern World.html" class="knowledge-card-button">Read more</a>
+      <span class="knowledge-card-arrow">→</span>
+    </div>
+    <div class="knowledge-card reveal reveal-delay-1">
+      <!-- 6 -->
+      <div class="knowledge-card-num">08</div>
+      <div class="knowledge-card-title">The Secret Life of Siddhars</div>
+      <p class="knowledge-card-desc">Not mystical awakening to chase — a natural alignment that happens when the system becomes clear.</p>
+      <a href="secret-life-siddhars.html" class="knowledge-card-button">Read more</a>
+      <span class="knowledge-card-arrow">→</span>
+    </div>
+    <div class="knowledge-card reveal reveal-delay-2">
+      <!-- 10 -->
+      <div class="knowledge-card-num">09</div>
+      <div class="knowledge-card-title">Why Siddhars Are Unique</div>
+      <p class="knowledge-card-desc">A living, dynamic system of intelligence — everything interconnected, nothing separate.</p>
+      <a href="Why Siddhars Are Unique.html" class="knowledge-card-button">Read more</a>
+      <span class="knowledge-card-arrow">→</span>
+    </div>
+    <div class="knowledge-card reveal reveal-delay-2">
+      <!-- 7 -->
+      <div class="knowledge-card-num">10</div>
+      <div class="knowledge-card-title">Siddhar vs Other Spiritual Traditions</div>
+      <p class="knowledge-card-desc">A living, dynamic system of intelligence — everything interconnected, nothing separate.</p>
+      <a href="Siddhar vs Other Spiritual Traditions.html" class="knowledge-card-button">Read more</a>
+      <span class="knowledge-card-arrow">→</span>
+    </div>
+  </div>
+
+ <div class="knowledge-header centered">
+   
+     <h5 class="section-title reveal reveal-delay-1">SIDDHAR CONSCIOUSNESS SCIENCE</h5>
+  </div>
+
+  <div class="knowledge-grid">
+   
+    <div class="knowledge-card reveal reveal-delay-2">
+      <!-- 1 -->
+      <div class="knowledge-card-num">1</div>
+      <div class="knowledge-card-title">Chitta Vritti Nirodha</div>
+      <p class="knowledge-card-desc">The practice of stilling the fluctuations of the mind to achieve clarity and awareness.</p>
+      <a href="./pillar2/chitta_vritti_nirodha.html" class="knowledge-card-button">Read more</a>
+      <span class="knowledge-card-arrow">→</span>
+    </div>
+    <div class="knowledge-card reveal reveal-delay-2">
+      <!-- 2 -->
+      <div class="knowledge-card-num">2</div>
+      <div class="knowledge-card-title">Consciousness of the Siddhar</div>
+      <p class="knowledge-card-desc">Understanding the nature of consciousness and its role in the spiritual journey of the Siddhar.</p>
+      <a href="./pillar2/consciousness_siddhar.html" class="knowledge-card-button">Read more</a>
+      <span class="knowledge-card-arrow">→</span>
+    </div>
+    <div class="knowledge-card reveal reveal-delay-2">
+      <!-- 3 -->
+      <div class="knowledge-card-num">3</div>
+      <div class="knowledge-card-title">Inner Observation and the Sacred</div>
+      <p class="knowledge-card-desc">Exploring the practice of observing one's inner world with reverence and awareness.</p>
+      <a href="./pillar2/inner_observation_sacred.html" class="knowledge-card-button">Read more</a>
+      <span class="knowledge-card-arrow">→</span>
+    </div>
+    <div class="knowledge-card reveal reveal-delay-2">
+      <!-- 4 -->
+      <div class="knowledge-card-num">4</div>
+      <div class="knowledge-card-title">Layers of the Mind in Siddhar Thought</div>
+      <p class="knowledge-card-desc">Examining the different levels of mental activity and their significance in the spiritual development of the Siddhar.</p>
+      <a href="./pillar2/layers_of_mind_siddhar.html" class="knowledge-card-button">Read more</a>
+      <span class="knowledge-card-arrow">→</span>
+    </div>
+    <div class="knowledge-card reveal reveal-delay-2">
+      <!-- 5 -->
+      <div class="knowledge-card-num">5</div>
+      <div class="knowledge-card-title">Meditation in Siddhar Tradition</div>
+      <p class="knowledge-card-desc">Exploring the various forms of meditation practiced by the Siddhars and their role in achieving spiritual realization.</p>
+      <a href="./pillar2/meditation_siddhar.html" class="knowledge-card-button">Read more</a>
+      <span class="knowledge-card-arrow">→</span>
+    </div>
+    <div class="knowledge-card reveal reveal-delay-2">
+      <!-- 6 -->
+      <div class="knowledge-card-num">6</div>
+      <div class="knowledge-card-title">Silence as a Practice in Siddhar Tradition</div>
+      <p class="knowledge-card-desc">Understanding the significance of silence in the spiritual practice of the Siddhars.</p>
+      <a href="./pillar2/silence_as_practice.html" class="knowledge-card-button">Read more</a>
+      <span class="knowledge-card-arrow">→</span>
+    </div>
+    <div class="knowledge-card reveal reveal-delay-2">
+      <!-- 7 -->
+      <div class="knowledge-card-num">7</div>
+      <div class="knowledge-card-title">Thought and Awareness in Siddhar Tradition</div>
+      <p class="knowledge-card-desc">Examining the relationship between thought and awareness in the spiritual framework of the Siddhars.</p>
+      <a href="./pillar2/thought_and_awareness.html" class="knowledge-card-button">Read more</a>
+      <span class="knowledge-card-arrow">→</span>
+    </div>
+    <div class="knowledge-card reveal reveal-delay-2">
+      <!-- 8 -->
+      <div class="knowledge-card-num">3</div>
+      <div class="knowledge-card-title"><div>
+      <p class="knowledge-card-desc"></p>
+      <a href="./pillar2/" class="knowledge-card-button">Read more</a>
+      <span class="knowledge-card-arrow">→</span>
+    </div>
+    <div class="knowledge-card reveal reveal-delay-2">
+      <!-- 9 -->
+      <div class="knowledge-card-num">3</div>
+      <div class="knowledge-card-title"><div>
+      <p class="knowledge-card-desc"></p>
+      <a href="./pillar2/" class="knowledge-card-button">Read more</a>
+      <span class="knowledge-card-arrow">→</span>
+    </div>
+    <div class="knowledge-card reveal reveal-delay-2">
+      <!-- 10 -->
+      <div class="knowledge-card-num">3</div>
+      <div class="knowledge-card-title"><div>
+      <p class="knowledge-card-desc"></p>
+      <a href="./pillar2/" class="knowledge-card-button">Read more</a>
+      <span class="knowledge-card-arrow">→</span>
+    </div>
+
+  </div>
+
+
+</section>
+
+<!-- 18 SIDDHARS -->
+<section class="siddhars" id="siddhars">
+  <div class="siddhars-inner">
+    <div class="siddhars-header">
+      <p class="section-label reveal">The Tradition</p>
+      <h2 class="section-title reveal reveal-delay-1">The Eighteen<br>Siddhars</h2>
+      <div class="section-divider reveal reveal-delay-2"></div>
+      <p class="reveal reveal-delay-3">
+        Not merely historical figures — they represent stages of realization, streams of knowledge, and dimensions of discovery within the Siddhar civilization.
+      </p>
+    </div>
+    <div class="siddhars-list reveal">
+      <div class="siddhar-item">
+        <div class="siddhar-name">Agastya</div>
+        <div class="siddhar-domain">Medicine · Language · Foundation</div>
+      </div>
+      <div class="siddhar-item">
+        <div class="siddhar-name">Bogar</div>
+        <div class="siddhar-domain">Alchemy · Metallurgy · Yogic Exploration</div>
+      </div>
+      <div class="siddhar-item">
+        <div class="siddhar-name">Thirumoolar</div>
+        <div class="siddhar-domain">Philosophy · Yoga · Thirumandiram</div>
+      </div>
+      <div class="siddhar-item">
+        <div class="siddhar-name">Konganar</div>
+        <div class="siddhar-domain">Inner Science · Transformation</div>
+      </div>
+      <div class="siddhar-item">
+        <div class="siddhar-name">Karuvoorar</div>
+        <div class="siddhar-domain">Consciousness · Subtle Body</div>
+      </div>
+      <div class="siddhar-item">
+        <div class="siddhar-name">Sattaimuni</div>
+        <div class="siddhar-domain">Awareness · Discipline</div>
+      </div>
+      <div class="siddhar-item">
+        <div class="siddhar-name">Sundaranandar</div>
+        <div class="siddhar-domain">Devotion · Inquiry</div>
+      </div>
+      <div class="siddhar-item">
+        <div class="siddhar-name">Ramadevar</div>
+        <div class="siddhar-domain">Breath Science · Integration</div>
+      </div>
+      <div class="siddhar-item">
+        <div class="siddhar-name">Machamuni</div>
+        <div class="siddhar-domain">Yogic Mastery · Observation</div>
+      </div>
+      <div class="siddhar-item">
+        <div class="siddhar-name">Korakkar</div>
+        <div class="siddhar-domain">Alchemy · Natural Sciences</div>
+      </div>
+      <div class="siddhar-item">
+        <div class="siddhar-name">Pambatti Siddhar</div>
+        <div class="siddhar-domain">Symbolic Knowledge · Poetic Encoding</div>
+      </div>
+      <div class="siddhar-item">
+        <div class="siddhar-name">Dhanvantari</div>
+        <div class="siddhar-domain">Medicine · Healing Systems</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BIG QUOTE -->
+<section class="big-quote">
+  <p class="big-quote-text reveal">
+    "The human body is a miniature version of the universe. Understanding oneself leads to understanding the cosmos."
+  </p>
+  <div class="section-divider reveal" style="margin: 1.5rem auto;"></div>
+  <p class="big-quote-source reveal reveal-delay-1">— Tamil Siddhar Teaching</p>
+</section>
+
+<!-- GURUKULAM -->
+<section class="gurukulam" id="gurukulam">
+  <div>
+    <p class="section-label reveal">The Living Space</p>
+    <h2 class="section-title reveal reveal-delay-1">
+      Shree<br><em style="color: var(--gold-light);">Easanamma</em><br>Gurukulam
+    </h2>
+    <div class="section-divider reveal reveal-delay-2"></div>
+    <div class="gurukulam-text reveal reveal-delay-2">
+      <p>
+        A Gurukulam is not an institution. It is a living environment where the Siddhar teachings are not merely explained — they are lived, under the living guidance of <strong style="color: var(--gold-light);">Shree Easanamma</strong>.
+      </p>
+      <p>
+        Here, every action is part of the path. Every moment is an opportunity for observation. Life itself becomes the teaching.
+      </p>
+    </div>
+    <div class="gurukulam-principles reveal reveal-delay-3">
+      <div class="principle">
+        <span class="principle-num">I</span>
+        <div>
+          <div class="principle-text">Observation Over Belief</div>
+          <div class="principle-sub">Truth is experienced directly, not accepted on faith</div>
+        </div>
+      </div>
+      <div class="principle">
+        <span class="principle-num">II</span>
+        <div>
+          <div class="principle-text">Discipline as Structure</div>
+          <div class="principle-sub">Not restriction — the framework through which clarity emerges</div>
+        </div>
+      </div>
+      <div class="principle">
+        <span class="principle-num">III</span>
+        <div>
+          <div class="principle-text">Silence as Method</div>
+          <div class="principle-sub">Inner silence reveals what noise conceals</div>
+        </div>
+      </div>
+      <div class="principle">
+        <span class="principle-num">IV</span>
+        <div>
+          <div class="principle-text">Living Transmission</div>
+          <div class="principle-sub">Knowledge passed through direct experience, not text alone</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="gurukulam-visual reveal reveal-delay-2">
+    <div class="visual-frame">
+      <div class="visual-frame-title">The Sacred Geometry</div>
+      <svg class="mandala-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <g fill="none" stroke="#c9a84c" stroke-width="0.5">
+          <circle cx="100" cy="100" r="90"/>
+          <circle cx="100" cy="100" r="70"/>
+          <circle cx="100" cy="100" r="50"/>
+          <circle cx="100" cy="100" r="30"/>
+          <circle cx="100" cy="100" r="10"/>
+          <line x1="100" y1="10" x2="100" y2="190"/>
+          <line x1="10" y1="100" x2="190" y2="100"/>
+          <line x1="27" y1="27" x2="173" y2="173"/>
+          <line x1="173" y1="27" x2="27" y2="173"/>
+          <polygon points="100,20 176,150 24,150" stroke-width="0.4"/>
+          <polygon points="100,180 24,50 176,50" stroke-width="0.4"/>
+          <!-- Petal shapes -->
+          <path d="M100,30 Q130,65 100,100 Q70,65 100,30" stroke-width="0.4"/>
+          <path d="M170,100 Q135,130 100,100 Q135,70 170,100" stroke-width="0.4"/>
+          <path d="M100,170 Q70,135 100,100 Q130,135 100,170" stroke-width="0.4"/>
+          <path d="M30,100 Q65,70 100,100 Q65,130 30,100" stroke-width="0.4"/>
+          <!-- Diagonal petals -->
+          <path d="M149,51 Q130,80 100,100 Q115,70 149,51" stroke-width="0.3"/>
+          <path d="M149,149 Q120,130 100,100 Q130,115 149,149" stroke-width="0.3"/>
+          <path d="M51,149 Q70,120 100,100 Q85,130 51,149" stroke-width="0.3"/>
+          <path d="M51,51 Q80,70 100,100 Q70,85 51,51" stroke-width="0.3"/>
+        </g>
+        <circle cx="100" cy="100" r="4" fill="#c9a84c" opacity="0.8"/>
+        <circle cx="100" cy="100" r="2" fill="#f5e4b0"/>
+      </svg>
+    </div>
+    <div class="life-phases">
+      <div class="phase">
+        <div class="phase-name">Daily Life</div>
+        <div class="phase-desc">Simple, disciplined, observed — every action part of the path</div>
+      </div>
+      <div class="phase">
+        <div class="phase-name">Silence</div>
+        <div class="phase-desc">Structured inner and outer silence for deep perception</div>
+      </div>
+      <div class="phase">
+        <div class="phase-name">Observation</div>
+        <div class="phase-desc">Continuous self-inquiry without judgment or interference</div>
+      </div>
+      <div class="phase">
+        <div class="phase-name">Guidance</div>
+        <div class="phase-desc">Living correction from Shree Easanamma — clarity over belief</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE SEEKER'S JOURNEY -->
+<section class="journey">
+  <div class="journey-header">
+    <p class="section-label reveal">The Seeker's Path</p>
+    <h2 class="section-title reveal reveal-delay-1">How the Journey<br>Unfolds</h2>
+    <div class="section-divider reveal reveal-delay-2"></div>
+  </div>
+  <div class="journey-steps">
+    <div class="step reveal">
+      <div class="step-num-wrap">
+        <div class="step-num">I</div>
+      </div>
+      <div class="step-content">
+        <div class="step-title">The Inner Question Arises</div>
+        <p class="step-desc">Not intellectual curiosity — an existential pull. "Who am I? What is the nature of life? Why is there conflict within?" This question does not leave you.</p>
+      </div>
+    </div>
+    <div class="step reveal">
+      <div class="step-num-wrap">
+        <div class="step-num">II</div>
+      </div>
+      <div class="step-content">
+        <div class="step-title">The Beginning of Observation</div>
+        <p class="step-desc">The journey starts simply — sitting quietly, watching breath, noticing thoughts. No techniques. No complexity. Just honest observation without interference.</p>
+      </div>
+    </div>
+    <div class="step reveal">
+      <div class="step-num-wrap">
+        <div class="step-num">III</div>
+      </div>
+      <div class="step-content">
+        <div class="step-title">Challenges and Clarity</div>
+        <p class="step-desc">The mind resists. Restlessness. Doubt. Expectation. These are not obstacles — they are part of the process. Each challenge seen clearly becomes a doorway.</p>
+      </div>
+    </div>
+    <div class="step reveal">
+      <div class="step-num-wrap">
+        <div class="step-num">IV</div>
+      </div>
+      <div class="step-content">
+        <div class="step-title">Seeking the Right Environment</div>
+        <p class="step-desc">A seeker eventually recognizes that depth requires structure — a living space where discipline, silence, and guidance hold the container for transformation.</p>
+      </div>
+    </div>
+    <div class="step reveal">
+      <div class="step-num-wrap">
+        <div class="step-num">V</div>
+      </div>
+      <div class="step-content">
+        <div class="step-title">Living the Path</div>
+        <p class="step-desc">At the Gurukulam, life itself becomes the teaching. There is no separation between practice and existence. Clarity deepens. The seeking begins to dissolve into seeing.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APPLY -->
+<section class="apply-section" id="apply">
+  <p class="section-label reveal">A Moment of Clarity</p>
+  <h2 class="section-title reveal reveal-delay-1">
+    You Reached Here<br><em>Without Intention</em>
+  </h2>
+  <p class="reveal reveal-delay-2">
+    The Gurukulam is not open for casual visits. It is a living space of discipline and observation. Before you proceed, take a moment with these questions.
+  </p>
+
+  <div class="apply-questions reveal reveal-delay-2">
+    <div class="apply-question">
+      <span class="apply-question-marker">—</span>
+      <span class="apply-question-text">Are you willing to observe yourself honestly, including what is uncomfortable?</span>
+    </div>
+    <div class="apply-question">
+      <span class="apply-question-marker">—</span>
+      <span class="apply-question-text">Are you open to discipline and structure, not as restriction, but as support?</span>
+    </div>
+    <div class="apply-question">
+      <span class="apply-question-marker">—</span>
+      <span class="apply-question-text">Are you seeking clarity — not mystical experience, validation, or comfort?</span>
+    </div>
+    <div class="apply-question">
+      <span class="apply-question-marker">—</span>
+      <span class="apply-question-text">If these questions create hesitation — it is better to wait. Nothing is lost.</span>
+    </div>
+  </div>
+
+  <div class="apply-cta-group reveal reveal-delay-3">
+    <a href="mailto:info@easanamma.org" class="btn-primary">Request a Visit</a>
+    <a href="mailto:info@easanamma.org" class="btn-secondary">Contact the Gurukulam</a>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <div class="faq-inner">
+    <div class="faq-header">
+      <p class="section-label reveal">Clarity</p>
+      <h2 class="section-title reveal reveal-delay-1">Frequently<br>Asked Questions</h2>
+      <div class="section-divider reveal reveal-delay-2"></div>
+    </div>
+    <div class="faq-list reveal">
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFAQ(this)">
+          <span>Is the Siddhar tradition a religion?</span>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">No. It is not based on belief or worship. It functions more like a science of life — rooted in direct observation, experimentation, and inner transformation. It does not demand belief, promote blind faith, or rely on ritual as an end.</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFAQ(this)">
+          <span>Who is Shree Easanamma?</span>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Shree Easanamma is a living guide within the Siddhar lineage (Guru Parampara). She represents the continuation of this tradition as a lived discipline — not as theoretical teaching, but as direct guidance toward clarity and self-understanding.</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFAQ(this)">
+          <span>Can anyone visit the Gurukulam?</span>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Not everyone. The Gurukulam is a living space of discipline, not a public retreat or spiritual center. Visits are considered for those with a genuine inner question, willingness to observe, and openness to structured living. Eligibility is not based on background or education — it is based on sincerity.</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFAQ(this)">
+          <span>Is prior meditation experience required?</span>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">No prior experience is required. But sincerity and openness are essential. The Siddhar path begins with simple, honest observation — not with technique mastery.</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFAQ(this)">
+          <span>How is this different from other spiritual paths?</span>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">The Siddhar tradition emphasizes direct observation over belief, integrates multiple disciplines (medicine, yoga, consciousness, cosmology), and avoids dogma. It does not seek mass participation. Life itself is the practice — there is no separation between the path and daily living.</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFAQ(this)">
+          <span>What does a typical day at the Gurukulam look like?</span>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Life is simple and structured — early waking, silent observation, disciplined activity, simple food, minimal distractions. Every action is part of the path. There is no separation between practice and life. The environment supports consistent, deep observation.</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFAQ(this)">
+          <span>How do I know if I am ready?</span>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">If the question does not leave you — you may be ready. The Gurukulam does not select people. It becomes available when the seeker is ready. If something within does not allow you to ignore this path, that itself is an indication.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<section class="closing">
+  <div class="closing-geometry">
+    <svg width="600" height="600" viewBox="0 0 600 600" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity:0.04">
+      <circle cx="300" cy="300" r="290" stroke="#c9a84c"/>
+      <circle cx="300" cy="300" r="220" stroke="#c9a84c"/>
+      <circle cx="300" cy="300" r="150" stroke="#c9a84c"/>
+      <circle cx="300" cy="300" r="80" stroke="#c9a84c"/>
+      <line x1="10" y1="300" x2="590" y2="300" stroke="#c9a84c"/>
+      <line x1="300" y1="10" x2="300" y2="590" stroke="#c9a84c"/>
+      <line x1="95" y1="95" x2="505" y2="505" stroke="#c9a84c"/>
+      <line x1="505" y1="95" x2="95" y2="505" stroke="#c9a84c"/>
+    </svg>
+  </div>
+  <div class="closing-content">
+    <p class="section-label reveal">The Final Word</p>
+    <h2 class="closing-title reveal reveal-delay-1">
+      The Siddhar path<br>does not call people.
+    </h2>
+    <p class="closing-text reveal reveal-delay-2">
+      It remains. Quietly. Persistently.
+    </p>
+    <p class="closing-text reveal reveal-delay-2">
+      If nothing in you responds, you may leave. Nothing is lost.
+    </p>
+    <div class="closing-truth reveal reveal-delay-3">
+      "If something does not allow you to leave — you already know what to do."
+    </div>
+    <div class="reveal reveal-delay-3" style="margin-top: 3rem;">
+      <a href="mailto:info@easanamma.org" class="btn-primary">Proceed to Request</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">
+    <a href="index.html" class="nav-logo">Easanamma Gurukulam</a>
+    <p>A living space of discipline, observation, and transformation — rooted in the ancient Tamil Siddhar tradition under the guidance of Shree Easanamma.</p>
+    <p style="font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 0.2em; color: var(--gold-dim);">easanamma.com</p>
+  </div>
+  <div>
+    <div class="footer-col-title">Tradition</div>
+    <ul class="footer-links">
+      <li><a href="#">Siddhar Civilization</a></li>
+      <li><a href="#">The 18 Siddhars</a></li>
+      <li><a href="#">Origins</a></li>
+      <li><a href="#">Secret Life</a></li>
+      <li><a href="#">Timeline</a></li>
+    </ul>
+  </div>
+  <div>
+    <div class="footer-col-title">Knowledge</div>
+    <ul class="footer-links">
+      <li><a href="#">Consciousness</a></li>
+      <li><a href="#">Meditation</a></li>
+      <li><a href="#">Siddha Medicine</a></li>
+      <li><a href="#">Kundalini</a></li>
+      <li><a href="#">Cosmology</a></li>
+    </ul>
+  </div>
+  <div>
+    <div class="footer-col-title">Gurukulam</div>
+    <ul class="footer-links">
+      <li><a href="#">About Shree Easanamma</a></li>
+      <li><a href="#">The Guru-Disciple Path</a></li>
+      <li><a href="#">Who Should Come</a></li>
+      <li><a href="#">Request a Visit</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </div>
+  <p class="footer-note">© Shree Easanamma Gurukulam — A True Gurukulam Does Not Call People</p>
+  <p class="footer-note">easanamma.com</p>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX - 4 + 'px';
+    cursor.style.top = e.clientY - 4 + 'px';
+  });
+
+  // Nav scroll
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+  reveals.forEach(el => observer.observe(el));
+
+  // FAQ toggle
+  function toggleFAQ(el) {
+    const item = el.parentElement;
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!wasOpen) item.classList.add('open');
+  }
+</script>
+</body>
+</html>

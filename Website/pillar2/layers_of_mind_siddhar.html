@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Layers of the Mind — Siddhar Science</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Crimson+Pro:ital,wght@0,200;0,300;0,400;1,200;1,300;1,400&family=Tenor+Sans&display=swap" rel="stylesheet">
+<style>
+
+/* ─── RESET ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ─── DESIGN TOKENS ─── */
+:root {
+  --void:      #080707;
+  --deep:      #0f0d0b;
+  --well:      #161310;
+  --cave:      #1e1915;
+  --stone:     #28221b;
+  --dust:      #3a3028;
+  --ash:       #5c5044;
+  --fog:       #8a7a68;
+  --parch:     #b8a890;
+  --bone:      #d4c8b8;
+  --linen:     #ede5d8;
+
+  --ember:     #c17a3a;
+  --ember2:    #d9943f;
+  --gold:      #c4a052;
+  --gold2:     #dabb72;
+  --moss:      #5a7050;
+  --teal:      #3a6a62;
+
+  --line:      rgba(196,160,82,0.10);
+  --line2:     rgba(196,160,82,0.20);
+  --line3:     rgba(196,160,82,0.35);
+}
+
+html { scroll-behavior: smooth; font-size: 17px; }
+
+body {
+  background: var(--void);
+  color: var(--bone);
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-weight: 300;
+  line-height: 1.88;
+  overflow-x: hidden;
+}
+
+::selection { background: var(--ember); color: var(--void); }
+::-webkit-scrollbar { width: 2px; }
+::-webkit-scrollbar-track { background: var(--deep); }
+::-webkit-scrollbar-thumb { background: var(--dust); }
+
+/* ═══════════════════════════════════════
+   REVEAL SYSTEM — text only, zero bg motion
+═══════════════════════════════════════ */
+
+/* A — Curtain lift: text hides behind overflow:hidden, slides up */
+.curtain { display: block; overflow: hidden; }
+.curtain-inner {
+  display: block;
+  transform: translateY(102%);
+  transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.curtain.lit .curtain-inner { transform: translateY(0); }
+
+/* B — Fade drift: opacity + gentle vertical float */
+.drift {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.drift.lit { opacity: 1; transform: translateY(0); }
+
+/* C — Letter bloom: each character scales + fades from center */
+.bloom .b {
+  display: inline-block;
+  opacity: 0;
+  transform: scale(0.7) translateY(6px);
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.bloom.lit .b { opacity: 1; transform: scale(1) translateY(0); }
+
+/* D — Ink draw: border grows as if written */
+.ink-h {
+  width: 0;
+  height: 1px;
+  transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.ink-h.lit { width: var(--iw, 60px); }
+
+.ink-v {
+  height: 0;
+  width: 1px;
+  transition: height 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.ink-v.lit { height: var(--ih, 100%); }
+
+/* E — Cascade: stagger children on parent trigger */
+.cascade > * {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.cascade.lit > * { opacity: 1; transform: translateY(0); }
+
+/* F — Wipe-in from left (labels, numbers) */
+.wipe {
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: opacity 0.75s ease, transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.wipe.lit { opacity: 1; transform: translateX(0); }
+
+/* ═══════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 300;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.6rem 4rem;
+  background: linear-gradient(to bottom, rgba(8,7,7,0.96) 55%, transparent);
+  pointer-events: none;
+}
+.nav-mark {
+  font-family: 'Tenor Sans', sans-serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.48em;
+  color: var(--gold);
+  opacity: 0.65;
+  text-transform: uppercase;
+  pointer-events: auto;
+}
+.nav-items {
+  list-style: none;
+  display: flex; gap: 2.6rem;
+  pointer-events: auto;
+}
+.nav-items a {
+  font-family: 'Tenor Sans', sans-serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.24em;
+  color: var(--ash);
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 0.35s;
+}
+.nav-items a:hover { color: var(--gold); }
+
+/* ═══════════════════════════════════════
+   HERO
+═══════════════════════════════════════ */
+.hero {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 4rem 5.5rem;
+  border-bottom: 1px solid var(--line2);
+  position: relative;
+}
+
+.hero-index {
+  position: absolute;
+  top: 50%;
+  right: 4rem;
+  transform: translateY(-50%);
+  writing-mode: vertical-rl;
+  font-family: 'Tenor Sans', sans-serif;
+  font-size: 0.55rem;
+  letter-spacing: 0.45em;
+  color: var(--ash);
+  opacity: 0.4;
+  text-transform: uppercase;
+}
+
+.hero-pre {
+  font-family: 'Tenor Sans', sans-serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.5em;
+  color: var(--ember);
+  text-transform: uppercase;
+  margin-bottom: 2.6rem;
+  opacity: 0;
+  animation: ap 1s ease 0.3s forwards;
+}
+
+.hero-h {
+  font-family: 'Playfair Display', serif;
+  font-weight: 400;
+  font-size: clamp(3rem, 7.5vw, 7.5rem);
+  line-height: 0.92;
+  color: var(--linen);
+  letter-spacing: -0.02em;
+}
+.hero-h .row { display: block; overflow: hidden; margin-bottom: 0.04em; }
+.hero-h .row-inner {
+  display: block;
+  transform: translateY(105%);
+  transition: transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hero-h .row-inner.it { font-style: italic; color: var(--gold); }
+
+.hero-byline {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 3.5rem;
+  opacity: 0;
+  animation: apUp 1s ease 2s forwards;
+}
+.hero-line { height: 1px; width: 50px; background: var(--line3); }
+.hero-byline-text {
+  font-family: 'Crimson Pro', serif;
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--fog);
+  line-height: 1.7;
+  max-width: 480px;
+}
+
+@keyframes ap    { to { opacity: 1; } }
+@keyframes apUp  { to { opacity: 1; transform: translateY(0); } }
+
+/* ═══════════════════════════════════════
+   SECTION BASE
+═══════════════════════════════════════ */
+.sec {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 8rem 4rem;
+}
+.sec + .sec { border-top: 1px solid var(--line); }
+
+.sec-head {
+  display: grid;
+  grid-template-columns: 5rem 1fr;
+  gap: 2rem;
+  align-items: start;
+  margin-bottom: 4.5rem;
+}
+.sec-num {
+  font-family: 'Tenor Sans', sans-serif;
+  font-size: 0.55rem;
+  letter-spacing: 0.4em;
+  color: var(--gold);
+  opacity: 0.5;
+  text-transform: uppercase;
+  padding-top: 0.7rem;
+}
+.sec-title {
+  font-family: 'Playfair Display', serif;
+  font-weight: 400;
+  font-size: clamp(2rem, 4.5vw, 3.8rem);
+  line-height: 1.1;
+  color: var(--linen);
+  letter-spacing: -0.01em;
+}
+.sec-title em { font-style: italic; color: var(--gold); }
+
+.prose {
+  font-size: 1.08rem;
+  line-height: 1.95;
+  color: var(--parch);
+  font-weight: 300;
+  max-width: 640px;
+  margin-bottom: 1.6rem;
+}
+.prose em { font-style: italic; color: var(--bone); }
+.prose strong { font-weight: 400; color: var(--linen); }
+
+/* ═══════════════════════════════════════
+   LAYER STACK — the 5 mind layers
+═══════════════════════════════════════ */
+.layer-stack {
+  margin-top: 2rem;
+  position: relative;
+  padding-left: 2px;
+}
+
+/* vertical ink line */
+.layer-spine {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--gold) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+.layer-spine.lit { opacity: 0.3; }
+
+.layer {
+  display: grid;
+  grid-template-columns: 2.8rem 1fr;
+  gap: 2.2rem;
+  padding: 2.4rem 0 2.4rem 2.8rem;
+  border-bottom: 1px solid var(--line);
+  position: relative;
+  transition: background 0.4s;
+}
+.layer:hover { background: rgba(255,255,255,0.015); }
+
+/* dot on spine */
+.layer::before {
+  content: '';
+  position: absolute;
+  left: -3px; top: 2.8rem;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--void);
+  border: 1px solid var(--gold);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  box-shadow: 0 0 8px rgba(196,160,82,0.3);
+}
+.layer.lit::before { opacity: 1; }
+
+.layer-n {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 2.2rem;
+  color: var(--dust);
+  line-height: 1;
+  align-self: start;
+  padding-top: 0.1rem;
+  transition: color 0.4s;
+}
+.layer:hover .layer-n { color: var(--gold); opacity: 0.5; }
+
+.layer-body {}
+.layer-tag {
+  font-family: 'Tenor Sans', sans-serif;
+  font-size: 0.56rem;
+  letter-spacing: 0.4em;
+  color: var(--ember);
+  text-transform: uppercase;
+  margin-bottom: 0.7rem;
+  opacity: 0.8;
+}
+.layer-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.35rem;
+  font-weight: 400;
+  color: var(--linen);
+  margin-bottom: 0.7rem;
+}
+.layer-desc {
+  font-size: 0.98rem;
+  color: var(--fog);
+  line-height: 1.8;
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+.layer-pills {
+  display: flex; flex-wrap: wrap; gap: 0.5rem;
+}
+.pill {
+  font-family: 'Tenor Sans', sans-serif;
+  font-size: 0.56rem;
+  letter-spacing: 0.22em;
+  color: var(--ash);
+  text-transform: uppercase;
+  border: 1px solid var(--dust);
+  padding: 0.28rem 0.8rem;
+  transition: border-color 0.3s, color 0.3s;
+}
+.layer:hover .pill { border-color: var(--line3); color: var(--fog); }
+
+/* special: observer layer */
+.layer.observer .layer-n { color: rgba(196,160,82,0.15); }
+.layer.observer { border-bottom: none; }
+.layer.observer .layer-name { color: var(--gold2); font-size: 1.5rem; }
+.layer.observer .layer-tag  { color: var(--gold); }
+
+/* ═══════════════════════════════════════
+   CHAOS SECTION — why mind feels chaotic
+═══════════════════════════════════════ */
+.chaos-band {
+  background: var(--deep);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.chaos-inner {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 7rem 4rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6rem;
+  align-items: center;
+}
+.chaos-quote {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: clamp(1.5rem, 3vw, 2.6rem);
+  color: var(--linen);
+  line-height: 1.45;
+}
+.chaos-quote em { color: var(--gold); font-style: normal; }
+
+.chaos-right {}
+.chaos-label {
+  font-family: 'Tenor Sans', sans-serif;
+  font-size: 0.56rem;
+  letter-spacing: 0.42em;
+  color: var(--ember);
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+  opacity: 0.7;
+}
+.chaos-items { list-style: none; }
+.chaos-items li {
+  display: flex; align-items: baseline; gap: 1.2rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 1rem;
+  color: var(--fog);
+  font-style: italic;
+}
+.chaos-items li .ci {
+  font-family: 'Tenor Sans', sans-serif;
+  font-size: 0.52rem;
+  letter-spacing: 0.3em;
+  color: var(--dust);
+  flex-shrink: 0;
+  text-transform: uppercase;
+}
+
+/* ═══════════════════════════════════════
+   APPROACH — observation method
+═══════════════════════════════════════ */
+.approach-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  margin-top: 3.5rem;
+  border: 1px solid var(--line2);
+}
+.approach-card {
+  padding: 2.8rem 2.2rem;
+  border-right: 1px solid var(--line2);
+  position: relative;
+  overflow: hidden;
+  transition: background 0.4s;
+}
+.approach-card:last-child { border-right: none; }
+.approach-card:hover { background: rgba(255,255,255,0.02); }
+.approach-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
+}
+.approach-card:hover::after { transform: scaleX(1); }
+
+.ap-step {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 3.5rem;
+  color: var(--stone);
+  line-height: 1;
+  margin-bottom: 1.6rem;
+  display: block;
+}
+.ap-title {
+  font-family: 'Tenor Sans', sans-serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.32em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+.ap-text {
+  font-family: 'Crimson Pro', serif;
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--fog);
+  line-height: 1.8;
+}
+
+/* ═══════════════════════════════════════
+   PULL QUOTE
+═══════════════════════════════════════ */
+.pq {
+  padding: 7rem 4rem;
+  text-align: center;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: var(--well);
+}
+.pq-open {
+  font-family: 'Playfair Display', serif;
+  font-size: 5rem;
+  color: var(--gold);
+  opacity: 0.12;
+  line-height: 0.8;
+  margin-bottom: 2rem;
+}
+.pq-text {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.5rem, 3.2vw, 2.5rem);
+  color: var(--linen);
+  line-height: 1.5;
+  max-width: 780px;
+  margin: 0 auto 2rem;
+}
+.pq-text em { font-style: normal; color: var(--gold); }
+.pq-cite {
+  font-family: 'Tenor Sans', sans-serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.38em;
+  color: var(--ash);
+  text-transform: uppercase;
+}
+
+/* ═══════════════════════════════════════
+   STABILISING THE MIND
+═══════════════════════════════════════ */
+.stable-cols {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 6rem;
+  align-items: start;
+  margin-top: 1rem;
+}
+.stable-method {
+  margin-top: 3rem;
+  border-left: 1px solid var(--line2);
+}
+.sm-row {
+  display: grid;
+  grid-template-columns: 3rem 1fr;
+  gap: 1.5rem;
+  padding: 1.8rem 0 1.8rem 2.5rem;
+  border-bottom: 1px solid var(--line);
+  align-items: start;
+}
+.sm-icon {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 1.5rem;
+  color: var(--dust);
+  padding-top: 0.1rem;
+}
+.sm-label {
+  font-family: 'Tenor Sans', sans-serif;
+  font-size: 0.56rem;
+  letter-spacing: 0.35em;
+  color: var(--ember);
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+  opacity: 0.7;
+}
+.sm-text {
+  font-size: 1rem;
+  color: var(--fog);
+  font-style: italic;
+}
+
+/* ═══════════════════════════════════════
+   ENVIRONMENT — GURUKULAM
+═══════════════════════════════════════ */
+.env-block {
+  background: var(--cave);
+  border-top: 1px solid var(--line2);
+  border-bottom: 1px solid var(--line2);
+}
+.env-inner {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 8rem 4rem;
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 7rem;
+  align-items: center;
+}
+.env-label {
+  font-family: 'Tenor Sans', sans-serif;
+  font-size: 0.56rem;
+  letter-spacing: 0.48em;
+  color: var(--ember);
+  text-transform: uppercase;
+  margin-bottom: 2.2rem;
+  opacity: 0.7;
+}
+.env-name {
+  font-family: 'Playfair Display', serif;
+  font-weight: 500;
+  font-size: clamp(1.6rem, 3.8vw, 3rem);
+  color: var(--gold2);
+  line-height: 1.18;
+  letter-spacing: 0.01em;
+  margin-bottom: 0.6rem;
+}
+.env-sub {
+  font-family: 'Crimson Pro', serif;
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--fog);
+  margin-bottom: 2.5rem;
+}
+.env-rule {
+  width: 50px; height: 1px;
+  background: var(--gold);
+  opacity: 0.35;
+  margin-bottom: 2.5rem;
+}
+.env-body {
+  font-size: 1.05rem;
+  color: var(--parch);
+  line-height: 1.95;
+  font-weight: 300;
+}
+.env-body em { font-style: italic; color: var(--gold); }
+
+.env-card {
+  border: 1px solid var(--line2);
+  padding: 3rem;
+  background: var(--deep);
+  position: relative;
+}
+.env-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 1px; height: 60px;
+  background: var(--gold);
+  opacity: 0.5;
+}
+.env-card-quote {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: clamp(1.1rem, 2.2vw, 1.55rem);
+  color: var(--linen);
+  line-height: 1.65;
+  margin-bottom: 2rem;
+}
+.env-card-attr {
+  font-family: 'Tenor Sans', sans-serif;
+  font-size: 0.56rem;
+  letter-spacing: 0.35em;
+  color: var(--ash);
+  text-transform: uppercase;
+}
+
+/* ═══════════════════════════════════════
+   CONCLUSION
+═══════════════════════════════════════ */
+.conclusion {
+  padding: 9rem 4rem;
+  text-align: center;
+}
+.conc-sup {
+  font-family: 'Tenor Sans', sans-serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.48em;
+  color: var(--teal);
+  text-transform: uppercase;
+  margin-bottom: 3.5rem;
+  opacity: 0.8;
+}
+.conc-h {
+  font-family: 'Playfair Display', serif;
+  font-weight: 400;
+  font-size: clamp(2.5rem, 6vw, 6rem);
+  line-height: 0.95;
+  color: var(--linen);
+}
+.conc-h .row { display: block; overflow: hidden; }
+.conc-h .row-inner {
+  display: block;
+  transform: translateY(105%);
+  transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.conc-h .row-inner.it { font-style: italic; color: var(--gold); }
+
+.conc-rule {
+  width: 60px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 3rem auto;
+  opacity: 0.5;
+}
+.conc-text {
+  font-family: 'Crimson Pro', serif;
+  font-style: italic;
+  font-size: clamp(1rem, 2vw, 1.3rem);
+  color: var(--fog);
+  max-width: 560px;
+  margin: 0 auto;
+  line-height: 1.95;
+}
+
+/* ═══════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════ */
+footer {
+  border-top: 1px solid var(--line);
+  padding: 2.5rem 4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.ft-brand {
+  font-family: 'Tenor Sans', sans-serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.42em;
+  color: var(--gold);
+  opacity: 0.5;
+  text-transform: uppercase;
+}
+.ft-note {
+  font-family: 'Crimson Pro', serif;
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--ash);
+}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════ */
+@media (max-width: 860px) {
+  nav { padding: 1.2rem 1.5rem; }
+  .nav-items { display: none; }
+  .hero { padding: 8rem 1.5rem 4rem; }
+  .hero-index { display: none; }
+  .sec { padding: 5rem 1.5rem; }
+  .sec-head { grid-template-columns: 1fr; gap: 0.5rem; }
+  .chaos-inner, .stable-cols, .env-inner { grid-template-columns: 1fr; gap: 3rem; }
+  .approach-grid { grid-template-columns: 1fr; }
+  .approach-card { border-right: none; border-bottom: 1px solid var(--line2); }
+  .pq, .conclusion { padding: 5rem 1.5rem; }
+  footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem 1.5rem; }
+  .layer { padding-left: 1.5rem; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <span class="nav-mark">Siddhar · Mind · Science</span>
+  <ul class="nav-items">
+    <li><a href="#layers">The Layers</a></li>
+    <li><a href="#approach">Approach</a></li>
+    <li><a href="#stability">Stability</a></li>
+    <li><a href="#gurukulam">Guidance</a></li>
+  </ul>
+</nav>
+
+<!-- ══════════════════════════════════════
+     HERO
+══════════════════════════════════════ -->
+<header class="hero">
+  <span class="hero-index">Siddhar Science · Mind</span>
+
+  <p class="hero-pre">Siddhar Science</p>
+
+  <h1 class="hero-h">
+    <span class="row"><span class="row-inner">Layers of</span></span>
+    <span class="row"><span class="row-inner">the <span class="it">Mind.</span></span></span>
+  </h1>
+
+  <div class="hero-byline">
+    <div class="hero-line"></div>
+    <p class="hero-byline-text">
+      The Siddhars did not see the mind as a single entity.
+      They saw it as a multi-layered system — each layer a world unto itself,
+      each one a key to understanding the whole.
+    </p>
+  </div>
+</header>
+
+<!-- ══════════════════════════════════════
+     INTRO
+══════════════════════════════════════ -->
+<div class="sec" id="layers">
+  <div class="sec-head">
+    <span class="sec-num drift">01</span>
+    <h2 class="sec-title">
+      <span class="curtain"><span class="curtain-inner">The Complexity</span></span>
+      <span class="curtain"><span class="curtain-inner">of the <em>Mind.</em></span></span>
+    </h2>
+  </div>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:4rem;">
+    <div>
+      <p class="prose drift">The Siddhars approached the mind not as a problem to be solved, but as a system to be understood. They mapped its depths with extraordinary precision — centuries before modern psychology named what they observed.</p>
+      <p class="prose drift">Understanding the layers is essential for three things: <em>clarity</em>, <em>stability</em>, and ultimately, <em>transformation</em>.</p>
+    </div>
+    <div class="drift" style="border-left:1px solid var(--line2); padding-left:3rem;">
+      <p style="font-family:'Tenor Sans',sans-serif; font-size:0.56rem; letter-spacing:0.42em; color:var(--ember); text-transform:uppercase; margin-bottom:1.6rem; opacity:0.7;">What Understanding Brings</p>
+      <ul style="list-style:none;">
+        <li style="padding:0.9rem 0; border-bottom:1px solid var(--line); font-style:italic; color:var(--fog); font-size:1rem; display:flex; align-items:baseline; gap:1rem;"><span style="color:var(--gold); font-style:normal; font-size:0.5rem; letter-spacing:0.3em; font-family:'Tenor Sans',sans-serif; text-transform:uppercase; flex-shrink:0;">I</span> Clarity of perception</li>
+        <li style="padding:0.9rem 0; border-bottom:1px solid var(--line); font-style:italic; color:var(--fog); font-size:1rem; display:flex; align-items:baseline; gap:1rem;"><span style="color:var(--gold); font-style:normal; font-size:0.5rem; letter-spacing:0.3em; font-family:'Tenor Sans',sans-serif; text-transform:uppercase; flex-shrink:0;">II</span> Inner stability</li>
+        <li style="padding:0.9rem 0; border-bottom:1px solid var(--line); font-style:italic; color:var(--fog); font-size:1rem; display:flex; align-items:baseline; gap:1rem;"><span style="color:var(--gold); font-style:normal; font-size:0.5rem; letter-spacing:0.3em; font-family:'Tenor Sans',sans-serif; text-transform:uppercase; flex-shrink:0;">III</span> Genuine transformation</li>
+        <li style="padding:0.9rem 0; font-style:italic; color:var(--fog); font-size:1rem; display:flex; align-items:baseline; gap:1rem;"><span style="color:var(--gold); font-style:normal; font-size:0.5rem; letter-spacing:0.3em; font-family:'Tenor Sans',sans-serif; text-transform:uppercase; flex-shrink:0;">IV</span> Freedom from conditioning</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     LAYER STACK
+══════════════════════════════════════ -->
+<div style="background:var(--deep); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
+  <div class="sec">
+    <div class="sec-head">
+      <span class="sec-num drift">02</span>
+      <h2 class="sec-title">
+        <span class="curtain"><span class="curtain-inner">Five Layers.</span></span>
+        <span class="curtain"><span class="curtain-inner"><em>One mind.</em></span></span>
+      </h2>
+    </div>
+
+    <div class="layer-stack cascade" id="layerStack">
+      <div class="ink-v layer-spine" style="--ih:100%"></div>
+
+      <div class="layer">
+        <span class="layer-n">1</span>
+        <div class="layer-body">
+          <p class="layer-tag">The Outermost</p>
+          <p class="layer-name">The Surface Mind</p>
+          <p class="layer-desc">The most visible layer — the face the mind shows to the world. Fast, reactive, constantly moving with the current of daily life.</p>
+          <div class="layer-pills">
+            <span class="pill">Daily thoughts</span>
+            <span class="pill">Reactions</span>
+            <span class="pill">Sensory input</span>
+            <span class="pill">Unstable</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="layer">
+        <span class="layer-n">2</span>
+        <div class="layer-body">
+          <p class="layer-tag">Beneath the Surface</p>
+          <p class="layer-name">The Memory Layer</p>
+          <p class="layer-desc">A vast reservoir of past experiences and emotional imprints. Memory does not merely record — it shapes how present reality is perceived.</p>
+          <div class="layer-pills">
+            <span class="pill">Past experiences</span>
+            <span class="pill">Emotional imprints</span>
+            <span class="pill">Learned patterns</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="layer">
+        <span class="layer-n">3</span>
+        <div class="layer-body">
+          <p class="layer-tag">Deeper Still</p>
+          <p class="layer-name">Subconscious Patterns</p>
+          <p class="layer-desc">The silent architects of behaviour. Habits, fears, and deep conditioning that operate entirely without conscious awareness — shaping action from the dark.</p>
+          <div class="layer-pills">
+            <span class="pill">Habits</span>
+            <span class="pill">Fears</span>
+            <span class="pill">Conditioning</span>
+            <span class="pill">Unconscious</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="layer">
+        <span class="layer-n">4</span>
+        <div class="layer-body">
+          <p class="layer-tag">The Automatic Self</p>
+          <p class="layer-name">The Reactive Mind</p>
+          <p class="layer-desc">This layer responds before thought arrives. It creates emotional reactions, defence mechanisms, and impulsive behaviour — the mind's oldest survival system.</p>
+          <div class="layer-pills">
+            <span class="pill">Emotional reactions</span>
+            <span class="pill">Defence mechanisms</span>
+            <span class="pill">Impulse</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="layer observer">
+        <span class="layer-n">5</span>
+        <div class="layer-body">
+          <p class="layer-tag">Beyond Movement</p>
+          <p class="layer-name">The Observing Layer</p>
+          <p class="layer-desc">Beyond all the movement, the Siddhars found something extraordinary — a layer that simply watches. It is not part of the mind's activity. It is what remains when all else quiets.</p>
+          <div class="layer-pills" style="margin-top:0.6rem;">
+            <span class="pill" style="border-color:rgba(196,160,82,0.3); color:var(--fog);">The Observer</span>
+            <span class="pill" style="border-color:rgba(196,160,82,0.3); color:var(--fog);">Pure awareness</span>
+            <span class="pill" style="border-color:rgba(196,160,82,0.3); color:var(--fog);">Unchanging</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     WHY CHAOS — PULL QUOTE BAND
+══════════════════════════════════════ -->
+<div class="chaos-band">
+  <div class="chaos-inner">
+    <div>
+      <p class="chaos-quote drift">
+        "Because multiple layers operate <em>simultaneously</em> —
+        thoughts, memories, reactions — this creates the experience
+        of chaos."
+      </p>
+    </div>
+    <div class="chaos-right">
+      <p class="chaos-label drift">Why the Mind Feels Chaotic</p>
+      <ul class="chaos-items cascade">
+        <li><span class="ci">Layer I–II</span> Thoughts clash with memory</li>
+        <li><span class="ci">Layer III</span> Unconscious patterns redirect attention</li>
+        <li><span class="ci">Layer IV</span> Reactions override intention</li>
+        <li><span class="ci">Reality</span> The mind is not fully under control</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     THE SIDDHAR APPROACH
+══════════════════════════════════════ -->
+<div class="sec" id="approach">
+  <div class="sec-head">
+    <span class="sec-num drift">03</span>
+    <h2 class="sec-title">
+      <span class="curtain"><span class="curtain-inner">Not control.</span></span>
+      <span class="curtain"><span class="curtain-inner"><em>Observation.</em></span></span>
+    </h2>
+  </div>
+
+  <p class="prose drift" style="max-width:700px;">Instead of attempting to control or suppress the mind — which only creates more tension — the Siddhars used a single, radical method: pure, sustained observation. And they found that observation alone was enough to change everything.</p>
+
+  <div class="approach-grid cascade">
+    <div class="approach-card">
+      <span class="ap-step">i.</span>
+      <p class="ap-title">Observe</p>
+      <p class="ap-text">Turn attention toward the mind itself. Not thinking about it — watching it. The simple act of noticing a thought creates distance from it.</p>
+    </div>
+    <div class="approach-card">
+      <span class="ap-step">ii.</span>
+      <p class="ap-title">Patterns Emerge</p>
+      <p class="ap-text">What was unconscious becomes visible. Habits, reactions, and conditioned loops reveal themselves without force, without judgement.</p>
+    </div>
+    <div class="approach-card">
+      <span class="ap-step">iii.</span>
+      <p class="ap-title">Clarity Follows</p>
+      <p class="ap-text">Reactions reduce. The noise between layers settles. What remains is not emptiness — it is a quality of seeing that was always present beneath the movement.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PULL QUOTE
+══════════════════════════════════════ -->
+<div class="pq">
+  <p class="pq-open drift">"</p>
+  <p class="pq-text drift">
+    The mind is not a problem to fix.<br>
+    It is a system to <em>understand.</em>
+  </p>
+  <p class="pq-cite drift">— Siddhar Conclusion</p>
+</div>
+
+<!-- ══════════════════════════════════════
+     STABILISING
+══════════════════════════════════════ -->
+<div class="sec" id="stability">
+  <div class="sec-head">
+    <span class="sec-num drift">04</span>
+    <h2 class="sec-title">
+      <span class="curtain"><span class="curtain-inner">Stabilising the</span></span>
+      <span class="curtain"><span class="curtain-inner"><em>inner system.</em></span></span>
+    </h2>
+  </div>
+
+  <div class="stable-cols">
+    <div>
+      <p class="prose drift">Stability does not come from suppression. The Siddhar understanding was precise: suppression only pushes activity deeper, into the layers where it becomes invisible and therefore more powerful.</p>
+      <p class="prose drift">True stability comes from understanding — from learning to see each layer clearly, without reactivity, so that the system gradually <em>settles of its own accord.</em></p>
+    </div>
+
+    <div>
+      <p class="wipe" style="font-family:'Tenor Sans',sans-serif; font-size:0.56rem; letter-spacing:0.42em; color:var(--ember); text-transform:uppercase; margin-bottom:0.5rem; opacity:0.7;">The Three Pillars</p>
+      <div class="stable-method cascade">
+        <div class="sm-row">
+          <span class="sm-icon">I</span>
+          <div>
+            <p class="sm-label">Understanding</p>
+            <p class="sm-text">Know each layer — its nature, its movement, its tendency</p>
+          </div>
+        </div>
+        <div class="sm-row">
+          <span class="sm-icon">II</span>
+          <div>
+            <p class="sm-label">Observation</p>
+            <p class="sm-text">Watch without engagement — the neutral witness</p>
+          </div>
+        </div>
+        <div class="sm-row">
+          <span class="sm-icon">III</span>
+          <div>
+            <p class="sm-label">Discipline</p>
+            <p class="sm-text">Consistent, patient practice — not force but steady attention</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     GURUKULAM
+══════════════════════════════════════ -->
+<div class="env-block" id="gurukulam">
+  <div class="env-inner">
+    <div>
+      <p class="env-label drift">Living Environment</p>
+      <h2 class="env-name">
+        <span class="curtain"><span class="curtain-inner">Shree Easanamma</span></span>
+        <span class="curtain"><span class="curtain-inner">Gurukulam</span></span>
+      </h2>
+      <p class="env-sub drift">Guided by Shree Easanamma</p>
+      <div class="env-rule drift"></div>
+      <p class="env-body drift">
+        The mind is profoundly influenced by its surroundings. Without guidance, it creates its own illusions and mistakes them for insight. This is why structured environments — and living guidance — are not optional. They are <em>essential</em> to the process of understanding these layers with any real depth.
+      </p>
+    </div>
+
+    <div class="env-card drift">
+      <p class="env-card-quote">
+        "Without guidance, the mind creates confusion. The Gurukulam
+        offers what the mind cannot give itself — a mirror, a structure,
+        and a teacher who has navigated these waters before."
+      </p>
+      <p class="env-card-attr">— On the Role of Environment and Guidance</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     CONCLUSION
+══════════════════════════════════════ -->
+<div class="conclusion">
+  <p class="conc-sup drift">The Siddhar Understanding</p>
+
+  <h2 class="conc-h">
+    <span class="row"><span class="row-inner">Not a problem.</span></span>
+    <span class="row"><span class="row-inner it">A system.</span></span>
+  </h2>
+
+  <div class="conc-rule drift"></div>
+
+  <p class="conc-text drift">
+    The layers of the mind are not obstacles on the path.
+    They are the path itself — each one to be seen, understood,
+    and moved through with clarity, patience, and the guidance
+    of a tradition that has mapped this territory for millennia.
+  </p>
+</div>
+
+<!-- ══════════════════════════════════════
+     FOOTER
+══════════════════════════════════════ -->
+<footer>
+  <span class="ft-brand">Layers of the Mind · Siddhar Science</span>
+  <span class="ft-note">A system to understand, not a problem to fix</span>
+</footer>
+
+<!-- ══════════════════════════════════════
+     REVEAL ENGINE
+══════════════════════════════════════ -->
+<script>
+(function () {
+
+  /* ── 1. Hero title on load ── */
+  const heroRows = document.querySelectorAll('.hero-h .row-inner');
+  heroRows.forEach((r, i) => {
+    setTimeout(() => r.style.transform = 'translateY(0)', 500 + i * 220);
+  });
+
+  /* ── 2. IntersectionObserver ── */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+
+      if (el.classList.contains('cascade')) {
+        Array.from(el.children).forEach((child, i) => {
+          if (child.classList.contains('layer-spine')) {
+            setTimeout(() => child.classList.add('lit'), 100);
+            return;
+          }
+          setTimeout(() => child.classList.add('lit'), 80 + i * 120);
+        });
+        el.classList.add('lit');
+        io.unobserve(el);
+        return;
+      }
+
+      if (el.classList.contains('curtain')) {
+        const siblings = Array.from(el.parentElement.querySelectorAll('.curtain'));
+        const idx = siblings.indexOf(el);
+        setTimeout(() => el.classList.add('lit'), idx * 140);
+        io.unobserve(el);
+        return;
+      }
+
+      if (el.classList.contains('ink-h') || el.classList.contains('ink-v')) {
+        setTimeout(() => el.classList.add('lit'), 200);
+        io.unobserve(el);
+        return;
+      }
+
+      el.classList.add('lit');
+      io.unobserve(el);
+    });
+  }, { threshold: 0.13, rootMargin: '0px 0px -55px 0px' });
+
+  document.querySelectorAll('.drift, .wipe, .curtain, .ink-h, .ink-v, .cascade').forEach(el => io.observe(el));
+
+  /* ── 3. Section-level curtain triggers ── */
+  const secIO = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.querySelectorAll('.curtain').forEach((el, i) => {
+        setTimeout(() => el.classList.add('lit'), i * 145);
+      });
+      /* conclusion rows */
+      entry.target.querySelectorAll('.conc-h .row-inner').forEach((r, i) => {
+        setTimeout(() => r.style.transform = 'translateY(0)', i * 200);
+      });
+      secIO.unobserve(entry.target);
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.sec, .env-block, .conclusion, .chaos-band').forEach(el => secIO.observe(el));
+
+})();
+</script>
+
+</body>
+</html>

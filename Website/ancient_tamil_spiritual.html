@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ancient Tamil Spiritual Systems</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Cinzel:wght@400;500;600&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:       #0b0908;
+  --bg2:      #131009;
+  --bg3:      #1a150f;
+  --gold:     #c4a35a;
+  --gold2:    #dfc07a;
+  --gold3:    #f0dba8;
+  --ember:    #8a4a1f;
+  --text:     #cbbfa8;
+  --text2:    #9a8a72;
+  --muted:    #5a4e3a;
+  --line:     rgba(196,163,90,0.13);
+  --line2:    rgba(196,163,90,0.25);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 1.85;
+  overflow-x: hidden;
+}
+
+/* ── SCROLL REVEAL ENGINE ── */
+.sr { opacity: 0; }
+
+.sr-up   { transform: translateY(32px); }
+.sr-left { transform: translateX(-28px); }
+
+.sr.in {
+  animation: srIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.sr-up.in {
+  animation: srUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.sr-left.in {
+  animation: srLeft 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes srIn   { to { opacity: 1; } }
+@keyframes srUp   { to { opacity: 1; transform: translateY(0); } }
+@keyframes srLeft { to { opacity: 1; transform: translateX(0); } }
+
+/* ── CHARACTER REVEAL ── */
+.char-reveal { display: block; overflow: hidden; }
+.char-reveal .word { display: inline-block; white-space: nowrap; margin-right: 0.22em; }
+.char-reveal .ch {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(100%) rotate(4deg);
+  transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.16,1,0.3,1);
+}
+.char-reveal.revealed .ch { opacity: 1; transform: translateY(0) rotate(0deg); }
+
+/* ── WORD REVEAL ── */
+.word-reveal .wr {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16,1,0.3,1);
+}
+.word-reveal.revealed .wr { opacity: 1; transform: translateY(0); }
+
+/* ── LINE MASK REVEAL ── */
+.line-mask { overflow: hidden; display: block; }
+.line-mask-inner {
+  display: block;
+  transform: translateY(110%);
+  transition: transform 0.75s cubic-bezier(0.16,1,0.3,1);
+}
+.line-mask.revealed .line-mask-inner { transform: translateY(0); }
+
+/* ══════════════════════════════
+   NAVIGATION
+══════════════════════════════ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 1.4rem 3rem;
+  display: flex; justify-content: space-between; align-items: center;
+  background: linear-gradient(to bottom, rgba(11,9,8,0.95), transparent);
+  pointer-events: none;
+}
+.nav-logo {
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.38em;
+  color: var(--gold);
+  opacity: 0.8;
+  text-transform: uppercase;
+  pointer-events: auto;
+}
+.nav-links {
+  display: flex; gap: 2.5rem;
+  list-style: none;
+  pointer-events: auto;
+}
+.nav-links a {
+  font-size: 0.68rem;
+  letter-spacing: 0.28em;
+  color: var(--muted);
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 0.3s;
+}
+.nav-links a:hover { color: var(--gold); }
+
+/* ══════════════════════════════
+   HERO
+══════════════════════════════ */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center;
+  padding: 8rem 2rem 6rem;
+  position: relative;
+}
+
+.hero-eyebrow {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.5em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 2.8rem;
+  opacity: 0;
+  animation: fadeSlideUp 1s ease 0.3s forwards;
+}
+
+.hero-title {
+  font-family: 'Cinzel', serif;
+  font-weight: 400;
+  font-size: clamp(2.6rem, 7vw, 5.5rem);
+  color: var(--gold3);
+  line-height: 1.08;
+  letter-spacing: 0.06em;
+  margin-bottom: 0;
+}
+
+.hero-title .line1,
+.hero-title .line2 {
+  display: block;
+  overflow: hidden;
+}
+.hero-title .line-inner {
+  display: block;
+  transform: translateY(110%);
+  opacity: 0;
+  animation: lineReveal 1.1s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+.hero-title .line1 .line-inner { animation-delay: 0.6s; }
+.hero-title .line2 .line-inner { animation-delay: 0.85s; }
+
+@keyframes lineReveal {
+  to { transform: translateY(0); opacity: 1; }
+}
+@keyframes fadeSlideUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-rule {
+  width: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 2.8rem auto;
+  animation: expandRule 1.2s ease 1.8s forwards;
+}
+@keyframes expandRule { to { width: 140px; } }
+
+.hero-tagline {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: clamp(1rem, 2.2vw, 1.3rem);
+  color: var(--text2);
+  max-width: 520px;
+  line-height: 1.9;
+  opacity: 0;
+  animation: fadeSlideUp 1s ease 2.1s forwards;
+}
+
+.hero-scroll-hint {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%; transform: translateX(-50%);
+  font-size: 0.62rem;
+  letter-spacing: 0.4em;
+  color: var(--muted);
+  text-transform: uppercase;
+  opacity: 0;
+  animation: breathe 4s ease 3s infinite;
+}
+@keyframes breathe {
+  0% { opacity: 0; }
+  20% { opacity: 0.6; }
+  80% { opacity: 0.6; }
+  100% { opacity: 0; }
+}
+
+/* ══════════════════════════════
+   SECTIONS
+══════════════════════════════ */
+section { border-top: 1px solid var(--line); }
+
+.section-inner {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 7rem 3rem;
+}
+
+.section-num {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.45em;
+  color: var(--gold);
+  opacity: 0.55;
+  text-transform: uppercase;
+  margin-bottom: 1.2rem;
+}
+
+.section-heading {
+  font-family: 'IM Fell English', serif;
+  font-weight: 400;
+  font-size: clamp(1.9rem, 4vw, 3rem);
+  color: var(--gold3);
+  line-height: 1.2;
+  margin-bottom: 2.2rem;
+  font-style: normal;
+}
+
+.section-heading em {
+  font-style: italic;
+  color: var(--gold2);
+}
+
+.body-text {
+  font-size: 1.08rem;
+  line-height: 1.95;
+  color: var(--text);
+  font-weight: 300;
+  margin-bottom: 1.6rem;
+  max-width: 680px;
+}
+
+.body-text em { font-style: italic; color: var(--gold2); }
+
+/* ══════════════════════════════
+   PRINCIPLES BLOCK
+══════════════════════════════ */
+.principles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  margin-top: 3.5rem;
+  border: 1px solid var(--line);
+}
+
+.principle-item {
+  padding: 1.8rem 2rem;
+  background: var(--bg2);
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  position: relative;
+}
+
+.principle-item::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 2px; height: 0;
+  background: var(--gold);
+  transition: height 0.6s ease;
+}
+
+.principle-item.in::before { height: 100%; }
+
+.principle-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  color: var(--gold);
+  opacity: 0.6;
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+}
+
+.principle-text {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--text2);
+  line-height: 1.6;
+}
+
+/* ══════════════════════════════
+   THREE PATHS
+══════════════════════════════ */
+.paths-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  margin-top: 4rem;
+  border-top: 1px solid var(--line2);
+  border-left: 1px solid var(--line2);
+}
+
+.path-card {
+  border-right: 1px solid var(--line2);
+  border-bottom: 1px solid var(--line2);
+  padding: 2.5rem 2rem;
+  background: var(--bg2);
+  transition: background 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.path-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s ease;
+}
+
+.path-card:hover::after { transform: scaleX(1); }
+.path-card:hover { background: var(--bg3); }
+
+.path-roman {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  color: var(--gold);
+  opacity: 0.5;
+  margin-bottom: 1.2rem;
+}
+
+.path-title {
+  font-family: 'IM Fell English', serif;
+  font-size: 1.35rem;
+  color: var(--gold2);
+  margin-bottom: 1.4rem;
+  font-style: normal;
+}
+
+.path-list {
+  list-style: none;
+}
+
+.path-list li {
+  font-size: 0.9rem;
+  color: var(--text2);
+  padding: 0.45rem 0;
+  border-bottom: 1px solid var(--line);
+  padding-left: 1.2rem;
+  position: relative;
+  font-style: italic;
+  font-family: 'IM Fell English', serif;
+}
+
+.path-list li::before {
+  content: '·';
+  position: absolute; left: 0;
+  color: var(--gold);
+  font-style: normal;
+  font-size: 1.2rem;
+  line-height: 1.2;
+}
+
+/* ══════════════════════════════
+   BLOCKQUOTE
+══════════════════════════════ */
+.sacred-quote {
+  margin: 4.5rem 0;
+  padding: 3rem 3.5rem;
+  border-left: 1px solid var(--gold2);
+  background: var(--bg2);
+  position: relative;
+}
+
+.sacred-quote::before {
+  content: '"';
+  position: absolute;
+  top: -1.5rem; left: 2rem;
+  font-family: 'IM Fell English', serif;
+  font-size: 6rem;
+  color: var(--gold);
+  opacity: 0.18;
+  line-height: 1;
+}
+
+.sacred-quote p {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  color: var(--gold3);
+  line-height: 1.75;
+}
+
+.sacred-quote cite {
+  display: block;
+  margin-top: 1.4rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.3em;
+  color: var(--muted);
+  font-style: normal;
+  font-family: 'Cinzel', serif;
+  text-transform: uppercase;
+}
+
+/* ══════════════════════════════
+   INTERCONNECTION
+══════════════════════════════ */
+.cosmos-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-top: 3.5rem;
+}
+
+.cosmos-item {
+  text-align: center;
+  padding: 2.2rem 1rem;
+  border: 1px solid var(--line);
+  background: var(--bg2);
+  position: relative;
+}
+
+.cosmos-glyph {
+  font-size: 1.6rem;
+  margin-bottom: 0.8rem;
+  opacity: 0.6;
+  filter: sepia(1) saturate(0.5);
+}
+
+.cosmos-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.28em;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+
+/* ══════════════════════════════
+   TIMELINE
+══════════════════════════════ */
+.timeline {
+  margin-top: 3.5rem;
+  position: relative;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+}
+
+.timeline-item {
+  padding: 0 0 3rem 3rem;
+  position: relative;
+}
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -3px; top: 0.6rem;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 12px rgba(196,163,90,0.4);
+}
+
+.timeline-era {
+  font-family: 'Cinzel', serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.35em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+  opacity: 0.65;
+}
+
+.timeline-title {
+  font-family: 'IM Fell English', serif;
+  font-size: 1.2rem;
+  color: var(--gold2);
+  margin-bottom: 0.6rem;
+}
+
+.timeline-body {
+  font-size: 0.95rem;
+  color: var(--text2);
+  line-height: 1.8;
+  max-width: 540px;
+}
+
+/* ══════════════════════════════
+   SIDDHAR SECTION (FEATURED)
+══════════════════════════════ */
+.siddhar-featured {
+  background: var(--bg2);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.siddhar-inner {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 7rem 3rem;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 5rem;
+  align-items: start;
+}
+
+.siddhar-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.45em;
+  color: var(--gold);
+  opacity: 0.55;
+  text-transform: uppercase;
+  margin-bottom: 1.2rem;
+}
+
+.siddhar-heading {
+  font-family: 'Cinzel', serif;
+  font-weight: 400;
+  font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+  color: var(--gold3);
+  line-height: 1.2;
+  letter-spacing: 0.05em;
+  margin-bottom: 1.5rem;
+}
+
+.siddhar-rule {
+  width: 60px; height: 1px;
+  background: var(--gold);
+  margin-bottom: 2rem;
+  opacity: 0.5;
+}
+
+.differentiators {
+  list-style: none;
+  margin-top: 1.5rem;
+}
+
+.differentiators li {
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--line);
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--text2);
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.differentiators li span.marker {
+  color: var(--gold);
+  font-size: 1.4rem;
+  font-style: normal;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+/* ══════════════════════════════
+   MODERN RELEVANCE
+══════════════════════════════ */
+.relevance-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 3.5rem;
+}
+
+.relevance-card {
+  padding: 2rem 1.6rem;
+  border: 1px solid var(--line);
+  border-top: 2px solid var(--gold);
+  background: var(--bg2);
+  transition: border-color 0.35s, background 0.35s;
+}
+
+.relevance-card:hover {
+  border-color: var(--line2);
+  border-top-color: var(--gold2);
+  background: var(--bg3);
+}
+
+.relevance-icon {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  opacity: 0.55;
+}
+
+.relevance-title {
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 0.8rem;
+}
+
+.relevance-text {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--text2);
+  line-height: 1.7;
+}
+
+/* ══════════════════════════════
+   GURUKULAM
+══════════════════════════════ */
+.gurukulam {
+  text-align: center;
+  padding: 8rem 2rem;
+  border-top: 1px solid var(--line);
+  position: relative;
+}
+
+.gurukulam-rule-top {
+  width: 80px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 0 auto 3.5rem;
+}
+
+.gurukulam-name {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.3rem, 4vw, 2.5rem);
+  font-weight: 500;
+  color: var(--gold2);
+  letter-spacing: 0.12em;
+  margin-bottom: 0.8rem;
+}
+
+.gurukulam-sub {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  margin-bottom: 3rem;
+}
+
+.gurukulam-quote {
+  max-width: 560px;
+  margin: 0 auto;
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: clamp(1rem, 2.2vw, 1.25rem);
+  color: var(--text2);
+  line-height: 1.9;
+}
+
+/* ══════════════════════════════
+   FOOTER
+══════════════════════════════ */
+footer {
+  border-top: 1px solid var(--line);
+  padding: 1rem 1rem;
+  text-align: left;
+}
+
+.footer-content {
+  max-width: 1160px;
+  margin: 0 auto;
+}
+
+.footer-columns {
+  display: grid;
+  grid-template-columns: minmax(260px, 1.4fr) repeat(3, minmax(180px, 1fr));
+  gap: 2rem;
+  align-items: start;
+}
+
+.footer-column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.footer-brand-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.5rem, 2.4vw, 2rem);
+  color: var(--gold3);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.footer-brand-text {
+  font-size: 0.96rem;
+  line-height: 1.9;
+  color: var(--text2);
+  max-width: 520px;
+}
+
+.footer-brand-link {
+  font-family: 'Cinzel', serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.35em;
+  color: var(--gold);
+  text-transform: uppercase;
+  text-decoration: none;
+  opacity: 0.85;
+}
+
+.footer-heading {
+  font-family: 'Cinzel', serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.3em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  opacity: 0.85;
+}
+
+.footer-link-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.footer-link-list a {
+  color: var(--text);
+  text-decoration: none;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  transition: color 0.25s ease;
+}
+
+.footer-link-list a:hover {
+  color: var(--gold2);
+}
+
+.footer-note {
+  margin-top: 2.5rem;
+  font-size: 0.78rem;
+  color: var(--muted);
+  letter-spacing: 0.16em;
+  opacity: 0.75;
+}
+
+@media (max-width: 960px) {
+  .footer-columns {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 680px) {
+  .footer-columns {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ══════════════════════════════
+   RESPONSIVE
+══════════════════════════════ */
+@media (max-width: 768px) {
+  nav { padding: 1.2rem 1.5rem; }
+  .nav-links { display: none; }
+  .section-inner { padding: 5rem 1.5rem; }
+  .principles { grid-template-columns: 1fr; }
+  .paths-grid { grid-template-columns: 1fr; }
+  .cosmos-grid { grid-template-columns: repeat(2, 1fr); }
+  .siddhar-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+  .relevance-grid { grid-template-columns: 1fr; }
+  .timeline::before { left: 0; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Tamil · Siddhar · Wisdom</div>
+  <ul class="nav-links">
+     <li><a href="./index.html">Home</a></li>
+    <li><a href="#intro">Origins</a></li>
+    <li><a href="#paths">Traditions</a></li>
+    <li><a href="#siddhar">Siddhar</a></li>
+    <li><a href="#living">Living</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <p class="hero-eyebrow">A Civilization of Deep Inquiry</p>
+  <h1 class="hero-title">
+    <span class="line1"><span class="line-inner">Ancient Tamil</span></span>
+    <span class="line2"><span class="line-inner">Spiritual Systems</span></span>
+  </h1>
+  <div class="hero-rule"></div>
+  <p class="hero-tagline">
+    Where body, mind, nature, and cosmos were never separate —<br>
+    and the seeker was always the experiment.
+  </p>
+  <p class="hero-scroll-hint">Descend into knowledge</p>
+</header>
+
+<!-- SECTION 1: INTRO -->
+<section id="intro">
+  <div class="section-inner">
+    <p class="section-num sr sr-up">01 — Introduction</p>
+
+    <h2 class="section-heading">
+      <span class="line-mask sr"><span class="line-mask-inner">Ancient Tamil civilization</span></span>
+      <span class="line-mask sr"><span class="line-mask-inner">developed <em>multiple spiritual</em></span></span>
+      <span class="line-mask sr"><span class="line-mask-inner">systems of deep inquiry.</span></span>
+    </h2>
+
+    <p class="body-text sr sr-up">
+      Among these, the <em>Siddhar tradition</em> stands out as one of the most
+      experiential and integrative systems. Yet it did not exist in isolation —
+      it interacted with and evolved alongside other sacred frameworks.
+    </p>
+
+    <p class="body-text sr sr-up">
+      These systems shared something rare: a refusal to separate the sacred from
+      the lived. Spirit was not elsewhere. It was here, in breath, in body,
+      in the turning of seasons.
+    </p>
+
+    <div class="principles">
+      <div class="principle-item sr">
+        <p class="principle-label">I</p>
+        <p class="principle-text">Emphasis on direct experience</p>
+      </div>
+      <div class="principle-item sr">
+        <p class="principle-label">II</p>
+        <p class="principle-text">Integration of life and spirituality</p>
+      </div>
+      <div class="principle-item sr">
+        <p class="principle-label">III</p>
+        <p class="principle-text">Observation of nature as teacher</p>
+      </div>
+      <div class="principle-item sr">
+        <p class="principle-label">IV</p>
+        <p class="principle-text">Disciplined, conscious living</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 2: THREE PATHS -->
+<section id="paths">
+  <div class="section-inner">
+    <p class="section-num sr sr-up">02 — The Three Traditions</p>
+
+    <h2 class="section-heading">
+      <span class="line-mask sr"><span class="line-mask-inner">Three rivers of</span></span>
+      <span class="line-mask sr"><span class="line-mask-inner"><em>sacred knowledge.</em></span></span>
+    </h2>
+
+    <p class="body-text sr sr-up">
+      Tamil spiritual knowledge flowed through distinct yet intertwined streams —
+      each serving a different dimension of the seeker's journey, each necessary
+      to the whole.
+    </p>
+
+    <div class="paths-grid">
+      <div class="path-card sr sr-up">
+        <p class="path-roman">I</p>
+        <h3 class="path-title">Temple Traditions</h3>
+        <ul class="path-list">
+          <li>Ritual and devotion</li>
+          <li>Symbolic practices</li>
+          <li>Community and accessibility</li>
+          <li>The sacred made visible</li>
+        </ul>
+      </div>
+      <div class="path-card sr sr-up" style="transition-delay:0.15s">
+        <p class="path-roman">II</p>
+        <h3 class="path-title">Yogic Traditions</h3>
+        <ul class="path-list">
+          <li>Meditation and breath</li>
+          <li>Body as instrument</li>
+          <li>Inner transformation</li>
+          <li>The still point within</li>
+        </ul>
+      </div>
+      <div class="path-card sr sr-up" style="transition-delay:0.3s">
+        <p class="path-roman">III</p>
+        <h3 class="path-title">The Siddhar System</h3>
+        <ul class="path-list">
+          <li>Direct observation</li>
+          <li>Experimentation</li>
+          <li>Science and spirit as one</li>
+          <li>Self-discovery over belief</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 3: SIDDHAR -->
+<section id="siddhar" class="siddhar-featured">
+  <div class="siddhar-inner">
+    <div>
+      <p class="siddhar-label sr sr-up">03 — The Siddhar Path</p>
+      <h2 class="siddhar-heading sr sr-up">Where Science<br>Meets the Sacred</h2>
+      <div class="siddhar-rule sr sr-up"></div>
+      <p class="body-text sr sr-up">
+        The Siddhar system stands apart. It charts a path of
+        <em>self-discovery</em> — where the seeker becomes both the
+        experiment and the experimenter, both the question and the answer.
+      </p>
+      <p class="body-text sr sr-up">
+        Figures like <em>Thirumoolar</em> served as bridges — carrying
+        wisdom across traditions and demonstrating that the spiritual and
+        empirical were never truly separate.
+      </p>
+    </div>
+
+    <div>
+      <p class="body-text sr sr-up" style="font-family:'Cinzel',serif; font-size:0.65rem; letter-spacing:0.35em; color:var(--gold); opacity:0.6; text-transform:uppercase; margin-bottom:1.5rem;">What sets it apart</p>
+      <ul class="differentiators">
+        <li class="sr sr-up">
+          <span class="marker">—</span>
+          Avoids dependency on belief alone
+        </li>
+        <li class="sr sr-up" style="transition-delay:0.1s">
+          <span class="marker">—</span>
+          Emphasises self-discovery as the method
+        </li>
+        <li class="sr sr-up" style="transition-delay:0.2s">
+          <span class="marker">—</span>
+          Integrates medicine, yoga, and philosophy
+        </li>
+        <li class="sr sr-up" style="transition-delay:0.3s">
+          <span class="marker">—</span>
+          Remained experiential across centuries
+        </li>
+      </ul>
+
+      <div class="sacred-quote sr sr-up" style="margin-top:3rem; margin-bottom:0;">
+        <p>The Siddhar system stands as a direct path of exploration and transformation.</p>
+        <cite>— Ancient Tamil Spiritual Record</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 4: LANGUAGE -->
+<section>
+  <div class="section-inner">
+    <p class="section-num sr sr-up">04 — The Role of Tamil Language</p>
+
+    <h2 class="section-heading">
+      <span class="line-mask sr"><span class="line-mask-inner">Words as</span></span>
+      <span class="line-mask sr"><span class="line-mask-inner"><em>vessels of light.</em></span></span>
+    </h2>
+
+    <p class="body-text sr sr-up">
+      Tamil played a central role in preserving these systems across millennia.
+      Its unique structure permitted poetic expression, symbolic encoding,
+      and layered meanings — where a single verse could hold knowledge
+      accessible to many levels of the seeker's understanding.
+    </p>
+
+    <p class="body-text sr sr-up">
+      The language itself became a <em>living archive</em> — safeguarding
+      the accumulated wisdom of centuries within its syllables.
+    </p>
+
+    <div class="cosmos-grid" style="margin-top:4rem;">
+      <div class="cosmos-item sr">
+        <div class="cosmos-glyph">◈</div>
+        <p class="cosmos-label">Body</p>
+      </div>
+      <div class="cosmos-item sr" style="transition-delay:0.12s">
+        <div class="cosmos-glyph">◉</div>
+        <p class="cosmos-label">Mind</p>
+      </div>
+      <div class="cosmos-item sr" style="transition-delay:0.24s">
+        <div class="cosmos-glyph">◎</div>
+        <p class="cosmos-label">Nature</p>
+      </div>
+      <div class="cosmos-item sr" style="transition-delay:0.36s">
+        <div class="cosmos-glyph">◐</div>
+        <p class="cosmos-label">Cosmos</p>
+      </div>
+    </div>
+    <p class="body-text sr sr-up" style="margin-top:1.5rem; font-style:italic; font-family:'IM Fell English',serif; color:var(--text2);">
+      Tamil spiritual systems saw these not as separate domains — but as one indivisible reality.
+    </p>
+  </div>
+</section>
+
+<!-- SECTION 5: EVOLUTION -->
+<section id="living">
+  <div class="section-inner">
+    <p class="section-num sr sr-up">05 — Evolution Over Time</p>
+
+    <h2 class="section-heading">
+      <span class="line-mask sr"><span class="line-mask-inner">The flame that</span></span>
+      <span class="line-mask sr"><span class="line-mask-inner"><em>never went out.</em></span></span>
+    </h2>
+
+    <div class="timeline">
+      <div class="timeline-item sr sr-up">
+        <p class="timeline-era">Over centuries</p>
+        <h3 class="timeline-title">Ritual and Philosophy Diverge</h3>
+        <p class="timeline-body">Some traditions became elaborately ritual-based, others turned philosophical — each serving the needs of their time and community.</p>
+      </div>
+      <div class="timeline-item sr sr-up" style="transition-delay:0.15s">
+        <p class="timeline-era">Through it all</p>
+        <h3 class="timeline-title">The Siddhar System Remained Experiential</h3>
+        <p class="timeline-body">While forms changed around it, the Siddhar path held to its essential nature: direct experience over inherited doctrine.</p>
+      </div>
+      <div class="timeline-item sr sr-up" style="transition-delay:0.3s">
+        <p class="timeline-era">Today</p>
+        <h3 class="timeline-title">A Growing Return</h3>
+        <p class="timeline-body">There is a growing shift toward experiential spirituality, holistic health, and consciousness exploration — aligning closely with ancient Siddhar principles.</p>
+      </div>
+    </div>
+
+    <div class="relevance-grid" style="margin-top:5rem;">
+      <div class="relevance-card sr sr-up">
+        <div class="relevance-icon">✦</div>
+        <p class="relevance-title">Experiential Spirituality</p>
+        <p class="relevance-text">A return to knowing through being, not merely believing through doctrine.</p>
+      </div>
+      <div class="relevance-card sr sr-up" style="transition-delay:0.15s">
+        <div class="relevance-icon">✦</div>
+        <p class="relevance-title">Holistic Health</p>
+        <p class="relevance-text">Integrating medicine, yoga, and philosophy as one unified discipline of the self.</p>
+      </div>
+      <div class="relevance-card sr sr-up" style="transition-delay:0.3s">
+        <div class="relevance-icon">✦</div>
+        <p class="relevance-title">Consciousness Exploration</p>
+        <p class="relevance-text">The ancient Siddhar inquiry into awareness finds resonance in modern science and practice.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GURUKULAM -->
+<div class="gurukulam">
+  <div class="gurukulam-rule-top sr sr-up"></div>
+  <p class="section-num sr sr-up" style="text-align:center; margin-bottom:2rem;">The Living Lineage</p>
+  <h2 class="gurukulam-name sr sr-up">Shree Easanamma Gurukulam</h2>
+  <p class="gurukulam-sub sr sr-up">Guided by Shree Easanamma</p>
+  <div class="gurukulam-rule-top sr sr-up" style="margin-bottom:3rem;"></div>
+  <p class="gurukulam-quote sr sr-up">
+    These ancient systems do not belong only to the past. They breathe
+    in living spaces, through devoted teachers, through those who choose
+    the path of direct inquiry over inherited belief.
+  </p>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-content">
+    <div class="footer-columns">
+      <div class="footer-column footer-brand">
+        <div class="footer-brand-title">Easanamma Gurukulam</div>
+        <p class="footer-brand-text">
+          A living space of discipline, observation, and transformation — rooted in the
+          ancient Tamil Siddhar tradition under the guidance of Shree Easanamma.
+        </p>
+        <a href="./index.html" class="footer-brand-link">easanamma.com</a>
+      </div>
+
+      <div class="footer-column">
+        <div class="footer-heading">Tradition</div>
+        <ul class="footer-link-list">
+          <li><a href="./18-siddhars.html">The 18 Siddhars</a></li>
+          <li><a href="./siddhar-civilization.html">Siddhar Civilization</a></li>
+          <li><a href="./origin_tamil_siddhars.html">Origins</a></li>
+          <li><a href="./secret-life-siddhars.html">Secret Life</a></li>
+          <li><a href="./siddhar-timeline.html">Timeline</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <div class="footer-heading">Knowledge</div>
+        <ul class="footer-link-list">
+         <li><a href="./Relevance of Siddhar Wisdom in the Modern World.html">Siddha Medicine</a></li>
+         <li><a href="./ancient_tamil_spiritual.html">Ancient Tamil Spirituality</a></li>
+         <li><a href="./meditation_siddhar.html">Meditation</a></li>
+         <li><a href="./Siddhar vs Other Spiritual Traditions.html">Siddhar vs Other Spiritual Traditions</a></li>
+         <li><a href="./Why Siddhars Are Unique.html">Why Siddhars Are Unique</a></li>
+          
+        </ul>
+      </div>
+
+      
+    </div>
+
+    <p class="footer-note">© 2026 Shree Easanamma Gurukulam. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  /* ── Intersection observer for all .sr elements ── */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+
+      /* stagger children within grids */
+      el.classList.add('in');
+
+      /* trigger line-mask children */
+      if (el.classList.contains('line-mask')) {
+        el.classList.add('revealed');
+      }
+
+      /* trigger principle bar fill */
+      if (el.classList.contains('principle-item')) {
+        setTimeout(() => el.classList.add('in'), 50);
+      }
+
+      io.unobserve(el);
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.sr').forEach(el => io.observe(el));
+
+  /* ── Line mask observer ── */
+  const lineIO = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      const siblings = el.parentElement.querySelectorAll('.line-mask');
+      let idx = Array.from(siblings).indexOf(el);
+      setTimeout(() => el.classList.add('revealed'), idx * 120);
+      lineIO.unobserve(el);
+    });
+  }, { threshold: 0.2 });
+
+  document.querySelectorAll('.line-mask').forEach(el => lineIO.observe(el));
+
+  /* ── Smooth stagger for grid children ── */
+  document.querySelectorAll('.principle-item, .path-card, .cosmos-item, .relevance-card').forEach((el, i) => {
+    const parent = el.parentElement;
+    const siblings = Array.from(parent.children);
+    const idx = siblings.indexOf(el);
+    el.style.transitionDelay = el.style.transitionDelay || (idx * 110) + 'ms';
+  });
+})();
+</script>
+</body>
+</html>

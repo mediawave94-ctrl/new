@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inner Observation — Siddhar Science</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Cinzel:wght@400;500;600&family=Cormorant:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
+<style>
+
+/* ═══════════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════════ */
+:root {
+  --ink:         #0a0906;
+  --ink-mid:     #100e0b;
+  --ink-surface: #161310;
+  --ink-raised:  #1e1a16;
+  --ink-border:  #2a2520;
+  --smoke:       #3a342e;
+  --stone:       #524b44;
+  --fog:         #7a726a;
+  --ash:         #a09890;
+  --parchment:   #d8cfc4;
+  --parchment-l: #ede6da;
+  --cream:       #f4ede0;
+
+  --gold:        #c9a84c;
+  --gold-mid:    #a8863a;
+  --gold-dim:    #7a6028;
+  --gold-ghost:  rgba(201,168,76,0.06);
+  --gold-line:   rgba(201,168,76,0.18);
+
+  --serif-display: 'Cormorant Garamond', 'Palatino Linotype', serif;
+  --serif-light:   'Cormorant', serif;
+  --label:         'Cinzel', 'Trajan Pro', serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  background-color: var(--ink);
+  color: var(--ash);
+  font-family: var(--serif-display);
+  font-size: 1.05rem;
+  line-height: 1.9;
+  overflow-x: hidden;
+}
+
+/* ── GRAIN TEXTURE (static SVG noise, no animation) ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  pointer-events: none;
+  opacity: 0.028;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 300px 300px;
+  background-repeat: repeat;
+}
+
+/* ── RADIAL DEPTH VIGNETTE (static, no animation) ── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse 100% 70% at 50% 0%, transparent 30%, rgba(10,9,6,0.55) 100%);
+}
+
+/* ═══════════════════════════════════════════
+   REVEAL SYSTEM — text only, zero bg motion
+═══════════════════════════════════════════ */
+
+/* Standard fade-up */
+.rv {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 1.05s cubic-bezier(0.16,1,0.3,1),
+              transform 1.05s cubic-bezier(0.16,1,0.3,1);
+  will-change: opacity, transform;
+}
+.rv.in { opacity: 1; transform: none; }
+
+/* Stagger delays */
+.s1 { transition-delay: 0.10s; }
+.s2 { transition-delay: 0.20s; }
+.s3 { transition-delay: 0.30s; }
+.s4 { transition-delay: 0.40s; }
+.s5 { transition-delay: 0.50s; }
+.s6 { transition-delay: 0.62s; }
+.s7 { transition-delay: 0.74s; }
+
+/* Word-lift mask — the key text reveal */
+.wl {
+  display: block;
+  overflow: hidden;
+  line-height: 1.05;
+  padding-bottom: 0.08em; /* prevent clip on descenders */
+}
+.wl .w {
+  display: inline-block;
+  transform: translateY(108%);
+  transition: transform 1s cubic-bezier(0.16,1,0.3,1);
+  will-change: transform;
+  margin-right: 0.22em;
+  line-height: inherit;
+}
+/* last word needs no margin */
+.wl .w:last-child { margin-right: 0; }
+
+/* Trigger: parent .wl-group.in fires children */
+.wl-group .wl .w { transform: translateY(108%); }
+.wl-group.in  .wl .w { transform: translateY(0); }
+
+/* Per-word stagger within a .wl-group */
+.wl-group.in .wl .w:nth-child(1)  { transition-delay: 0.00s; }
+.wl-group.in .wl .w:nth-child(2)  { transition-delay: 0.07s; }
+.wl-group.in .wl .w:nth-child(3)  { transition-delay: 0.14s; }
+.wl-group.in .wl .w:nth-child(4)  { transition-delay: 0.21s; }
+.wl-group.in .wl .w:nth-child(5)  { transition-delay: 0.28s; }
+.wl-group.in .wl .w:nth-child(6)  { transition-delay: 0.35s; }
+.wl-group.in .wl .w:nth-child(7)  { transition-delay: 0.42s; }
+.wl-group.in .wl .w:nth-child(8)  { transition-delay: 0.49s; }
+.wl-group.in .wl .w:nth-child(9)  { transition-delay: 0.56s; }
+.wl-group.in .wl .w:nth-child(10) { transition-delay: 0.63s; }
+.wl-group.in .wl .w:nth-child(11) { transition-delay: 0.70s; }
+.wl-group.in .wl .w:nth-child(12) { transition-delay: 0.77s; }
+
+/* For multi-line headings: second line starts after first completes */
+.wl-group.in .wl:nth-child(2) .w:nth-child(1) { transition-delay: 0.28s; }
+.wl-group.in .wl:nth-child(2) .w:nth-child(2) { transition-delay: 0.35s; }
+.wl-group.in .wl:nth-child(2) .w:nth-child(3) { transition-delay: 0.42s; }
+.wl-group.in .wl:nth-child(2) .w:nth-child(4) { transition-delay: 0.49s; }
+.wl-group.in .wl:nth-child(2) .w:nth-child(5) { transition-delay: 0.56s; }
+.wl-group.in .wl:nth-child(3) .w:nth-child(1) { transition-delay: 0.42s; }
+.wl-group.in .wl:nth-child(3) .w:nth-child(2) { transition-delay: 0.50s; }
+.wl-group.in .wl:nth-child(3) .w:nth-child(3) { transition-delay: 0.58s; }
+
+/* Thin line draw (horizontal rule reveal) */
+.line-draw {
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 1.4s cubic-bezier(0.76,0,0.24,1);
+}
+.line-draw.in { transform: scaleX(1); }
+
+/* ═══════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════ */
+nav {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.7rem 4vw;
+  background: rgba(10,9,6,0.86);
+  backdrop-filter: blur(20px) saturate(0.8);
+  border-bottom: 1px solid rgba(201,168,76,0.07);
+}
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  text-decoration: none;
+}
+.nav-ornament {
+  width: 22px; height: 22px;
+  position: relative;
+}
+.nav-ornament::before,
+.nav-ornament::after {
+  content: '';
+  position: absolute;
+  background: var(--gold-dim);
+}
+.nav-ornament::before {
+  top: 50%; left: 0; right: 0; height: 1px;
+  transform: translateY(-50%);
+}
+.nav-ornament::after {
+  left: 50%; top: 0; bottom: 0; width: 1px;
+  transform: translateX(-50%);
+}
+.nav-name {
+  font-family: var(--label);
+  font-size: 0.62rem;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+}
+.nav-links {
+  display: flex;
+  gap: 2.8rem;
+  list-style: none;
+}
+.nav-links a {
+  font-family: var(--label);
+  font-size: 0.58rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--stone);
+  text-decoration: none;
+  transition: color 0.4s ease;
+}
+.nav-links a:hover { color: var(--gold); }
+
+/* ═══════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════ */
+.hero {
+  position: relative;
+  z-index: 1;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10rem 4vw 6rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hero-kicker {
+  font-family: var(--label);
+  font-size: 0.6rem;
+  letter-spacing: 0.52em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  margin-bottom: 3.2rem;
+}
+
+.hero-title {
+  font-family: var(--serif-display);
+  font-weight: 300;
+  font-size: clamp(3.8rem, 9vw, 9.5rem);
+  line-height: 0.96;
+  letter-spacing: -0.015em;
+  color: var(--cream);
+  margin-bottom: 0;
+}
+.hero-title em {
+  font-style: italic;
+  color: var(--gold);
+  font-weight: 300;
+}
+.hero-title .small-line {
+  font-size: clamp(2.4rem, 5.5vw, 6rem);
+  color: var(--parchment);
+  display: block;
+}
+
+.hero-divider {
+  display: flex;
+  align-items: center;
+  gap: 1.8rem;
+  margin: 3.5rem 0;
+}
+.hero-divider-line {
+  height: 1px;
+  width: 80px;
+  background: linear-gradient(to right, var(--gold-dim), transparent);
+}
+.hero-divider-glyph {
+  font-family: var(--serif-display);
+  font-size: 1rem;
+  color: var(--gold-dim);
+  line-height: 1;
+  font-style: italic;
+}
+
+.hero-desc {
+  font-family: var(--serif-display);
+  font-weight: 300;
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
+  font-style: italic;
+  color: var(--fog);
+  max-width: 560px;
+  line-height: 1.75;
+}
+
+.hero-scroll {
+  position: absolute;
+  bottom: 3.5rem;
+  left: 4vw;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+.hero-scroll-line {
+  width: 40px;
+  height: 1px;
+  background: var(--gold-dim);
+}
+.hero-scroll-label {
+  font-family: var(--label);
+  font-size: 0.55rem;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: var(--stone);
+}
+
+/* ═══════════════════════════════════════════
+   SHARED LAYOUT
+═══════════════════════════════════════════ */
+.wrap {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 4vw;
+}
+.wrap-wide {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 4vw;
+}
+.section-space { padding: 8rem 0; }
+.section-space-sm { padding: 6rem 0; }
+
+.section-kicker {
+  font-family: var(--label);
+  font-size: 0.58rem;
+  letter-spacing: 0.44em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  margin-bottom: 1.6rem;
+  display: block;
+}
+
+.display-heading {
+  font-family: var(--serif-display);
+  font-weight: 300;
+  font-size: clamp(2.4rem, 5vw, 4.4rem);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  color: var(--cream);
+}
+.display-heading em {
+  font-style: italic;
+  color: var(--gold);
+}
+
+.medium-heading {
+  font-family: var(--serif-display);
+  font-weight: 300;
+  font-size: clamp(1.7rem, 3vw, 2.8rem);
+  line-height: 1.2;
+  color: var(--parchment-l);
+  letter-spacing: -0.01em;
+}
+.medium-heading em { font-style: italic; color: var(--gold); }
+
+.body-copy {
+  font-family: var(--serif-display);
+  font-weight: 300;
+  font-size: 1.05rem;
+  color: var(--fog);
+  line-height: 1.95;
+}
+.body-copy + .body-copy { margin-top: 1.3rem; }
+
+/* Horizontal rule */
+.ruled {
+  height: 1px;
+  background: linear-gradient(to right, var(--gold-dim) 0%, rgba(201,168,76,0.08) 60%, transparent 100%);
+  margin: 0;
+}
+.ruled-center {
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold-dim), transparent);
+}
+
+/* ═══════════════════════════════════════════
+   INTRO — THE CORE METHOD
+═══════════════════════════════════════════ */
+.intro-section {
+  border-top: 1px solid var(--ink-border);
+  position: relative; z-index: 1;
+}
+.intro-layout {
+  display: grid;
+  grid-template-columns: 5fr 7fr;
+  gap: 6rem;
+  align-items: start;
+  padding-top: 2rem;
+}
+.intro-pull {
+  font-family: var(--serif-display);
+  font-weight: 300;
+  font-size: clamp(1.5rem, 2.6vw, 2.2rem);
+  line-height: 1.45;
+  color: var(--parchment);
+}
+.intro-pull em {
+  font-style: italic;
+  color: var(--gold);
+}
+.intro-pull strong {
+  font-weight: 400;
+  color: var(--cream);
+}
+.sticky-col {
+  position: sticky;
+  top: 8rem;
+}
+
+/* Duality box */
+.duality-box {
+  border: 1px solid var(--ink-border);
+  margin-top: 3.5rem;
+  overflow: hidden;
+}
+.duality-box-header {
+  padding: 1.2rem 2rem;
+  background: var(--ink-raised);
+  border-bottom: 1px solid var(--ink-border);
+}
+.duality-box-title {
+  font-family: var(--label);
+  font-size: 0.56rem;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+}
+.duality-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.duality-cell {
+  padding: 2.2rem 2rem;
+  position: relative;
+}
+.duality-cell:first-child {
+  border-right: 1px solid var(--ink-border);
+}
+.duality-cell-label {
+  font-family: var(--label);
+  font-size: 0.54rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--stone);
+  margin-bottom: 0.8rem;
+  display: block;
+}
+.duality-word {
+  font-family: var(--serif-display);
+  font-size: 1.6rem;
+  font-weight: 400;
+  color: var(--parchment);
+  margin-bottom: 0.5rem;
+}
+.duality-word.lit { color: var(--gold); }
+.duality-desc {
+  font-family: var(--serif-display);
+  font-weight: 300;
+  font-size: 0.9rem;
+  color: var(--stone);
+  line-height: 1.75;
+}
+
+/* ═══════════════════════════════════════════
+   FOUR OBJECTS OF OBSERVATION
+═══════════════════════════════════════════ */
+.objects-section {
+  background: var(--ink-mid);
+  border-top: 1px solid var(--ink-border);
+  border-bottom: 1px solid var(--ink-border);
+  position: relative; z-index: 1;
+}
+.objects-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border: 1px solid var(--ink-border);
+  margin-top: 4rem;
+}
+.obj-card {
+  padding: 2.8rem 2rem 3rem;
+  border-right: 1px solid var(--ink-border);
+  position: relative;
+  transition: background 0.5s ease;
+}
+.obj-card:last-child { border-right: none; }
+.obj-card:hover { background: var(--ink-raised); }
+
+/* gold top accent line that draws on hover */
+.obj-card::after {
+  content: '';
+  position: absolute;
+  top: -1px; left: 0; right: 0;
+  height: 1px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.55s cubic-bezier(0.76,0,0.24,1);
+}
+.obj-card:hover::after { transform: scaleX(1); }
+
+.obj-roman {
+  font-family: var(--label);
+  font-size: 0.56rem;
+  letter-spacing: 0.25em;
+  color: var(--gold-dim);
+  margin-bottom: 2rem;
+  display: block;
+}
+.obj-name {
+  font-family: var(--serif-display);
+  font-size: 1.55rem;
+  font-weight: 400;
+  color: var(--parchment-l);
+  margin-bottom: 1rem;
+  line-height: 1.15;
+}
+.obj-body {
+  font-family: var(--serif-display);
+  font-weight: 300;
+  font-size: 0.88rem;
+  color: var(--stone);
+  line-height: 1.8;
+}
+.obj-detail {
+  margin-top: 1.4rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--ink-border);
+}
+.obj-detail-item {
+  font-family: var(--label);
+  font-size: 0.55rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--smoke);
+  display: block;
+  line-height: 2.2;
+}
+
+/* ═══════════════════════════════════════════
+   PULL STATEMENT — full width
+═══════════════════════════════════════════ */
+.pullquote-section {
+  padding: 9rem 4vw;
+  text-align: center;
+  background: var(--ink-surface);
+  border-top: 1px solid var(--ink-border);
+  border-bottom: 1px solid var(--ink-border);
+  position: relative; z-index: 1;
+}
+.pullquote-ornament {
+  font-family: var(--serif-display);
+  font-size: 4rem;
+  color: var(--gold-dim);
+  line-height: 1;
+  opacity: 0.5;
+  display: block;
+  margin-bottom: 2rem;
+  font-style: italic;
+}
+.pullquote-text {
+  font-family: var(--serif-display);
+  font-weight: 300;
+  font-size: clamp(2rem, 4.5vw, 4rem);
+  line-height: 1.3;
+  color: var(--cream);
+  max-width: 860px;
+  margin: 0 auto 2.5rem;
+}
+.pullquote-text em {
+  font-style: italic;
+  color: var(--gold);
+}
+.pullquote-source {
+  font-family: var(--label);
+  font-size: 0.58rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+}
+.pullquote-source::before,
+.pullquote-source::after {
+  content: '—';
+  margin: 0 0.8em;
+  opacity: 0.4;
+}
+
+/* ═══════════════════════════════════════════
+   PRINCIPLES — numbered
+═══════════════════════════════════════════ */
+.principles-section {
+  border-bottom: 1px solid var(--ink-border);
+  position: relative; z-index: 1;
+}
+.principles-list { margin-top: 4rem; }
+.principle-item {
+  display: grid;
+  grid-template-columns: 3.2rem 1fr;
+  gap: 2.5rem;
+  padding: 3.2rem 0;
+  border-bottom: 1px solid var(--ink-border);
+}
+.principle-item:first-child { border-top: 1px solid var(--ink-border); }
+.p-roman {
+  font-family: var(--label);
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  color: var(--gold-dim);
+  padding-top: 0.35rem;
+}
+.p-head {
+  font-family: var(--serif-display);
+  font-weight: 400;
+  font-size: 1.5rem;
+  color: var(--parchment-l);
+  margin-bottom: 0.7rem;
+  line-height: 1.2;
+}
+.p-head em { font-style: italic; }
+.p-text {
+  font-family: var(--serif-display);
+  font-weight: 300;
+  font-size: 0.97rem;
+  color: var(--fog);
+  line-height: 1.95;
+}
+
+/* ═══════════════════════════════════════════
+   CHALLENGES — editorial asymmetric
+═══════════════════════════════════════════ */
+.challenges-section {
+  border-bottom: 1px solid var(--ink-border);
+  background: var(--ink-mid);
+  position: relative; z-index: 1;
+}
+.challenges-layout {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 7rem;
+  align-items: start;
+}
+.challenges-left { position: sticky; top: 8rem; }
+.challenges-tags {
+  margin-top: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.challenge-tag {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--ink-border);
+}
+.challenge-tag:first-child { border-top: 1px solid var(--ink-border); }
+.challenge-tag-num {
+  font-family: var(--label);
+  font-size: 0.52rem;
+  letter-spacing: 0.15em;
+  color: var(--gold-dim);
+  min-width: 1.4rem;
+}
+.challenge-tag-word {
+  font-family: var(--serif-display);
+  font-size: 1rem;
+  font-weight: 300;
+  color: var(--ash);
+  letter-spacing: 0.04em;
+}
+.challenges-right p {
+  font-family: var(--serif-display);
+  font-weight: 300;
+  font-size: 1rem;
+  color: var(--fog);
+  line-height: 1.95;
+  margin-bottom: 1.5rem;
+}
+.challenges-right p:last-child { margin-bottom: 0; }
+.challenges-aside {
+  border-left: 1px solid var(--gold-dim);
+  padding-left: 1.8rem;
+  margin-top: 2.5rem;
+}
+.challenges-aside-text {
+  font-family: var(--serif-display);
+  font-size: 1.1rem;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--parchment);
+  line-height: 1.65;
+}
+
+/* ═══════════════════════════════════════════
+   GUIDANCE — Gurukulam + Teacher
+═══════════════════════════════════════════ */
+.guidance-section {
+  border-bottom: 1px solid var(--ink-border);
+  position: relative; z-index: 1;
+}
+.guidance-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  background: var(--ink-border);
+  border: 1px solid var(--ink-border);
+  margin-top: 4rem;
+}
+.guidance-card {
+  background: var(--ink);
+  padding: 4rem 3.5rem;
+  position: relative;
+  transition: background 0.5s;
+}
+.guidance-card:hover { background: var(--ink-surface); }
+
+/* animated gold beam top on hover */
+.guidance-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 15%; right: 15%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+  opacity: 0;
+  transition: opacity 0.55s ease;
+}
+.guidance-card:hover::before { opacity: 1; }
+
+.g-eyebrow {
+  font-family: var(--label);
+  font-size: 0.55rem;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  margin-bottom: 1.8rem;
+  display: block;
+}
+.g-name {
+  font-family: var(--serif-display);
+  font-weight: 300;
+  font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+  color: var(--parchment-l);
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+}
+.g-text {
+  font-family: var(--serif-display);
+  font-weight: 300;
+  font-size: 0.95rem;
+  color: var(--fog);
+  line-height: 1.95;
+}
+
+/* ═══════════════════════════════════════════
+   CLOSING
+═══════════════════════════════════════════ */
+.closing-section {
+  position: relative; z-index: 1;
+  text-align: center;
+  padding: 10rem 4vw 9rem;
+}
+.closing-rule-top {
+  width: 1px;
+  height: 70px;
+  background: linear-gradient(to bottom, transparent, var(--gold-dim));
+  margin: 0 auto 4rem;
+}
+.closing-head {
+  font-family: var(--serif-display);
+  font-weight: 300;
+  font-size: clamp(2.4rem, 5.5vw, 5.2rem);
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  color: var(--cream);
+  max-width: 700px;
+  margin: 0 auto 2rem;
+}
+.closing-head em {
+  font-style: italic;
+  color: var(--gold);
+}
+.closing-body {
+  font-family: var(--serif-display);
+  font-weight: 300;
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--fog);
+  max-width: 480px;
+  margin: 0 auto 4.5rem;
+  line-height: 1.9;
+}
+.closing-ornament {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  max-width: 260px;
+  margin: 0 auto;
+}
+.closing-ornament-line {
+  flex: 1;
+  height: 1px;
+  background: var(--ink-border);
+}
+.closing-ornament-mark {
+  font-family: var(--serif-display);
+  font-size: 1.3rem;
+  color: var(--gold-dim);
+  font-style: italic;
+  opacity: 0.8;
+}
+
+/* ═══════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════ */
+footer {
+  position: relative; z-index: 1;
+  border-top: 1px solid var(--ink-border);
+  padding: 2.2rem 4vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.f-left, .f-right {
+  font-family: var(--label);
+  font-size: 0.55rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--smoke);
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════ */
+@media (max-width: 960px) {
+  .intro-layout { grid-template-columns: 1fr; gap: 3rem; }
+  .sticky-col { position: static; }
+  .objects-grid { grid-template-columns: 1fr 1fr; }
+  .obj-card:nth-child(2) { border-right: none; }
+  .obj-card:nth-child(3) { border-top: 1px solid var(--ink-border); }
+  .challenges-layout { grid-template-columns: 1fr; gap: 3rem; }
+  .challenges-left { position: static; }
+  .guidance-grid { grid-template-columns: 1fr; }
+  .nav-links { display: none; }
+}
+@media (max-width: 600px) {
+  .objects-grid { grid-template-columns: 1fr; }
+  .obj-card { border-right: none !important; border-top: 1px solid var(--ink-border); }
+  .obj-card:first-child { border-top: none; }
+  footer { flex-direction: column; gap: 0.8rem; text-align: center; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- ═══ NAVIGATION ═══ -->
+<nav>
+  <a href="#" class="nav-brand">
+    <div class="nav-ornament" aria-hidden="true"></div>
+    <span class="nav-name">Siddhar Science</span>
+  </a>
+  <ul class="nav-links" aria-label="Main navigation">
+    <li><a href="#method">The Method</a></li>
+    <li><a href="#objects">Objects</a></li>
+    <li><a href="#principles">Principles</a></li>
+    <li><a href="#guidance">Guidance</a></li>
+  </ul>
+</nav>
+
+
+<!-- ═══ HERO ═══ -->
+<section class="hero" aria-label="Page introduction">
+
+  <p class="hero-kicker rv" id="hk">Inner Observation Techniques</p>
+
+  <h1 class="hero-title wl-group" id="hero-wlg" aria-label="Siddhar Science — The Core Method">
+    <span class="wl">
+      <span class="w">Siddhar</span>
+    </span>
+    <span class="wl">
+      <span class="w">Science</span>
+    </span>
+    <span class="wl small-line">
+      <span class="w">The</span>
+      <span class="w">Core</span>
+      <span class="w"><em>Method</em></span>
+    </span>
+  </h1>
+
+  <div class="hero-divider rv s5" id="hdiv">
+    <div class="hero-divider-line line-draw" id="hline"></div>
+    <span class="hero-divider-glyph" aria-hidden="true">❧</span>
+  </div>
+
+  <p class="hero-desc rv s6" id="hdesc">
+    The Siddhars did not rely on belief, ritual, or external authority.<br>
+    They relied on direct inner observation — a way of perceiving life clearly.
+  </p>
+
+  <div class="hero-scroll rv s7" id="hscroll" aria-hidden="true">
+    <div class="hero-scroll-line"></div>
+    <span class="hero-scroll-label">Explore below</span>
+  </div>
+
+</section>
+
+
+<!-- ═══ INTRO — THE CORE METHOD ═══ -->
+<section class="intro-section section-space" id="method">
+  <div class="wrap">
+    <span class="section-kicker rv">The Core Method</span>
+
+    <div class="display-heading wl-group">
+      <span class="wl">
+        <span class="w">Observation</span>
+        <span class="w">without</span>
+      </span>
+      <span class="wl">
+        <span class="w"><em>distortion</em></span>
+      </span>
+    </div>
+
+    <div class="ruled rv s2" style="margin-top:2.5rem;"></div>
+
+    <div class="intro-layout" style="margin-top:4rem;">
+      <div class="sticky-col">
+        <p class="intro-pull rv s1">
+          It means watching thoughts as they arise — noticing emotions without reacting — observing sensations without <em>without labeling</em>. It is <strong>awareness directed inward.</strong>
+        </p>
+
+        <div class="duality-box rv s2">
+          <div class="duality-box-header">
+            <span class="duality-box-title">A Key Distinction</span>
+          </div>
+          <div class="duality-row">
+            <div class="duality-cell">
+              <span class="duality-cell-label">Ordinary Mode</span>
+              <div class="duality-word">Thinking</div>
+              <div class="duality-desc">Involvement. When thinking dominates, clarity reduces.</div>
+            </div>
+            <div class="duality-cell">
+              <span class="duality-cell-label">Siddhar Mode</span>
+              <div class="duality-word lit">Observation</div>
+              <div class="duality-desc">Witnessing. When observation deepens, clarity increases.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <p class="body-copy rv s1">This is not a technique in the conventional sense. It is a way of perceiving life clearly — a fundamental orientation toward experience itself rather than a set of steps to follow and complete.</p>
+        <p class="body-copy rv s2">The Siddhars began with simple observation: breath, body sensations, mental activity. No control. No interference. The starting point was wherever the practitioner already was, with no requirement for special conditions or states.</p>
+        <p class="body-copy rv s3">What distinguishes this approach is its radical simplicity. There is no hierarchy of subjects, no technique to refine, no performance of stillness to maintain. The only instruction is to watch — and to remain watching without becoming involved in what is watched.</p>
+        <p class="body-copy rv s4">Most spiritual methods ask the practitioner to produce something: a state, a feeling, an insight. The Siddhar approach asks for the opposite — a quality of unproductive, undemanding noticing that costs nothing and adds nothing to experience.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ FOUR OBJECTS OF OBSERVATION ═══ -->
+<section class="objects-section section-space" id="objects">
+  <div class="wrap-wide">
+    <div class="wrap" style="padding:0">
+      <span class="section-kicker rv">The Starting Points</span>
+      <div class="display-heading wl-group">
+        <span class="wl">
+          <span class="w">Four</span>
+          <span class="w">objects</span>
+          <span class="w">of</span>
+        </span>
+        <span class="wl">
+          <span class="w"><em>observation</em></span>
+        </span>
+      </div>
+      <p class="body-copy rv s2" style="margin-top:1.4rem; max-width:560px;">The Siddhars began where every human being already is. No special conditions required — only the willingness to look.</p>
+    </div>
+
+    <div class="objects-grid rv s2">
+      <div class="obj-card">
+        <span class="obj-roman">I</span>
+        <div class="obj-name">Breath</div>
+        <div class="obj-body">The breath is always present. Observing it helps stabilize attention, reduce mental movement, and anchor awareness in the present moment.</div>
+        <div class="obj-detail">
+          <span class="obj-detail-item">Stabilizes attention</span>
+          <span class="obj-detail-item">Reduces mental movement</span>
+          <span class="obj-detail-item">Anchors awareness</span>
+        </div>
+      </div>
+      <div class="obj-card">
+        <span class="obj-roman">II</span>
+        <div class="obj-name">Thought</div>
+        <div class="obj-body">Thoughts are observed as movements, patterns, repetitions. Over time their intensity reduces and their influence over behaviour naturally weakens.</div>
+        <div class="obj-detail">
+          <span class="obj-detail-item">Seen as patterns</span>
+          <span class="obj-detail-item">Intensity reduces</span>
+          <span class="obj-detail-item">Influence weakens</span>
+        </div>
+      </div>
+      <div class="obj-card">
+        <span class="obj-roman">III</span>
+        <div class="obj-name">Emotion</div>
+        <div class="obj-body">Emotions are not suppressed. They are observed as energy movements — temporary states rather than fixed identities. This reduces reactivity without force.</div>
+        <div class="obj-detail">
+          <span class="obj-detail-item">Not suppressed</span>
+          <span class="obj-detail-item">Seen as temporary</span>
+          <span class="obj-detail-item">Reactivity reduces</span>
+        </div>
+      </div>
+      <div class="obj-card">
+        <span class="obj-roman">IV</span>
+        <div class="obj-name">Body</div>
+        <div class="obj-body">The body reflects inner states. Observing it reveals tension, imbalance, and subtle changes that thinking alone never reaches.</div>
+        <div class="obj-detail">
+          <span class="obj-detail-item">Reveals tension</span>
+          <span class="obj-detail-item">Shows imbalance</span>
+          <span class="obj-detail-item">Subtle changes visible</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ PULL STATEMENT ═══ -->
+<div class="pullquote-section">
+  <span class="pullquote-ornament rv" aria-hidden="true">&ldquo;</span>
+  <p class="pullquote-text wl-group">
+    <span class="wl">
+      <span class="w">Do</span>
+      <span class="w">not</span>
+      <span class="w"><em>interfere.</em></span>
+    </span>
+    <span class="wl">
+      <span class="w">Observation</span>
+      <span class="w">itself</span>
+    </span>
+    <span class="wl">
+      <span class="w">creates</span>
+      <span class="w"><em>change.</em></span>
+    </span>
+  </p>
+  <span class="pullquote-source rv s3">The Non-Interference Principle</span>
+</div>
+
+
+<!-- ═══ PRINCIPLES ═══ -->
+<section class="principles-section section-space" id="principles">
+  <div class="wrap">
+    <span class="section-kicker rv">How It Deepens</span>
+    <div class="display-heading wl-group">
+      <span class="wl">
+        <span class="w">Principles</span>
+        <span class="w">of</span>
+        <span class="w">the</span>
+      </span>
+      <span class="wl">
+        <span class="w"><em>practice</em></span>
+      </span>
+    </div>
+
+    <div class="principles-list">
+
+      <div class="principle-item rv">
+        <span class="p-roman">I</span>
+        <div>
+          <div class="p-head">The Non-Interference Principle</div>
+          <p class="p-text">The most important aspect of inner observation is this: do not interfere. The practitioner does not suppress, control, or judge what is observed. This is both the simplest and most demanding requirement. Observation itself — when sustained without reaction — creates the shift. No effort is needed beyond seeing clearly.</p>
+        </div>
+      </div>
+
+      <div class="principle-item rv s1">
+        <span class="p-roman">II</span>
+        <div>
+          <div class="p-head">Gradual Deepening</div>
+          <p class="p-text">As observation continues over days and months, awareness becomes more stable. Reactions reduce in frequency and intensity. Perception sharpens. This is not a sudden event — it is a slow clarification, like sediment settling from still water. There are no markers to pursue. The practice itself is the measure.</p>
+        </div>
+      </div>
+
+      <div class="principle-item rv s2">
+        <span class="p-roman">III</span>
+        <div>
+          <div class="p-head"><em>Challenges</em> Are Also Observed</div>
+          <p class="p-text">Distraction, impatience, expectation — these common difficulties are not problems to solve. They are themselves objects of observation. The practitioner learns to apply the same non-reactive witnessing to the practice's obstacles as to anything else that arises. There is no state of practice that is immune from becoming an object of observation.</p>
+        </div>
+      </div>
+
+      <div class="principle-item rv s3">
+        <span class="p-roman">IV</span>
+        <div>
+          <div class="p-head">Not Mastery — Consistency</div>
+          <p class="p-text">Inner observation is not something to master. It is something to remain with consistently. The Siddhar approach is not oriented toward endpoints or achievements. Sustained, deepening, undramatic awareness of what is — this is both the method and the destination. The practice does not conclude; it deepens.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ CHALLENGES ═══ -->
+<section class="challenges-section section-space" id="challenges">
+  <div class="wrap">
+    <div class="challenges-layout">
+      <div class="challenges-left">
+        <span class="section-kicker rv">What Arises</span>
+        <h2 class="medium-heading rv s1">Common obstacles</h2>
+        <div class="challenges-tags rv s2">
+          <div class="challenge-tag">
+            <span class="challenge-tag-num">01</span>
+            <span class="challenge-tag-word">Distraction</span>
+          </div>
+          <div class="challenge-tag">
+            <span class="challenge-tag-num">02</span>
+            <span class="challenge-tag-word">Impatience</span>
+          </div>
+          <div class="challenge-tag">
+            <span class="challenge-tag-num">03</span>
+            <span class="challenge-tag-word">Expectation</span>
+          </div>
+          <div class="challenge-tag">
+            <span class="challenge-tag-num">04</span>
+            <span class="challenge-tag-word">Over-thinking</span>
+          </div>
+          <div class="challenge-tag">
+            <span class="challenge-tag-num">05</span>
+            <span class="challenge-tag-word">Forced control</span>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <p class="body-copy rv s1">The mind does not surrender its habits easily. When a practitioner first sits with observation, the immediate experience is often a torrent of distraction — thoughts pull insistently, impatience surfaces, the impulse to control the process reasserts itself repeatedly.</p>
+        <p class="body-copy rv s2">These are not signs of failure. They are the precise territory the practice is designed to illuminate. Each obstacle, when met with the same quality of non-reactive witnessing, gradually loses its grip. The difficulty does not disappear — but the practitioner's relationship to it changes.</p>
+        <p class="body-copy rv s3">The expectation that something particular should happen is itself one of the greatest obstacles. The practice asks for a simple, unconditional noticing — with no agenda attached to what gets noticed. When expectation is seen clearly for what it is, it too becomes an object of observation rather than a barrier to it.</p>
+        <div class="challenges-aside rv s4">
+          <p class="challenges-aside-text">These are also observed — not resisted, not resolved, not transcended. Simply seen.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ GUIDANCE ═══ -->
+<section class="guidance-section section-space" id="guidance">
+  <div class="wrap">
+    <span class="section-kicker rv">Support for the Path</span>
+    <div class="display-heading wl-group">
+      <span class="wl">
+        <span class="w">Environment</span>
+        <span class="w">&amp;</span>
+      </span>
+      <span class="wl">
+        <span class="w"><em>Guidance</em></span>
+      </span>
+    </div>
+    <p class="body-copy rv s2" style="margin-top:1.5rem; max-width:560px;">Sustained inner observation deepens in the right conditions — a disciplined environment and a teacher who has walked the same ground.</p>
+
+    <div class="guidance-grid rv s3">
+      <div class="guidance-card">
+        <span class="g-eyebrow">Place of Practice</span>
+        <h3 class="g-name">Shree Easanamma Gurukulam</h3>
+        <p class="g-text">Inner observation deepens in disciplined environments. At Shree Easanamma Gurukulam, daily structure supports the kind of sustained, uninterrupted practice that produces genuine depth. Silence, schedule, and consistent exposure to the teaching create conditions where the mind's habitual noise becomes clearly visible — and where the practitioner learns to remain with what is visible.</p>
+      </div>
+      <div class="guidance-card">
+        <span class="g-eyebrow">The Teacher</span>
+        <h3 class="g-name">Shree Easanamma</h3>
+        <p class="g-text">Without guidance, seekers may overthink the process, or attempt to control what the practice specifically asks not to control. The guidance of Shree Easanamma helps practitioners maintain clarity — distinguishing true observation from subtle forms of avoidance masquerading as practice. Guidance is not instruction in new techniques. It is a steady correction back to seeing what is already here.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ CLOSING ═══ -->
+<section class="closing-section">
+  <div class="closing-rule-top rv" aria-hidden="true"></div>
+
+  <div class="display-heading wl-group" style="max-width:700px;margin:0 auto 2rem;">
+    <span class="wl" style="justify-content:center;">
+      <span class="w">Remain</span>
+      <span class="w">with</span>
+      <span class="w">it</span>
+    </span>
+    <span class="wl" style="justify-content:center;">
+      <span class="w"><em>consistently.</em></span>
+    </span>
+  </div>
+
+  <p class="closing-body rv s2">Inner observation is not something to achieve and move beyond. It is a quality of attention — clear, undemanding, honest — that can be brought to every arising moment without exception.</p>
+
+  <div class="closing-ornament rv s3" aria-hidden="true">
+    <div class="closing-ornament-line line-draw"></div>
+    <span class="closing-ornament-mark">❧</span>
+    <div class="closing-ornament-line line-draw"></div>
+  </div>
+</section>
+
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <span class="f-left">Siddhar Science · Shree Easanamma Gurukulam</span>
+  <span class="f-right">Inner Observation Techniques</span>
+</footer>
+
+
+<script>
+/* ═══════════════════════════════════════════
+   INTERSECTION OBSERVER — fires .in class
+═══════════════════════════════════════════ */
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('in');
+      observer.unobserve(entry.target);
+    }
+  });
+}, {
+  threshold: 0.1,
+  rootMargin: '0px 0px -60px 0px'
+});
+
+document.querySelectorAll('.rv, .wl-group, .line-draw').forEach(el => {
+  observer.observe(el);
+});
+
+/* ═══════════════════════════════════════════
+   HERO — sequenced entrance on load
+═══════════════════════════════════════════ */
+const heroSequence = [
+  { id: 'hk',       delay: 180  },
+  { id: 'hero-wlg', delay: 480  },   // fires wl-group → word lifts
+  { id: 'hdiv',     delay: 1050 },
+  { id: 'hline',    delay: 1100 },   // line draw
+  { id: 'hdesc',    delay: 1280 },
+  { id: 'hscroll',  delay: 1520 },
+];
+
+window.addEventListener('load', () => {
+  heroSequence.forEach(({ id, delay }) => {
+    setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el) el.classList.add('in');
+    }, delay);
+  });
+});
+</script>
+</body>
+</html>

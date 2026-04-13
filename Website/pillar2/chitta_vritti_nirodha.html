@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chitta Vritti Nirodha — The Stilling of Mental Movement</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cormorant+SC:wght@300;400;600&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:       #080910;
+  --bg2:      #0c0d14;
+  --bg3:      #10111a;
+  --border:   #1c1e2e;
+  --border2:  #262840;
+  --indigo:   #6b74c8;
+  --indigo2:  #4a529a;
+  --indigo3:  #2e3370;
+  --silver:   #c8cde8;
+  --silver2:  #8890c0;
+  --silver3:  #4a5080;
+  --text:     #dde0f0;
+  --text-mid: #8890b8;
+  --text-low: #3e4468;
+  --serif:    'Crimson Pro', Georgia, serif;
+  --caps:     'Cormorant SC', Georgia, serif;
+  --ui:       'Jost', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--serif);
+  font-size: 18px;
+  line-height: 1.85;
+  overflow-x: hidden;
+}
+
+/* ── CHAR SPLIT ── */
+.ch {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+/* ── WORD DRIFT ── */
+.wd {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(12px);
+  filter: blur(5px);
+  transition: opacity 0.75s ease, transform 0.75s ease, filter 0.75s ease;
+}
+
+/* ── LINE RISE ── */
+.lr {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.9s cubic-bezier(.16,.84,.44,1), transform 0.9s cubic-bezier(.16,.84,.44,1);
+}
+.lr.in { opacity: 1; transform: translateY(0); }
+
+/* ── FADE ── */
+.fd { opacity: 0; transition: opacity 1.1s ease; }
+.fd.in { opacity: 1; }
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 999;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.6rem 5vw;
+  background: linear-gradient(to bottom, rgba(8,9,16,.98) 0%, transparent 100%);
+}
+.nav-mark {
+  font-family: var(--caps);
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  color: var(--indigo);
+  text-decoration: none;
+  font-weight: 300;
+}
+.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+.nav-links a {
+  font-family: var(--ui);
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--text-low);
+  text-decoration: none;
+  font-weight: 300;
+  transition: color 0.3s;
+}
+.nav-links a:hover { color: var(--silver); }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 10rem 2rem 5rem;
+}
+
+.hero-kicker {
+  font-family: var(--ui);
+  font-size: 9px;
+  letter-spacing: 0.58em;
+  text-transform: uppercase;
+  color: var(--indigo2);
+  font-weight: 300;
+  margin-bottom: 3rem;
+}
+
+.hero-sanskrit {
+  font-family: var(--caps);
+  font-size: clamp(30px, 6vw, 62px);
+  font-weight: 300;
+  letter-spacing: 0.18em;
+  color: var(--silver);
+  line-height: 1.15;
+  margin-bottom: 1.1rem;
+}
+
+.hero-dot {
+  display: inline-block;
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--indigo2);
+  margin: 0 0.5rem;
+  vertical-align: middle;
+}
+
+.hero-sub {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(16px, 2.5vw, 22px);
+  font-weight: 300;
+  color: var(--text-mid);
+  letter-spacing: 0.04em;
+  margin-bottom: 3.5rem;
+}
+
+.hero-stroke {
+  width: 1px;
+  height: 64px;
+  background: linear-gradient(to bottom, var(--indigo3), transparent);
+  margin: 0 auto 3rem;
+}
+
+.hero-body {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(15px, 1.9vw, 19px);
+  font-weight: 300;
+  color: var(--text-mid);
+  max-width: 520px;
+  line-height: 2.1;
+}
+
+/* ── THIN ORNAMENT ── */
+.orn {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+.orn-l { flex: 1; height: 1px; background: linear-gradient(to right, transparent, var(--border2)); }
+.orn-r { flex: 1; height: 1px; background: linear-gradient(to left, transparent, var(--border2)); }
+.orn-mark {
+  font-family: var(--caps);
+  font-size: 14px;
+  color: var(--indigo3);
+  letter-spacing: 0.3em;
+  flex-shrink: 0;
+}
+
+/* ── SECTION ── */
+section {
+  max-width: 740px;
+  margin: 0 auto;
+  padding: 2rem 2rem 4rem;
+}
+
+.tag {
+  font-family: var(--ui);
+  font-size: 9px;
+  letter-spacing: 0.52em;
+  text-transform: uppercase;
+  color: var(--indigo2);
+  font-weight: 300;
+  display: block;
+  margin-bottom: 1.5rem;
+}
+
+.h2 {
+  font-family: var(--caps);
+  font-size: clamp(20px, 3.8vw, 36px);
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  color: var(--text);
+  line-height: 1.3;
+  margin-bottom: 2rem;
+}
+
+.body { font-weight: 300; color: var(--text-mid); line-height: 1.95; margin-bottom: 1.3rem; }
+.body-em {
+  font-style: italic;
+  font-size: clamp(16px, 2.1vw, 20px);
+  font-weight: 300;
+  color: var(--text-mid);
+  line-height: 2;
+  margin-bottom: 1.3rem;
+}
+
+/* ── TERM BREAKDOWN ── */
+.terms {
+  margin: 2.5rem 0;
+  border: 1px solid var(--border);
+}
+.term-row {
+  display: grid;
+  grid-template-columns: 140px 24px 1fr;
+  align-items: center;
+  padding: 1.4rem 2rem;
+  border-bottom: 1px solid var(--border);
+  gap: 0;
+}
+.term-row:last-child { border-bottom: none; }
+.term-word {
+  font-family: var(--caps);
+  font-size: clamp(15px, 2vw, 20px);
+  font-weight: 300;
+  color: var(--silver);
+  letter-spacing: 0.12em;
+  font-style: italic;
+}
+.term-arrow {
+  font-family: var(--ui);
+  font-size: 14px;
+  color: var(--indigo3);
+  text-align: center;
+  font-weight: 300;
+}
+.term-meaning {
+  font-family: var(--serif);
+  font-size: clamp(14px, 1.7vw, 16px);
+  font-weight: 300;
+  color: var(--text-mid);
+  font-style: italic;
+}
+
+/* ── FULL-WIDTH PULL QUOTE ── */
+.pull {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 4.5rem 2rem;
+  text-align: center;
+  margin: 0;
+}
+.pull-inner { max-width: 640px; margin: 0 auto; }
+.pull-text {
+  font-family: var(--caps);
+  font-size: clamp(20px, 4vw, 38px);
+  font-weight: 300;
+  letter-spacing: 0.06em;
+  color: var(--text);
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+.pull-text em { color: var(--indigo); font-style: normal; }
+.pull-attr {
+  font-family: var(--ui);
+  font-size: 9px;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: var(--indigo3);
+  font-weight: 300;
+}
+
+/* ── CONTRAST PAIR ── */
+.versus {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin: 2.5rem 0;
+  border: 1px solid var(--border);
+}
+.vs-col { padding: 2.2rem 2rem; }
+.vs-col + .vs-col { border-left: 1px solid var(--border); background: var(--bg2); }
+.vs-label {
+  font-family: var(--ui);
+  font-size: 9px;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: var(--text-low);
+  font-weight: 300;
+  display: block;
+  margin-bottom: 1.4rem;
+}
+.vs-title {
+  font-family: var(--caps);
+  font-size: clamp(18px, 2.5vw, 26px);
+  font-weight: 300;
+  color: var(--silver2);
+  letter-spacing: 0.1em;
+  margin-bottom: 1.2rem;
+}
+.vs-col + .vs-col .vs-title { color: var(--silver); }
+.vs-item {
+  font-family: var(--serif);
+  font-size: 15px;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--text-low);
+  padding: 0.35rem 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+.vs-item:last-child { border-bottom: none; }
+.vs-col + .vs-col .vs-item { color: var(--text-mid); }
+.vs-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--text-low); flex-shrink: 0; }
+.vs-col + .vs-col .vs-dot { background: var(--indigo2); }
+
+/* ── EMERGENCE STEPS ── */
+.emerge {
+  margin: 2.5rem 0;
+  counter-reset: step;
+}
+.emerge-item {
+  display: flex;
+  gap: 1.8rem;
+  padding: 1.8rem 0;
+  border-bottom: 1px solid var(--border);
+  align-items: flex-start;
+}
+.emerge-item:first-child { border-top: 1px solid var(--border); }
+.emerge-n {
+  font-family: var(--caps);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--indigo3);
+  font-weight: 300;
+  min-width: 38px;
+  padding-top: 3px;
+}
+.emerge-body {}
+.emerge-title {
+  font-family: var(--ui);
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--text);
+  font-weight: 300;
+  margin-bottom: 0.4rem;
+}
+.emerge-desc {
+  font-family: var(--serif);
+  font-size: 15px;
+  font-style: italic;
+  font-weight: 300;
+  color: var(--text-low);
+  line-height: 1.75;
+}
+
+/* ── MISCONCEPTIONS ── */
+.misc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  margin: 2.5rem 0;
+}
+.misc-cell {
+  background: var(--bg);
+  padding: 1.8rem 1.5rem;
+}
+.misc-label {
+  font-family: var(--ui);
+  font-size: 8px;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: var(--text-low);
+  font-weight: 300;
+  display: block;
+  margin-bottom: 0.9rem;
+}
+.misc-text {
+  font-family: var(--serif);
+  font-size: 15px;
+  font-style: italic;
+  font-weight: 300;
+  color: var(--text-mid);
+  line-height: 1.7;
+}
+
+/* ── BREATH PAIR ── */
+.breath-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  margin: 2.5rem 0;
+}
+.breath-cell {
+  background: var(--bg);
+  padding: 2rem 1.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.breath-state {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--text-low);
+}
+.breath-arrow {
+  font-family: var(--caps);
+  font-size: 13px;
+  color: var(--indigo3);
+  letter-spacing: 0.2em;
+}
+.breath-result {
+  font-family: var(--caps);
+  font-size: clamp(14px, 2vw, 18px);
+  font-weight: 300;
+  color: var(--silver2);
+  letter-spacing: 0.1em;
+}
+
+/* ── GURU ── */
+.guru-wrap {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 7rem 2rem;
+  text-align: center;
+}
+.guru-inner { max-width: 580px; margin: 0 auto; }
+.guru-pre {
+  font-family: var(--ui);
+  font-size: 9px;
+  letter-spacing: 0.55em;
+  text-transform: uppercase;
+  color: var(--indigo3);
+  font-weight: 300;
+  display: block;
+  margin-bottom: 2rem;
+}
+.guru-name {
+  font-family: var(--caps);
+  font-size: clamp(24px, 4.5vw, 46px);
+  font-weight: 300;
+  color: var(--silver);
+  letter-spacing: 0.18em;
+  margin-bottom: 0.5rem;
+}
+.guru-place {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--text-low);
+  margin-bottom: 2.8rem;
+}
+.guru-divider {
+  width: 1px;
+  height: 48px;
+  background: linear-gradient(to bottom, var(--indigo3), transparent);
+  margin: 0 auto 2.8rem;
+}
+.guru-text {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(15px, 2vw, 18px);
+  font-weight: 300;
+  color: var(--text-mid);
+  line-height: 2.1;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* ── CLOSING STATEMENT ── */
+.closing {
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 6rem 2rem 5rem;
+  text-align: center;
+}
+.closing-line {
+  display: block;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(16px, 2.4vw, 21px);
+  font-weight: 300;
+  color: var(--text-mid);
+  line-height: 2.4;
+}
+.closing-apex {
+  display: block;
+  font-family: var(--caps);
+  font-size: clamp(22px, 4vw, 38px);
+  font-weight: 300;
+  color: var(--text);
+  letter-spacing: 0.1em;
+  line-height: 1.4;
+  margin-top: 1rem;
+}
+.closing-apex em {
+  color: var(--indigo);
+  font-style: normal;
+}
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 3rem 2rem;
+  text-align: center;
+}
+.foot-brand {
+  font-family: var(--caps);
+  font-size: 11px;
+  letter-spacing: 0.4em;
+  color: var(--indigo3);
+  font-weight: 300;
+  display: block;
+  margin-bottom: 0.7rem;
+}
+.foot-note {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--text-low);
+}
+
+@media (max-width: 640px) {
+  nav { padding: 1.2rem 1.5rem; }
+  .nav-links { display: none; }
+  .versus { grid-template-columns: 1fr; }
+  .vs-col + .vs-col { border-left: none; border-top: 1px solid var(--border); }
+  .misc-grid { grid-template-columns: 1fr; }
+  .breath-pair { grid-template-columns: 1fr; }
+  .term-row { grid-template-columns: 110px 20px 1fr; padding: 1.2rem 1rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="./index.html" class="nav-mark">Chitta Vritti Nirodha</a>
+  <ul class="nav-links">
+    <li><a href="#nature">Nature</a></li>
+    <li><a href="#method">Method</a></li>
+    <li><a href="#emergence">Emergence</a></li>
+    <li><a href="#guru">Guidance</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <p class="hero-kicker fd" data-d="200">The Siddhar Science of Mind</p>
+
+  <h1 class="hero-sanskrit" id="hero-title">Chitta Vritti Nirodha</h1>
+
+  <p class="hero-sub fd" data-d="900">
+    <em>The Stilling of Mental Movement</em>
+  </p>
+
+  <div class="hero-stroke fd" data-d="1200"></div>
+
+  <p class="hero-body" id="hero-body">
+    Often translated as "the cessation of mental fluctuations" —
+    yet for the Siddhars, this is not a technique.
+    It is a state of clarity that emerges through deep observation.
+  </p>
+</div>
+
+<!-- ── ORNAMENT ── -->
+<div class="orn lr">
+  <div class="orn-l"></div>
+  <span class="orn-mark">✦</span>
+  <div class="orn-r"></div>
+</div>
+
+<!-- ── BREAKING DOWN THE TERM ── -->
+<section>
+  <span class="tag lr">Breaking Down the Term</span>
+  <h2 class="h2" id="h-terms">Three Words. One State.</h2>
+
+  <div class="terms lr">
+    <div class="term-row">
+      <span class="term-word">Chitta</span>
+      <span class="term-arrow">→</span>
+      <span class="term-meaning">the mind-field — memory, impressions, deep patterns</span>
+    </div>
+    <div class="term-row">
+      <span class="term-word">Vritti</span>
+      <span class="term-arrow">→</span>
+      <span class="term-meaning">movements or fluctuations of the mind</span>
+    </div>
+    <div class="term-row">
+      <span class="term-word">Nirodha</span>
+      <span class="term-arrow">→</span>
+      <span class="term-meaning">settling, cessation, or natural stilling</span>
+    </div>
+  </div>
+
+  <p class="body-em lr">
+    Together, the phrase points to something simple and profound —
+    the natural settling of the mind's movements. Not a technique to be applied.
+    A state to be recognised.
+  </p>
+</section>
+
+<!-- ── PULL QUOTE 1 ── -->
+<div class="pull">
+  <div class="pull-inner">
+    <p class="pull-text" id="pq1">
+      The mind cannot be <em>forced</em> into stillness.
+    </p>
+    <span class="pull-attr lr">— Siddhar Insight</span>
+  </div>
+</div>
+
+<!-- ── NATURE OF FLUCTUATIONS ── -->
+<section id="nature">
+  <span class="tag lr">Section One</span>
+  <h2 class="h2" id="h-nature">The Nature of Mental Fluctuations</h2>
+  <p class="body lr">
+    The Siddhars observed that the mind is rarely still. It moves
+    continuously through thoughts, memories, reactions, imagination —
+    a ceaseless current that colours everything it passes through.
+  </p>
+  <p class="body-em lr">
+    These movements create distortion, confusion, and misperception.
+    They are not the enemy — but unobserved, they govern everything.
+  </p>
+
+  <!-- VERSUS -->
+  <div class="versus lr">
+    <div class="vs-col">
+      <span class="vs-label">What suppression creates</span>
+      <div class="vs-title">Forced Control</div>
+      <div class="vs-item"><span class="vs-dot"></span>Creates internal tension</div>
+      <div class="vs-item"><span class="vs-dot"></span>Temporary in effect</div>
+      <div class="vs-item"><span class="vs-dot"></span>Deepens the struggle</div>
+    </div>
+    <div class="vs-col">
+      <span class="vs-label">What nirodha reveals</span>
+      <div class="vs-title">Natural Settling</div>
+      <div class="vs-item"><span class="vs-dot"></span>Creates clarity</div>
+      <div class="vs-item"><span class="vs-dot"></span>Stable and enduring</div>
+      <div class="vs-item"><span class="vs-dot"></span>Dissolves the struggle</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ORNAMENT ── -->
+<div class="orn lr">
+  <div class="orn-l"></div>
+  <span class="orn-mark">✦</span>
+  <div class="orn-r"></div>
+</div>
+
+<!-- ── METHOD ── -->
+<section id="method">
+  <span class="tag lr">Section Two</span>
+  <h2 class="h2" id="h-method">The Role of Observation</h2>
+  <p class="body lr">
+    Instead of control, the Siddhars worked with pure observation.
+    When thoughts are watched — not judged, not chased, not suppressed —
+    something quietly shifts. Their intensity reduces. Their frequency slows.
+    Their grip on awareness weakens.
+  </p>
+
+  <!-- BREATH PAIR -->
+  <div class="breath-pair lr">
+    <div class="breath-cell">
+      <span class="breath-state">Disturbed breath</span>
+      <span class="breath-arrow">↓</span>
+      <span class="breath-result">Active, scattered mind</span>
+    </div>
+    <div class="breath-cell">
+      <span class="breath-state">Breath observed, allowed to settle</span>
+      <span class="breath-arrow">↓</span>
+      <span class="breath-result">Naturally settled mind</span>
+    </div>
+  </div>
+
+  <p class="body-em lr">
+    The Siddhars observed a living connection between breath and mind.
+    Not to control either — but to witness both. In that witnessing,
+    both begin to settle of their own accord.
+  </p>
+</section>
+
+<!-- ── PULL QUOTE 2 ── -->
+<div class="pull">
+  <div class="pull-inner">
+    <p class="pull-text" id="pq2">
+      Stillness is not created. It is <em>revealed</em>.
+    </p>
+    <span class="pull-attr lr">— The Siddhar View</span>
+  </div>
+</div>
+
+<!-- ── EMERGENCE ── -->
+<section id="emergence">
+  <span class="tag lr">Section Three</span>
+  <h2 class="h2" id="h-emerge">The Emergence of Stillness</h2>
+  <p class="body lr">
+    As observation deepens, the process unfolds in its own time —
+    not forced, not hurried. The following movements are noticed
+    by those who persist with honest, undramatic attention.
+  </p>
+
+  <div class="emerge">
+    <div class="emerge-item lr">
+      <span class="emerge-n">I</span>
+      <div class="emerge-body">
+        <div class="emerge-title">Gaps Appear</div>
+        <p class="emerge-desc">Between one thought and the next, a space opens. Brief at first — almost imperceptible. Then wider.</p>
+      </div>
+    </div>
+    <div class="emerge-item lr">
+      <span class="emerge-n">II</span>
+      <div class="emerge-body">
+        <div class="emerge-title">Silence Becomes Noticeable</div>
+        <p class="emerge-desc">The silence in the gap is recognised — not as absence, but as a presence. A quality of mind without movement.</p>
+      </div>
+    </div>
+    <div class="emerge-item lr">
+      <span class="emerge-n">III</span>
+      <div class="emerge-body">
+        <div class="emerge-title">Awareness Becomes Stable</div>
+        <p class="emerge-desc">The witness stabilises. The one who observes is no longer swept away by what is observed.</p>
+      </div>
+    </div>
+    <div class="emerge-item lr">
+      <span class="emerge-n">IV</span>
+      <div class="emerge-body">
+        <div class="emerge-title">Living Application</div>
+        <p class="emerge-desc">This clarity enters daily thinking, emotional reactions, decision-making. It is not limited to formal practice.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ORNAMENT ── -->
+<div class="orn lr">
+  <div class="orn-l"></div>
+  <span class="orn-mark">✦</span>
+  <div class="orn-r"></div>
+</div>
+
+<!-- ── MISCONCEPTIONS ── -->
+<section>
+  <span class="tag lr">Common Misunderstandings</span>
+  <h2 class="h2" id="h-misc">What Nirodha Is Not</h2>
+  <p class="body lr">
+    Many approach this concept with a different expectation — shaped
+    by popular ideas about meditation, mystical states, and the
+    suppression of thought. The Siddhar view is far simpler.
+  </p>
+
+  <div class="misc-grid">
+    <div class="misc-cell lr">
+      <span class="misc-label">Misunderstanding</span>
+      <p class="misc-text">Stopping thoughts completely — making the mind blank.</p>
+    </div>
+    <div class="misc-cell lr">
+      <span class="misc-label">Misunderstanding</span>
+      <p class="misc-text">Entering trance states or altered levels of consciousness.</p>
+    </div>
+    <div class="misc-cell lr">
+      <span class="misc-label">Misunderstanding</span>
+      <p class="misc-text">Achieving mystical experiences or extraordinary perception.</p>
+    </div>
+  </div>
+
+  <p class="body-em lr">
+    The Siddhar view offers none of these — and needs none of them.
+    Clarity through observation. That is the entirety of the method.
+  </p>
+</section>
+
+<!-- ── GURU ── -->
+<div class="guru-wrap" id="guru">
+  <div class="guru-inner">
+    <span class="guru-pre lr">Living Guidance</span>
+    <div class="guru-name" id="guru-name">Shree Easanamma</div>
+    <p class="guru-place lr">Shree Easanamma Gurukulam</p>
+    <div class="guru-divider fd"></div>
+    <p class="guru-text" id="guru-body">
+      Without proper understanding, seekers may try to control the mind,
+      or misinterpret the silence that begins to emerge. Guidance from a
+      living source aligns the process — not through command, but through
+      the quality of attention that is transmitted in presence.
+    </p>
+  </div>
+</div>
+
+<!-- ── CLOSING ── -->
+<div class="closing">
+  <span class="tag lr" style="text-align:center; display:block;">Conclusion</span>
+  <div style="margin-top:2.5rem;">
+    <span class="closing-line lr">Chitta Vritti Nirodha is not an achievement.</span>
+    <span class="closing-line lr">It is not a technique to be mastered.</span>
+    <span class="closing-line lr">It is the natural state of</span>
+    <span class="closing-apex" id="apex">a mind that is <em>clearly observed</em>.</span>
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <span class="foot-brand fd">Shree Easanamma Gurukulam</span>
+  <p class="foot-note fd">Chitta Vritti Nirodha — clarity through observation, stillness through awareness.</p>
+</footer>
+
+<script>
+// ── SPLIT HELPERS ──
+function byChars(el) {
+  const raw = el.textContent.trim();
+  el.textContent = '';
+  [...raw].forEach(ch => {
+    if (ch === ' ') { el.appendChild(document.createTextNode('\u00a0')); return; }
+    const s = document.createElement('span');
+    s.className = 'ch';
+    s.textContent = ch;
+    el.appendChild(s);
+  });
+}
+
+function byWords(el) {
+  const raw = el.innerHTML.trim();
+  // Strip tags, split on whitespace, rebuild preserving <em>
+  const tmp = document.createElement('div');
+  tmp.innerHTML = raw;
+  const text = tmp.textContent.trim();
+  el.textContent = '';
+  text.split(/\s+/).forEach((word, i, arr) => {
+    const s = document.createElement('span');
+    s.className = 'wd';
+    s.textContent = word;
+    el.appendChild(s);
+    if (i < arr.length - 1) el.appendChild(document.createTextNode(' '));
+  });
+}
+
+// ── FIRE ANIMATION ──
+function fire(el) {
+  if (el.dataset.animated) return;
+  el.dataset.animated = '1';
+
+  const chars = el.querySelectorAll('.ch');
+  const words = el.querySelectorAll('.wd');
+
+  if (chars.length) {
+    chars.forEach((c, i) => {
+      setTimeout(() => {
+        c.style.opacity = '1';
+        c.style.transform = 'translateY(0)';
+      }, i * 38);
+    });
+  } else if (words.length) {
+    words.forEach((w, i) => {
+      setTimeout(() => {
+        w.style.opacity = '1';
+        w.style.transform = 'translateY(0)';
+        w.style.filter = 'blur(0)';
+      }, i * 60);
+    });
+  } else if (el.classList.contains('lr')) {
+    el.classList.add('in');
+  } else if (el.classList.contains('fd')) {
+    el.classList.add('in');
+  }
+}
+
+// ── PREPARE SPLIT ELEMENTS ──
+const charEls  = ['hero-title', 'h-terms', 'h-nature', 'h-method', 'h-emerge', 'h-misc', 'guru-name', 'apex'];
+const wordEls  = ['hero-body', 'pq1', 'pq2', 'guru-body'];
+
+charEls.forEach(id => { const el = document.getElementById(id); if (el) byChars(el); });
+wordEls.forEach(id => { const el = document.getElementById(id); if (el) byWords(el); });
+
+// ── INTERSECTION OBSERVER ──
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    fire(e.target);
+    io.unobserve(e.target);
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.lr, .fd, [id]').forEach(el => {
+  if (el.tagName === 'nav' || el.tagName === 'NAV') return;
+  io.observe(el);
+});
+
+// ── HERO ON LOAD ──
+window.addEventListener('load', () => {
+  // kicker
+  setTimeout(() => {
+    const k = document.querySelector('.hero-kicker');
+    if (k) { k.dataset.animated = '1'; k.classList.add('in'); }
+  }, 200);
+  // title chars
+  setTimeout(() => {
+    const el = document.getElementById('hero-title');
+    if (el) { el.dataset.animated = '1'; el.querySelectorAll('.ch').forEach((c, i) => setTimeout(() => { c.style.opacity='1'; c.style.transform='translateY(0)'; }, i * 45)); }
+  }, 500);
+  // sub
+  setTimeout(() => {
+    const s = document.querySelector('.hero-sub');
+    if (s) { s.dataset.animated='1'; s.classList.add('in'); }
+  }, 900);
+  // stroke
+  setTimeout(() => {
+    const ln = document.querySelector('.hero-stroke');
+    if (ln) { ln.dataset.animated='1'; ln.classList.add('in'); }
+  }, 1100);
+  // body words
+  setTimeout(() => {
+    const el = document.getElementById('hero-body');
+    if (el) {
+      el.dataset.animated = '1';
+      el.querySelectorAll('.wd').forEach((w, i) => {
+        setTimeout(() => {
+          w.style.opacity='1'; w.style.transform='translateY(0)'; w.style.filter='blur(0)';
+        }, i * 55);
+      });
+    }
+  }, 1300);
+});
+</script>
+</body>
+</html>
