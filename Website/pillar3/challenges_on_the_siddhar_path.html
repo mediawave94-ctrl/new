@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Challenges on the Siddhar Path — Shree Easanamma Gurukulam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Cinzel:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:           #0a0906;
+    --ink-deep:      #050403;
+    --ink-mid:       #131109;
+    --parchment:     #e8dfc8;
+    --parchment-dim: #b5a98a;
+    --parchment-faint: #6e6450;
+    --gold:          #c9a84c;
+    --gold-mid:      #8a6e30;
+    --gold-faint:    #4a3c1a;
+    --rule:          rgba(201,168,76,0.15);
+    --rule-bright:   rgba(201,168,76,0.35);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--ink);
+    color: var(--parchment);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 20px;
+    line-height: 1.75;
+    overflow-x: hidden;
+  }
+
+  /* ─── Grain overlay ─── */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9000;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 160px 160px;
+    opacity: 0.038;
+    mix-blend-mode: overlay;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 200;
+    padding: 1.6rem 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(to bottom, rgba(10,9,6,0.97) 0%, transparent 100%);
+  }
+  .nav-brand {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.32em;
+    color: var(--gold-mid);
+    text-transform: uppercase;
+  }
+  .nav-type {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.82rem;
+    color: var(--parchment-faint);
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 8rem 2rem 6rem;
+    position: relative;
+  }
+
+  /* Radiating vignette from centre */
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(201,168,76,0.04) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 220px;
+    background: linear-gradient(to bottom, transparent, var(--ink));
+    pointer-events: none;
+  }
+
+  .hero-kicker {
+    font-family: 'Cinzel', serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.38em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 3.2rem;
+    opacity: 0;
+    transform: translateY(16px);
+    animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+  }
+
+  /* Roman numeral decorative element */
+  .hero-roman {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(4rem, 10vw, 9rem);
+    font-weight: 400;
+    color: rgba(201,168,76,0.06);
+    line-height: 1;
+    letter-spacing: 0.1em;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -56%);
+    pointer-events: none;
+    user-select: none;
+    white-space: nowrap;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 7.5vw, 7rem);
+    font-weight: 300;
+    line-height: 1.06;
+    color: var(--parchment);
+    letter-spacing: -0.015em;
+    max-width: 880px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-title .word {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+    margin-right: 0.2em;
+  }
+  .hero-title .word span {
+    display: inline-block;
+    transform: translateY(110%);
+    animation: wordLift 0.88s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .hero-title .word:nth-child(1) span { animation-delay: 0.35s; }
+  .hero-title .word:nth-child(2) span { animation-delay: 0.48s; }
+  .hero-title .word:nth-child(3) span { animation-delay: 0.61s; }
+  .hero-title .word:nth-child(4) span { animation-delay: 0.74s; }
+  .hero-title .word:nth-child(5) span { animation-delay: 0.87s; }
+  .hero-title .word:nth-child(6) span { animation-delay: 1.00s; }
+
+  .hero-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1.1rem, 2vw, 1.45rem);
+    font-weight: 300;
+    color: var(--parchment-dim);
+    letter-spacing: 0.04em;
+    max-width: 540px;
+    margin: 2.8rem auto 0;
+    line-height: 1.7;
+    opacity: 0;
+    transform: translateY(16px);
+    animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) 1.25s forwards;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-ornament {
+    display: flex;
+    align-items: center;
+    gap: 1.4rem;
+    margin-top: 4rem;
+    opacity: 0;
+    animation: fadeUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) 1.6s forwards;
+    position: relative;
+    z-index: 1;
+  }
+  .rule-h { display: block; height: 1px; background: linear-gradient(to right, transparent, var(--gold-mid), transparent); }
+  .diamond { width: 5px; height: 5px; background: var(--gold); transform: rotate(45deg); flex-shrink: 0; }
+
+  /* ─── SCROLL PROGRESS BAR ─── */
+  .progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 1px;
+    background: linear-gradient(to right, var(--gold-faint), var(--gold));
+    z-index: 500;
+    width: 0%;
+    transition: width 0.1s linear;
+  }
+
+  /* ─── ARTICLE ─── */
+  .article {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 2rem 12rem;
+  }
+
+  /* ─── SECTION BLOCKS ─── */
+  .section-block {
+    margin-bottom: 8rem;
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.95s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.95s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .section-block.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─── KICKER ─── */
+  .kicker {
+    display: block;
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.32em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+  }
+
+  /* ─── SECTION HEADING with word-lift ─── */
+  .section-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.9rem, 3.2vw, 2.75rem);
+    font-weight: 400;
+    line-height: 1.15;
+    color: var(--parchment);
+    margin-bottom: 1.8rem;
+    letter-spacing: 0.01em;
+  }
+  .section-heading .word {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+    margin-right: 0.2em;
+  }
+  .section-heading .word span {
+    display: inline-block;
+    transform: translateY(110%);
+    transition: transform 0.72s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .section-block.visible .section-heading .word:nth-child(1) span { transform: translateY(0); transition-delay: 0.00s; }
+  .section-block.visible .section-heading .word:nth-child(2) span { transform: translateY(0); transition-delay: 0.07s; }
+  .section-block.visible .section-heading .word:nth-child(3) span { transform: translateY(0); transition-delay: 0.14s; }
+  .section-block.visible .section-heading .word:nth-child(4) span { transform: translateY(0); transition-delay: 0.21s; }
+  .section-block.visible .section-heading .word:nth-child(5) span { transform: translateY(0); transition-delay: 0.28s; }
+  .section-block.visible .section-heading .word:nth-child(6) span { transform: translateY(0); transition-delay: 0.35s; }
+
+  /* ─── BODY TEXT ─── */
+  .body-text {
+    font-size: 1.08rem;
+    line-height: 1.95;
+    color: var(--parchment-dim);
+    font-weight: 300;
+  }
+  .body-text + .body-text { margin-top: 1.2rem; }
+
+  /* ─── INTRO LEAD ─── */
+  .intro-lead {
+    font-size: clamp(1.2rem, 2.1vw, 1.6rem);
+    line-height: 1.8;
+    color: var(--parchment);
+    font-style: italic;
+    font-weight: 300;
+    border-left: 1px solid var(--gold-mid);
+    padding-left: 2.2rem;
+  }
+
+  /* ─── PULL QUOTE / AXIOM ─── */
+  .axiom {
+    padding: 3.5rem 1rem;
+    margin: 2.5rem 0;
+    text-align: center;
+    position: relative;
+  }
+  .axiom::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 10%; right: 10%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold-mid), transparent);
+  }
+  .axiom::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 10%; right: 10%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold-mid), transparent);
+  }
+  .axiom-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.45rem, 2.8vw, 2.1rem);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--parchment);
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+  }
+  .axiom-text strong {
+    font-style: normal;
+    color: var(--gold);
+    font-weight: 500;
+  }
+
+  /* ─── CHALLENGE CARD GRID ─── */
+  .challenge-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--rule);
+    margin: 2.8rem 0;
+    border: 1px solid var(--rule);
+  }
+  .challenge-card {
+    background: var(--ink);
+    padding: 2.2rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .challenge-card::before {
+    content: attr(data-num);
+    position: absolute;
+    top: 1rem; right: 1.5rem;
+    font-family: 'Cinzel', serif;
+    font-size: 3.5rem;
+    color: rgba(201,168,76,0.05);
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+  }
+  .card-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 0.9rem;
+    display: block;
+  }
+  .card-body {
+    font-size: 0.95rem;
+    line-height: 1.85;
+    color: var(--parchment-dim);
+    font-weight: 300;
+  }
+
+  /* ─── OBSERVATION LIST ─── */
+  .obs-list {
+    list-style: none;
+    margin: 1.6rem 0;
+    padding: 0;
+  }
+  .obs-list li {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--rule);
+    font-size: 1.02rem;
+    color: var(--parchment-dim);
+    font-weight: 300;
+  }
+  .obs-list li::before {
+    content: '◇';
+    color: var(--gold);
+    font-size: 0.6rem;
+    flex-shrink: 0;
+  }
+
+  /* ─── NUMBERED INSIGHT ─── */
+  .insight-row {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+    padding: 2rem 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .insight-row:first-child { border-top: 1px solid var(--rule); }
+  .insight-num {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--gold-mid);
+    padding-top: 0.25rem;
+    flex-shrink: 0;
+    width: 2.2rem;
+    text-align: right;
+  }
+  .insight-content h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--parchment);
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.02em;
+  }
+  .insight-content p {
+    font-size: 0.97rem;
+    color: var(--parchment-dim);
+    font-weight: 300;
+    line-height: 1.8;
+  }
+
+  /* ─── VISIBILITY + STABILITY ─── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    margin: 2.5rem 0;
+  }
+  .col-panel {
+    background: var(--ink);
+    padding: 2.5rem 2rem;
+  }
+  .col-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.58rem;
+    letter-spacing: 0.28em;
+    color: var(--gold-mid);
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+    display: block;
+  }
+  .col-panel ul {
+    list-style: none;
+    padding: 0;
+  }
+  .col-panel ul li {
+    font-size: 0.97rem;
+    color: var(--parchment-dim);
+    font-style: italic;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .col-panel ul li:last-child { border-bottom: none; }
+
+  /* ─── GURUKULAM BLOCK ─── */
+  .gurukulam-block {
+    position: relative;
+    border: 1px solid rgba(201,168,76,0.2);
+    background: linear-gradient(135deg, rgba(201,168,76,0.04), transparent 60%);
+    padding: 3.5rem 3rem;
+    margin: 3rem 0;
+  }
+  .gurukulam-block::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 2px; height: 100%;
+    background: linear-gradient(to bottom, var(--gold), var(--gold-faint), transparent);
+  }
+  .gurukulam-block::after {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 1px; height: 40%;
+    background: linear-gradient(to bottom, var(--gold-faint), transparent);
+  }
+  .gurukulam-name {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+    display: block;
+  }
+  .gurukulam-body {
+    font-size: 1.05rem;
+    line-height: 1.9;
+    color: var(--parchment-dim);
+    font-weight: 300;
+  }
+
+  /* ─── CONCLUSION ─── */
+  .conclusion-block {
+    text-align: center;
+    padding: 5rem 2rem 2rem;
+  }
+  .conclusion-main {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-weight: 300;
+    line-height: 1.55;
+    color: var(--parchment);
+    max-width: 600px;
+    margin: 0 auto 3rem;
+  }
+  .conclusion-main em {
+    font-style: normal;
+    color: var(--gold);
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    border-top: 1px solid var(--rule);
+    text-align: center;
+    padding: 4rem 2rem;
+  }
+  .footer-brand {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.35em;
+    color: var(--gold-mid);
+    text-transform: uppercase;
+  }
+  .footer-line {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--parchment-faint);
+    margin-top: 0.6rem;
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes wordLift {
+    from { transform: translateY(110%); }
+    to   { transform: translateY(0); }
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 640px) {
+    nav { padding: 1.4rem 1.2rem; }
+    .article { padding: 0 1.2rem 6rem; }
+    .challenge-grid { grid-template-columns: 1fr; }
+    .two-col { grid-template-columns: 1fr; }
+    .gurukulam-block { padding: 2.5rem 1.8rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<nav>
+  <span class="nav-brand">Shree Easanamma Gurukulam</span>
+  <span class="nav-type">Sacred Inquiry</span>
+</nav>
+
+<!-- ══════════ HERO ══════════ -->
+<section class="hero">
+  <div class="hero-roman" aria-hidden="true">VII</div>
+  <span class="hero-kicker">Challenges on the Siddhar Path — A Sacred Inquiry</span>
+
+  <h1 class="hero-title" id="heroTitle"></h1>
+
+  <p class="hero-subtitle">The path is not always comfortable. It challenges deeply held patterns — and in doing so, reveals what was always present beneath them.</p>
+
+  <div class="hero-ornament">
+    <span class="rule-h" style="width:70px;"></span>
+    <span class="diamond"></span>
+    <span class="rule-h" style="width:70px;"></span>
+  </div>
+</section>
+
+<!-- ══════════ ARTICLE ══════════ -->
+<main class="article">
+
+  <!-- Introduction -->
+  <div class="section-block">
+    <span class="kicker">Introduction</span>
+    <p class="intro-lead">The Siddhar path is often misunderstood as peaceful and easy. In reality, it challenges the deepest structures of how we think, feel, and move through the world.</p>
+    <div class="axiom" style="margin-top:3rem;">
+      <p class="axiom-text">Challenges are not obstacles.<br>They are <strong>part of the process of clarity.</strong></p>
+    </div>
+  </div>
+
+  <!-- The core challenges — card grid -->
+  <div class="section-block">
+    <span class="kicker">What Arises</span>
+    <h2 class="section-heading" data-words="The Challenges Encountered"></h2>
+    <p class="body-text">As one begins to observe the inner landscape, a succession of difficulties presents itself. Each one is not an enemy to be defeated — it is a teacher wearing a difficult face.</p>
+    <div class="challenge-grid">
+      <div class="challenge-card" data-num="I">
+        <span class="card-title">Internal Resistance</span>
+        <p class="card-body">The mind resists observation, change, and discipline. This resistance is often the first and most persistent challenge on the path.</p>
+      </div>
+      <div class="challenge-card" data-num="II">
+        <span class="card-title">Restlessness</span>
+        <p class="card-body">When one begins to observe, the mind seems more active — but this is not new activity. It is newly visible activity, finally seen for what it is.</p>
+      </div>
+      <div class="challenge-card" data-num="III">
+        <span class="card-title">Doubt</span>
+        <p class="card-body">Doubt arises as questioning of the process and of oneself. This is natural. This is part of the journey, not a sign of failure.</p>
+      </div>
+      <div class="challenge-card" data-num="IV">
+        <span class="card-title">Expectation</span>
+        <p class="card-body">Expecting results, experiences, and visible progress creates inner disturbance. The path unfolds at its own pace.</p>
+      </div>
+      <div class="challenge-card" data-num="V">
+        <span class="card-title">Comparison</span>
+        <p class="card-body">Comparing oneself with others leads to confusion and insecurity. Each journey is singular and cannot be measured against another.</p>
+      </div>
+      <div class="challenge-card" data-num="VI">
+        <span class="card-title">Emotional Fluctuation</span>
+        <p class="card-body">Observation brings awareness of suppressed emotions and internal conflict — long hidden, now surfacing to be met and understood.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loneliness & Fatigue -->
+  <div class="section-block">
+    <span class="kicker">Deeper Terrain</span>
+    <h2 class="section-heading" data-words="Loneliness and Discipline Fatigue"></h2>
+    <p class="body-text">Beyond the initial turbulence, subtler challenges emerge — ones that test not the beginner, but the one who has already come some distance.</p>
+
+    <div style="margin-top: 2.2rem;">
+      <div class="insight-row">
+        <span class="insight-num">VII</span>
+        <div class="insight-content">
+          <h4>Loneliness</h4>
+          <p>As perception changes, old patterns may no longer fit. Social alignment can shift. The world that once felt familiar begins to feel at a slight distance — a natural consequence of inner transformation.</p>
+        </div>
+      </div>
+      <div class="insight-row">
+        <span class="insight-num">VIII</span>
+        <div class="insight-content">
+          <h4>Discipline Fatigue</h4>
+          <p>Maintaining discipline can feel demanding and repetitive. The practice may lose its initial novelty. This is when consistency becomes most essential — and most difficult.</p>
+        </div>
+      </div>
+      <div class="insight-row">
+        <span class="insight-num">IX</span>
+        <div class="insight-content">
+          <h4>Misinterpretation</h4>
+          <p>Without clarity, one may misunderstand silence or misinterpret experiences along the way. What seems like stillness can be confused with absence. What seems like an arrival can be a resting point.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Patience -->
+  <div class="section-block">
+    <span class="kicker">The Virtue Required</span>
+    <h2 class="section-heading" data-words="The Role of Patience"></h2>
+    <p class="body-text">Progress on the Siddhar path is not immediate. It is not linear. It does not announce itself with fanfare. Patience is not passive — it is an active, unwavering presence with what is.</p>
+    <div class="axiom">
+      <p class="axiom-text">Patience is not waiting.<br>It is <strong>remaining present</strong> while the work does its quiet work.</p>
+    </div>
+  </div>
+
+  <!-- Stability -->
+  <div class="section-block">
+    <span class="kicker">What Supports the Path</span>
+    <h2 class="section-heading" data-words="The Importance of Stability"></h2>
+    <p class="body-text">Without stability in routine and environment, even sincere practice can become fragmented. Continuity is not a luxury — it is the foundation on which depth becomes possible.</p>
+    <div class="two-col">
+      <div class="col-panel">
+        <span class="col-label">Stability of Routine</span>
+        <ul>
+          <li>Consistent daily practice</li>
+          <li>Predictable rhythm of observation</li>
+          <li>Returning without judgment after lapses</li>
+        </ul>
+      </div>
+      <div class="col-panel">
+        <span class="col-label">Stability of Environment</span>
+        <ul>
+          <li>Reduced noise and distraction</li>
+          <li>Spaces that support inner quiet</li>
+          <li>Community that understands the path</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Environment & Gurukulam -->
+  <div class="section-block">
+    <span class="kicker">Held Ground</span>
+    <h2 class="section-heading" data-words="Environment and Guidance"></h2>
+    <p class="body-text">Challenges are easier to navigate in structured environments. The container matters. Where one practices is not separate from how one practices.</p>
+    <div class="gurukulam-block">
+      <span class="gurukulam-name">Shree Easanamma Gurukulam</span>
+      <p class="gurukulam-body">A disciplined environment built to hold the practitioner through every phase of the journey — offering the structure, silence, and sustained support within which even the deepest challenges can be met without being overwhelmed.</p>
+    </div>
+    <p class="body-text">Many challenges arise not from the path itself, but from misunderstanding. The guidance of <em>Shree Easanamma</em> helps navigate them with clarity — distinguishing between what requires perseverance and what requires recalibration.</p>
+  </div>
+
+  <!-- Conclusion -->
+  <div class="section-block">
+    <div class="conclusion-block">
+      <span class="kicker" style="display:block; margin-bottom:2.5rem; text-align:center;">Conclusion</span>
+      <p class="conclusion-main">
+        Challenges are not obstacles to the Siddhar path.<br>
+        They are <em>part of the process of clarity</em> itself.
+      </p>
+      <div style="display:flex;align-items:center;justify-content:center;gap:1.5rem;">
+        <span class="rule-h" style="width:55px;"></span>
+        <span class="diamond"></span>
+        <span class="rule-h" style="width:55px;"></span>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <p class="footer-brand">Shree Easanamma Gurukulam</p>
+  <p class="footer-line">Walking the Siddhar Path — through every challenge, toward clarity</p>
+</footer>
+
+<script>
+  // ── Hero word-lift ──
+  const heroWords = ['Challenges', 'on', 'the', 'Siddhar', 'Path'];
+  const heroEl = document.getElementById('heroTitle');
+  heroWords.forEach(w => {
+    const wrap = document.createElement('span');
+    wrap.className = 'word';
+    const inner = document.createElement('span');
+    inner.textContent = w;
+    wrap.appendChild(inner);
+    heroEl.appendChild(wrap);
+  });
+
+  // ── Section heading word-lift ──
+  document.querySelectorAll('.section-heading[data-words]').forEach(el => {
+    const words = el.dataset.words.split(' ');
+    el.innerHTML = '';
+    words.forEach(w => {
+      const wrap = document.createElement('span');
+      wrap.className = 'word';
+      const inner = document.createElement('span');
+      inner.textContent = w;
+      wrap.appendChild(inner);
+      el.appendChild(wrap);
+    });
+  });
+
+  // ── Scroll-reveal observer ──
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+  document.querySelectorAll('.section-block').forEach(el => io.observe(el));
+
+  // ── Scroll progress bar ──
+  const bar = document.getElementById('progressBar');
+  window.addEventListener('scroll', () => {
+    const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+    bar.style.width = Math.min(pct, 100) + '%';
+  }, { passive: true });
+</script>
+</body>
+</html>

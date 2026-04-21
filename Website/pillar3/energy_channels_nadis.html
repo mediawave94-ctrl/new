@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Energy Channels — Nadis in Siddhar Science</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Cinzel:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:        #0a0906;
+    --parchment:  #e8dfc8;
+    --parch-dim:  #b8a98a;
+    --gold:       #c9a84c;
+    --gold-dim:   #8a6e2f;
+    --gold-line:  rgba(201,168,76,0.24);
+    --gold-wash:  rgba(201,168,76,0.07);
+    --ida:        rgba(160,200,220,0.18);   /* cool blue-silver for Ida */
+    --pingala:    rgba(220,140,80,0.16);    /* warm amber for Pingala */
+    --sushumna:   rgba(201,168,76,0.14);    /* gold for Sushumna */
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--ink);
+    color: var(--parchment);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 20px;
+    line-height: 1.8;
+    overflow-x: hidden;
+  }
+
+  /* Grain */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 9999;
+    opacity: .047;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.77' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 185px 185px;
+  }
+
+  /* ── Word-lift ── */
+  .wl { display: block; overflow: hidden; }
+  .wl .w {
+    display: inline-block;
+    transform: translateY(110%); opacity: 0;
+    transition: transform .9s cubic-bezier(.22,1,.36,1),
+                opacity   .9s cubic-bezier(.22,1,.36,1);
+  }
+  .wl.in .w { transform: translateY(0); opacity: 1; }
+
+  /* ── Fade-up ── */
+  .fu {
+    opacity: 0; transform: translateY(28px);
+    transition: opacity .94s cubic-bezier(.22,1,.36,1),
+                transform .94s cubic-bezier(.22,1,.36,1);
+  }
+  .fu.in { opacity: 1; transform: translateY(0); }
+
+  /* ── Layout ── */
+  .wrap { max-width: 800px; margin: 0 auto; padding: 0 44px; }
+
+  .rule {
+    border: none; height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    opacity: .28; margin: 80px 0;
+  }
+
+  /* ══════════════ HERO ══════════════ */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 44px 92px;
+    max-width: 1000px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  /* Subtle SVG nadi-flow hint — three curved paths, no motion */
+  .hero-nadi-bg {
+    position: absolute;
+    right: -60px; top: 0; bottom: 0;
+    width: 340px;
+    opacity: .06;
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-family: 'Cinzel', serif;
+    font-size: 9px; letter-spacing: .42em;
+    color: var(--gold); text-transform: uppercase;
+    margin-bottom: 50px;
+    opacity: 0;
+    animation: afu .72s cubic-bezier(.22,1,.36,1) .28s forwards;
+  }
+
+  .hero-title {
+    font-size: clamp(48px, 8vw, 104px);
+    font-weight: 300; font-style: italic;
+    line-height: .97; color: var(--parchment);
+  }
+  .hero-title em { color: var(--gold); font-style: normal; }
+
+  .hero-sep {
+    display: flex; align-items: center; gap: 20px;
+    margin: 44px 0 36px;
+    opacity: 0;
+    animation: afu .7s cubic-bezier(.22,1,.36,1) 1.6s forwards;
+  }
+  .hero-sep-line { flex: 0 0 56px; height: 1px; background: var(--gold); }
+  .hero-sep-text {
+    font-family: 'Cinzel', serif;
+    font-size: 8.5px; letter-spacing: .38em;
+    color: var(--gold-dim); text-transform: uppercase;
+  }
+
+  .hero-subtitle {
+    font-family: 'Cinzel', serif;
+    font-size: 9.5px; letter-spacing: .30em;
+    color: var(--parch-dim); text-transform: uppercase;
+    margin-bottom: 36px;
+    opacity: 0;
+    animation: afu .78s cubic-bezier(.22,1,.36,1) 1.85s forwards;
+  }
+
+  .hero-lead {
+    max-width: 560px; font-size: 21px;
+    font-weight: 300; color: var(--parch-dim);
+    line-height: 1.84;
+    opacity: 0;
+    animation: afu .9s cubic-bezier(.22,1,.36,1) 2.05s forwards;
+  }
+
+  @keyframes afu { to { opacity: 1; transform: translateY(0); } }
+
+  /* ══════════════ TYPOGRAPHY ══════════════ */
+  section { padding: 68px 0; }
+
+  .sec-label {
+    font-family: 'Cinzel', serif;
+    font-size: 8.5px; letter-spacing: .42em;
+    color: var(--gold); text-transform: uppercase;
+    display: block; margin-bottom: 30px;
+  }
+  .sec-heading {
+    font-size: clamp(34px, 4.8vw, 58px);
+    font-weight: 300; font-style: italic;
+    line-height: 1.07; color: var(--parchment);
+    margin-bottom: 40px;
+  }
+  .body-p {
+    font-size: 19px; font-weight: 300;
+    color: var(--parch-dim); line-height: 1.88;
+    margin-bottom: 28px;
+  }
+
+  /* ── Subtle ≠ Physical callout ── */
+  .not-physical {
+    border: 1px solid var(--gold-line);
+    padding: 36px 44px;
+    background: var(--gold-wash);
+    margin: 44px 0;
+    display: flex; gap: 32px; align-items: flex-start;
+  }
+  .np-icon {
+    font-size: 28px; flex-shrink: 0;
+    color: var(--gold-dim); margin-top: 4px;
+    line-height: 1;
+  }
+  .np-title {
+    font-family: 'Cinzel', serif;
+    font-size: 9px; letter-spacing: .3em;
+    color: var(--gold); text-transform: uppercase;
+    margin-bottom: 10px; display: block;
+  }
+  .np-body {
+    font-size: 18px; font-weight: 300;
+    font-style: italic; color: var(--parch-dim);
+    line-height: 1.74;
+  }
+
+  /* ══════════════ THREE NADIS ══════════════ */
+  .nadis-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px; background: var(--gold-line);
+    border: 1px solid var(--gold-line);
+    margin: 52px 0;
+  }
+
+  .nadi-cell {
+    background: var(--ink);
+    padding: 52px 28px 44px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* colored wash unique to each nadi */
+  .nadi-cell.ida    { background: color-mix(in srgb, var(--ink) 88%, #a0c8dc); }
+  .nadi-cell.pingala{ background: color-mix(in srgb, var(--ink) 88%, #dc8c50); }
+  .nadi-cell.sushumna{ background: color-mix(in srgb, var(--ink) 85%, #c9a84c); }
+
+  /* Top accent bar */
+  .nadi-cell::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+  }
+  .ida::before    { background: linear-gradient(to right, transparent, #a0c8dc, transparent); }
+  .pingala::before{ background: linear-gradient(to right, transparent, #dc8c50, transparent); }
+  .sushumna::before{ background: linear-gradient(to right, transparent, var(--gold), transparent); }
+
+  .nadi-symbol {
+    font-size: 42px; font-weight: 300;
+    font-style: italic; line-height: 1;
+    margin-bottom: 20px; display: block;
+  }
+  .ida      .nadi-symbol { color: #a0c8dc; }
+  .pingala  .nadi-symbol { color: #dc8c50; }
+  .sushumna .nadi-symbol { color: var(--gold); }
+
+  .nadi-name {
+    font-family: 'Cinzel', serif;
+    font-size: 11px; letter-spacing: .26em;
+    color: var(--parchment); text-transform: uppercase;
+    margin-bottom: 10px; display: block;
+  }
+  .nadi-quality {
+    font-size: 15px; font-weight: 300;
+    font-style: italic; color: var(--parch-dim);
+    line-height: 1.5;
+  }
+  .nadi-role {
+    margin-top: 20px;
+    font-family: 'Cinzel', serif;
+    font-size: 8px; letter-spacing: .28em;
+    text-transform: uppercase;
+  }
+  .ida      .nadi-role { color: #7aaab8; }
+  .pingala  .nadi-role { color: #b87050; }
+  .sushumna .nadi-role { color: var(--gold-dim); }
+
+  /* ══════════════ FLOW STATE COMPARISON ══════════════ */
+  .flow-compare {
+    display: grid;
+    grid-template-columns: 1fr 1px 1fr;
+    gap: 0 40px;
+    align-items: start;
+    margin: 52px 0;
+  }
+  .flow-divider { background: var(--gold-line); align-self: stretch; }
+
+  .flow-col-label {
+    font-family: 'Cinzel', serif;
+    font-size: 8.5px; letter-spacing: .35em;
+    text-transform: uppercase;
+    margin-bottom: 28px; display: block;
+  }
+  .flow-col-label.balanced { color: var(--gold); }
+  .flow-col-label.blocked  { color: var(--parch-dim); }
+
+  .flow-item {
+    padding: 18px 0;
+    border-bottom: 1px solid var(--gold-line);
+    font-size: 18px; font-weight: 300;
+    font-style: italic; color: var(--parchment);
+    line-height: 1.5;
+  }
+  .flow-item:last-child { border-bottom: none; }
+  .flow-item.neg { color: var(--parch-dim); }
+
+  /* ══════════════ BREATH + NADIS ══════════════ */
+  .breath-panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px; background: var(--gold-line);
+    border: 1px solid var(--gold-line);
+    margin: 48px 0;
+  }
+  .bp-cell { background: var(--ink); padding: 44px 36px; }
+  .bp-label {
+    font-family: 'Cinzel', serif;
+    font-size: 8.5px; letter-spacing: .35em;
+    color: var(--gold); text-transform: uppercase;
+    margin-bottom: 16px; display: block;
+  }
+  .bp-head {
+    font-size: clamp(20px, 2.4vw, 28px);
+    font-weight: 300; font-style: italic;
+    color: var(--parchment); line-height: 1.22;
+    margin-bottom: 14px;
+  }
+  .bp-body {
+    font-size: 16px; font-weight: 300;
+    font-style: italic; color: var(--parch-dim);
+    line-height: 1.72;
+  }
+
+  /* ══════════════ BLOCKAGE CAUSES ══════════════ */
+  .blockages { margin: 48px 0; }
+  .block-row {
+    display: flex; align-items: flex-start;
+    gap: 28px; padding: 26px 0;
+    border-bottom: 1px solid var(--gold-line);
+  }
+  .block-row:first-child { border-top: 1px solid var(--gold-line); }
+  .block-glyph {
+    font-size: 20px; flex-shrink: 0;
+    color: var(--gold-dim); line-height: 1;
+    margin-top: 4px; min-width: 28px;
+  }
+  .block-label {
+    font-family: 'Cinzel', serif;
+    font-size: 9px; letter-spacing: .28em;
+    color: var(--gold); text-transform: uppercase;
+    margin-bottom: 8px; display: block;
+  }
+  .block-body {
+    font-size: 17px; font-weight: 300;
+    color: var(--parch-dim); line-height: 1.72;
+  }
+
+  /* ══════════════ NATURAL ACTIVATION ══════════════ */
+  .activation {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px; background: var(--gold-line);
+    border: 1px solid var(--gold-line);
+    margin: 52px 0;
+  }
+  .act-cell {
+    background: var(--ink);
+    padding: 40px 28px; text-align: center;
+  }
+  .act-numeral {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 50px; font-weight: 300;
+    font-style: italic; color: var(--gold);
+    line-height: 1; margin-bottom: 16px;
+    display: block;
+  }
+  .act-label {
+    font-family: 'Cinzel', serif;
+    font-size: 9px; letter-spacing: .28em;
+    color: var(--parch-dim); text-transform: uppercase;
+    margin-bottom: 10px; display: block;
+  }
+  .act-desc {
+    font-size: 15px; font-weight: 300;
+    font-style: italic; color: var(--parch-dim);
+    line-height: 1.6;
+  }
+
+  /* ══════════════ CAUTION ══════════════ */
+  .caution {
+    border: 1px solid var(--gold-line);
+    padding: 46px 52px;
+    background: var(--gold-wash);
+    margin: 52px 0; position: relative;
+  }
+  .caution::before {
+    content: '⚠';
+    position: absolute; top: -13px; left: 48px;
+    background: var(--ink); padding: 0 12px;
+    color: var(--gold); font-size: 15px;
+  }
+  .caution-title {
+    font-family: 'Cinzel', serif;
+    font-size: 10px; letter-spacing: .30em;
+    color: var(--gold); text-transform: uppercase;
+    margin-bottom: 16px; display: block;
+  }
+  .caution-body {
+    font-size: 19px; font-weight: 300;
+    color: var(--parch-dim); line-height: 1.82;
+  }
+
+  /* ══════════════ PULL QUOTE ══════════════ */
+  .pq {
+    border-left: 1px solid var(--gold);
+    padding: 4px 0 4px 44px; margin: 56px 0;
+  }
+  .pq p {
+    font-size: clamp(26px, 3.2vw, 42px);
+    font-weight: 300; font-style: italic;
+    color: var(--parchment); line-height: 1.28;
+  }
+  .pq cite {
+    display: block; margin-top: 18px;
+    font-family: 'Cinzel', serif;
+    font-size: 8.5px; letter-spacing: .3em;
+    color: var(--gold-dim); text-transform: uppercase;
+    font-style: normal;
+  }
+
+  /* ══════════════ GURUKULAM ══════════════ */
+  .gurukulam {
+    border: 1px solid var(--gold-line);
+    padding: 64px 60px; text-align: center;
+    position: relative; margin: 60px 0;
+    background: var(--gold-wash);
+  }
+  .gurukulam::before {
+    content: '✦'; position: absolute;
+    top: -10px; left: 50%; transform: translateX(-50%);
+    background: var(--ink); padding: 0 14px;
+    color: var(--gold); font-size: 10px;
+  }
+  .gurukulam::after {
+    content: '✦'; position: absolute;
+    bottom: -10px; left: 50%; transform: translateX(-50%);
+    background: var(--ink); padding: 0 14px;
+    color: var(--gold); font-size: 10px;
+  }
+  .guru-name {
+    font-family: 'Cinzel', serif;
+    font-size: 13px; letter-spacing: .26em;
+    color: var(--gold); text-transform: uppercase;
+    margin-bottom: 24px; display: block;
+  }
+  .guru-body {
+    font-size: 20px; font-weight: 300;
+    font-style: italic; color: var(--parch-dim);
+    line-height: 1.76; max-width: 520px; margin: 0 auto;
+  }
+
+  /* ══════════════ CONCLUSION ══════════════ */
+  .conclusion {
+    padding: 120px 44px; text-align: center;
+    max-width: 800px; margin: 0 auto;
+  }
+  .conc-text {
+    font-size: clamp(30px, 4.2vw, 54px);
+    font-weight: 300; font-style: italic;
+    line-height: 1.22; color: var(--parchment);
+    margin-bottom: 48px;
+  }
+  .conc-text em { color: var(--gold); font-style: normal; }
+  .conc-tag {
+    font-family: 'Cinzel', serif;
+    font-size: 8.5px; letter-spacing: .38em;
+    color: var(--gold-dim); text-transform: uppercase;
+    display: block;
+  }
+
+  /* ══════════════ FOOTER ══════════════ */
+  footer {
+    border-top: 1px solid var(--gold-line);
+    padding: 48px 44px; text-align: center;
+    font-family: 'Cinzel', serif;
+    font-size: 8.5px; letter-spacing: .3em;
+    color: var(--gold-dim); text-transform: uppercase;
+  }
+
+  /* ══════════════ RESPONSIVE ══════════════ */
+  @media (max-width: 680px) {
+    .hero { padding: 0 28px 76px; }
+    .wrap { padding: 0 28px; }
+    .nadis-grid { grid-template-columns: 1fr; }
+    .flow-compare { grid-template-columns: 1fr; gap: 0; }
+    .flow-divider { display: none; }
+    .breath-panel { grid-template-columns: 1fr; }
+    .activation { grid-template-columns: 1fr; }
+    .caution { padding: 40px 28px; }
+    .gurukulam { padding: 48px 28px; }
+    .conclusion { padding: 80px 28px; }
+    footer { padding: 40px 28px; }
+    .pq { padding-left: 26px; }
+    .not-physical { flex-direction: column; gap: 16px; }
+    .hero-nadi-bg { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════ HERO ══════════════ -->
+<div class="hero">
+
+  <!-- Decorative static nadi-flow SVG (three sinuous paths, no animation) -->
+  <svg class="hero-nadi-bg" viewBox="0 0 340 900" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" aria-hidden="true">
+    <!-- Ida — cool sinuous left -->
+    <path d="M 100 0 C 60 150, 180 300, 100 450 C 20 600, 160 750, 100 900"
+          fill="none" stroke="#a0c8dc" stroke-width="1.2" opacity="0.9"/>
+    <!-- Pingala — warm sinuous right -->
+    <path d="M 240 0 C 280 150, 160 300, 240 450 C 320 600, 180 750, 240 900"
+          fill="none" stroke="#dc8c50" stroke-width="1.2" opacity="0.9"/>
+    <!-- Sushumna — gold central straight -->
+    <path d="M 170 0 L 170 900"
+          fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.7"/>
+    <!-- Crossing nodes (chakra points) -->
+    <circle cx="170" cy="180" r="4" fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.8"/>
+    <circle cx="170" cy="360" r="4" fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.8"/>
+    <circle cx="170" cy="540" r="4" fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.8"/>
+    <circle cx="170" cy="720" r="4" fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.8"/>
+  </svg>
+
+  <p class="hero-eyebrow">Siddhar Science &nbsp;·&nbsp; Subtle Body &nbsp;·&nbsp; Nadis</p>
+
+  <h1 class="hero-title">
+    <span class="wl" id="hl1"></span>
+    <span class="wl" id="hl2"></span>
+    <span class="wl" id="hl3"></span>
+  </h1>
+
+  <div class="hero-sep">
+    <div class="hero-sep-line"></div>
+    <span class="hero-sep-text">The Invisible Network Within</span>
+  </div>
+
+  <p class="hero-subtitle">Ida &nbsp;·&nbsp; Pingala &nbsp;·&nbsp; Sushumna &nbsp;·&nbsp; The Pathways of Life-Force</p>
+
+  <p class="hero-lead">
+    Beyond the anatomical body, the Siddhars identified a subtle and precise
+    network of energy channels — the Nadis. Not nerves, not vessels, but
+    pathways through which life-force moves, energy distributes, and inner
+    balance is sustained. They are experienced through awareness, not seen
+    through instruments.
+  </p>
+</div>
+
+<!-- ══════════════ BODY ══════════════ -->
+<div class="wrap">
+
+  <hr class="rule">
+
+  <!-- I · What Are Nadis -->
+  <section>
+    <span class="sec-label fu">I &nbsp;·&nbsp; The Subtle Network</span>
+    <h2 class="sec-heading wl" data-text="What Are Nadis?"></h2>
+
+    <p class="body-p fu">
+      The Siddhars understood that the human body is not exhausted by its
+      anatomical description. Beneath — or rather within — the physical form
+      lies a second order of structure: channels through which life-force
+      circulates, distributes, and maintains the conditions of health and
+      awareness.
+    </p>
+
+    <p class="body-p fu">
+      These channels, the Nadis, are the architecture of the subtle body. They
+      are as real as any tissue — their effects are observable, their blockages
+      consequential, their balance essential. What distinguishes them is the
+      means of perception: not the instrument but the awareness of the one
+      who looks.
+    </p>
+
+    <div class="not-physical fu">
+      <div class="np-icon">∿</div>
+      <div>
+        <span class="np-title">Not Physical Structures</span>
+        <p class="np-body">
+          Nadis are not nerves. They are not blood vessels. They are not
+          anatomical pathways of any known classification. They belong to the
+          subtle body — a dimension of the human being that the Siddhars mapped
+          with care and precision through the instrument of sustained inner
+          observation.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- II · Three Major Nadis -->
+  <section>
+    <span class="sec-label fu">II &nbsp;·&nbsp; The Three Principals</span>
+    <h2 class="sec-heading wl" data-text="Ida, Pingala & Sushumna"></h2>
+
+    <p class="body-p fu">
+      While the Siddhar texts speak of thousands of Nadis threading through the
+      subtle body, three are recognised as primary — the great channels upon
+      whose balance all others depend. Each carries its own quality, its own
+      domain, and its own consequence when disturbed.
+    </p>
+
+    <div class="nadis-grid fu">
+      <div class="nadi-cell ida">
+        <span class="nadi-symbol">☽</span>
+        <span class="nadi-name">Ida</span>
+        <p class="nadi-quality">Cooling &amp; calming<br>the lunar current</p>
+        <span class="nadi-role">Left channel &nbsp;·&nbsp; Mental repose</span>
+      </div>
+      <div class="nadi-cell pingala">
+        <span class="nadi-symbol">☀</span>
+        <span class="nadi-name">Pingala</span>
+        <p class="nadi-quality">Active &amp; energising<br>the solar current</p>
+        <span class="nadi-role">Right channel &nbsp;·&nbsp; Vital force</span>
+      </div>
+      <div class="nadi-cell sushumna">
+        <span class="nadi-symbol">◈</span>
+        <span class="nadi-name">Sushumna</span>
+        <p class="nadi-quality">Central &amp; transcendent<br>the axis of awareness</p>
+        <span class="nadi-role">Central channel &nbsp;·&nbsp; Awakening</span>
+      </div>
+    </div>
+
+    <p class="body-p fu">
+      Ida and Pingala represent the two poles of human experience — the cooling
+      and the heating, the receptive and the active, the lunar and the solar.
+      Sushumna is their resolution: the central channel that opens only when
+      the two are balanced, carrying with it the deepest possibilities of
+      inner awareness.
+    </p>
+  </section>
+
+  <hr class="rule">
+
+  <!-- III · Balance & Effect -->
+  <section>
+    <span class="sec-label fu">III &nbsp;·&nbsp; The Consequence of Balance</span>
+    <h2 class="sec-heading wl" data-text="Balanced Flow, Blocked Flow"></h2>
+
+    <p class="body-p fu">
+      The difference between balanced Nadi flow and disrupted flow is not
+      subtle in its consequences. It manifests across every dimension of
+      experience — from the quality of thought to the resilience of the body
+      to the depth of one's awareness.
+    </p>
+
+    <div class="flow-compare fu">
+      <div>
+        <span class="flow-col-label balanced">When Nadis Are Balanced</span>
+        <div class="flow-item">Mind becomes calm</div>
+        <div class="flow-item">Body functions efficiently</div>
+        <div class="flow-item">Awareness deepens</div>
+        <div class="flow-item">Vitality is sustained</div>
+        <div class="flow-item">Inner stability prevails</div>
+      </div>
+      <div class="flow-divider"></div>
+      <div>
+        <span class="flow-col-label blocked">When Flow Is Disrupted</span>
+        <div class="flow-item neg">Mental disturbance arises</div>
+        <div class="flow-item neg">Physical discomfort follows</div>
+        <div class="flow-item neg">Stability is undermined</div>
+        <div class="flow-item neg">Energy becomes erratic</div>
+        <div class="flow-item neg">Clarity recedes</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- IV · Breath & Nadis -->
+  <section>
+    <span class="sec-label fu">IV &nbsp;·&nbsp; The Primary Instrument</span>
+    <h2 class="sec-heading wl" data-text="Breath & the Nadis"></h2>
+
+    <p class="body-p fu">
+      The most accessible point of entry into the Nadi system is the breath.
+      It is not merely that breath and energy flow are connected — they are,
+      in the Siddhar understanding, the same process perceived at different
+      levels of resolution. To work with the breath is to work with the Nadis.
+    </p>
+
+    <div class="breath-panel fu">
+      <div class="bp-cell">
+        <span class="bp-label">Observation</span>
+        <div class="bp-head">Watching the breath watches the Nadis</div>
+        <p class="bp-body">Without manipulation, the simple act of sustained breath observation begins to regulate the flow of energy through the subtle channels naturally and safely.</p>
+      </div>
+      <div class="bp-cell">
+        <span class="bp-label">Regulation</span>
+        <div class="bp-head">Calm breath, calm channels</div>
+        <p class="bp-body">Irregular, contracted, or shallow breathing reflects — and compounds — Nadi imbalance. The deepening of breath quality has immediate effects on energy distribution.</p>
+      </div>
+    </div>
+
+    <div class="pq fu">
+      <p>"The Siddhars did not imagine energy. They observed sensation, internal movement, and subtle change — and mapped what they found."</p>
+      <cite>Siddhar Observational Method</cite>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- V · Blockages -->
+  <section>
+    <span class="sec-label fu">V &nbsp;·&nbsp; Obstruction</span>
+    <h2 class="sec-heading wl" data-text="What Blocks the Nadis"></h2>
+
+    <p class="body-p fu">
+      Nadi blockage is not a sudden event. It is an accumulation — the
+      compounding residue of sustained conditions that gradually impede the
+      free movement of life-force through the subtle channels. The Siddhars
+      identified three primary causes.
+    </p>
+
+    <div class="blockages fu">
+      <div class="block-row">
+        <span class="block-glyph">∿</span>
+        <div>
+          <span class="block-label">Stress</span>
+          <p class="block-body">Chronic mental and emotional tension creates contraction in the subtle body. Over time, this contraction calcifies into obstruction — reducing the free passage of prana.</p>
+        </div>
+      </div>
+      <div class="block-row">
+        <span class="block-glyph">◎</span>
+        <div>
+          <span class="block-label">Poor Lifestyle</span>
+          <p class="block-body">Disordered diet, irregular sleep, inadequate movement, and overindulgence disturb the balance of the three humors — and through them, the channels that carry their energies.</p>
+        </div>
+      </div>
+      <div class="block-row">
+        <span class="block-glyph">◬</span>
+        <div>
+          <span class="block-label">Lack of Awareness</span>
+          <p class="block-body">Perhaps the subtlest cause: inattention. When awareness is not brought to the inner life, subtle disturbances go unnoticed and deepen. Awareness itself is a cleanser.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- VI · Natural Activation -->
+  <section>
+    <span class="sec-label fu">VI &nbsp;·&nbsp; Restoring Flow</span>
+    <h2 class="sec-heading wl" data-text="Natural Activation"></h2>
+
+    <p class="body-p fu">
+      The Siddhar path toward Nadi balance is conspicuously free of force.
+      Energy flow is not seized or compelled — it is allowed. The conditions
+      for its natural movement are established; the rest occurs of itself.
+    </p>
+
+    <div class="activation fu">
+      <div class="act-cell">
+        <span class="act-numeral">I</span>
+        <span class="act-label">Observation</span>
+        <p class="act-desc">Sustained, non-interfering attention to inner sensation, breath, and subtle movement begins the work of clearing</p>
+      </div>
+      <div class="act-cell">
+        <span class="act-numeral">II</span>
+        <span class="act-label">Discipline</span>
+        <p class="act-desc">Structured living — regulated diet, consistent routine, moderated activity — removes the conditions that generate blockage</p>
+      </div>
+      <div class="act-cell">
+        <span class="act-numeral">III</span>
+        <span class="act-label">Clarity</span>
+        <p class="act-desc">As observation deepens and discipline holds, clarity emerges — and with it, energy flow that aligns naturally with its proper channels</p>
+      </div>
+    </div>
+
+    <div class="caution fu">
+      <span class="caution-title">On Forcing Energy Practices</span>
+      <p class="caution-body">
+        The Siddhars were unambiguous on this point: forcing energy practices
+        leads to imbalance and confusion. The subtle body responds to force
+        as a living thing responds to coercion — with resistance, not
+        compliance. The Siddhar approach cultivates conditions, never
+        compels outcomes.
+      </p>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- VII · Guidance -->
+  <section>
+    <span class="sec-label fu">VII &nbsp;·&nbsp; Living Application</span>
+    <h2 class="sec-heading wl" data-text="Environment & Guidance"></h2>
+
+    <p class="body-p fu">
+      Working with the subtle body is not something undertaken in isolation
+      through reading alone. The Nadi system is too fine, its disturbances
+      too easily mistaken, and its deeper dimensions too consequential to
+      navigate without a reliable point of reference.
+    </p>
+
+    <div class="gurukulam fu">
+      <span class="guru-name">Shree Easanamma Gurukulam</span>
+      <p class="guru-body">
+        Structured environments such as the Gurukulam support balanced energy
+        flow through the quality of their daily rhythm alone. Under the
+        guidance of Shree Easanamma, the subtle system is approached with
+        the precision, patience, and care that its nature demands — ensuring
+        correct direction rather than well-intentioned confusion.
+      </p>
+    </div>
+  </section>
+
+</div><!-- /wrap -->
+
+<!-- ══════════════ CONCLUSION ══════════════ -->
+<div class="conclusion">
+  <p class="conc-text fu">
+    Nadis represent the<br><em>subtle dimension</em> of the body —<br>
+    where balance restores<br>health and inner awareness alike.
+  </p>
+  <span class="conc-tag fu">Energy Channels &nbsp;·&nbsp; Nadis &nbsp;·&nbsp; Siddhar Science &nbsp;·&nbsp; Subtle Body</span>
+</div>
+
+<footer>
+  Energy Channels (Nadis) in Siddhar Science &nbsp;·&nbsp; Shree Easanamma Gurukulam &nbsp;·&nbsp; Ancient Wisdom
+</footer>
+
+<script>
+  /* ── Word-lift builder ── */
+  function buildWL(el, text) {
+    el.textContent = '';
+    text.split(' ').forEach((word, i, arr) => {
+      const s = document.createElement('span');
+      s.className = 'w';
+      s.textContent = word + (i < arr.length - 1 ? '\u00a0' : '');
+      s.style.transitionDelay = (i * 0.09) + 's';
+      el.appendChild(s);
+    });
+  }
+
+  /* ── Hero — three cascading lines ── */
+  [
+    { id: 'hl1', text: 'Energy',       delay: 400  },
+    { id: 'hl2', text: 'Channels',     delay: 660  },
+    { id: 'hl3', text: 'Nadis',        delay: 940  },
+  ].forEach(({ id, text, delay }) => {
+    const el = document.getElementById(id);
+    buildWL(el, text);
+    setTimeout(() => {
+      el.querySelectorAll('.w').forEach((w, i) => {
+        w.style.transitionDelay = (i * 0.11) + 's';
+      });
+      el.classList.add('in');
+    }, delay);
+  });
+
+  /* ── Section headings ── */
+  document.querySelectorAll('.sec-heading.wl').forEach(el => {
+    buildWL(el, el.dataset.text || el.textContent.trim());
+  });
+
+  /* ── IntersectionObserver ── */
+  const heroIds = new Set(['hl1', 'hl2', 'hl3']);
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(({ isIntersecting, target: el }) => {
+      if (!isIntersecting) return;
+      if (el.classList.contains('wl')) {
+        el.querySelectorAll('.w').forEach((w, i) => {
+          w.style.transitionDelay = (i * 0.093) + 's';
+        });
+      }
+      el.classList.add('in');
+      io.unobserve(el);
+    });
+  }, { threshold: 0.13, rootMargin: '0px 0px -30px 0px' });
+
+  document.querySelectorAll('.wl, .fu').forEach(el => {
+    if (!heroIds.has(el.id)) io.observe(el);
+  });
+</script>
+</body>
+</html>

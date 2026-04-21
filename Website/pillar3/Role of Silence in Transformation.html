@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Role of Silence in Transformation · Shree Easanamma Gurukulam</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Cinzel:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink:           #0a0906;
+    --ink-mid:       #131109;
+    --ink-lift:      #1e1a12;
+    --ink-surface:   #252016;
+    --parchment:     #e8dfc8;
+    --parchment-dim: #c2b89c;
+    --parchment-low: #8f8470;
+    --gold:          #b8955a;
+    --gold-bright:   #d4aa6a;
+    --gold-dim:      #5e4a2a;
+    --gold-line:     rgba(184,149,90,0.22);
+    --gold-glow:     rgba(184,149,90,0.07);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--ink);
+    color: var(--parchment);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 19px;
+    line-height: 1.85;
+    overflow-x: hidden;
+  }
+
+  /* ── GRAIN ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 9000;
+    pointer-events: none;
+    opacity: 0.038;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 220px 220px;
+  }
+
+  /* ── WORD-LIFT ── */
+  .wl-wrap {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+    padding-bottom: 0.06em;
+  }
+  .wl-inner {
+    display: inline-block;
+    transform: translateY(115%);
+    opacity: 0;
+  }
+  .wl-inner.go {
+    animation: wlUp 0.82s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  @keyframes wlUp {
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  /* ── FADE-UP ── */
+  .fu {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .fu.on { opacity: 1; transform: translateY(0); }
+
+  /* ══════════════════════
+     HERO
+  ══════════════════════ */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 5rem 2.5rem 8rem;
+    position: relative;
+    border-bottom: 1px solid var(--gold-line);
+    overflow: hidden;
+  }
+
+  /* radial vignette-glow */
+  #hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 65% 55% at 50% 45%, rgba(184,149,90,0.055) 0%, transparent 68%),
+      radial-gradient(ellipse 100% 40% at 50% 100%, rgba(10,9,6,0.8) 0%, transparent 100%);
+    pointer-events: none;
+  }
+
+  /* top rule */
+  .hero-rule-top {
+    width: 1px;
+    height: 72px;
+    background: linear-gradient(to bottom, transparent, var(--gold));
+    margin: 0 auto 2.8rem;
+    opacity: 0;
+    animation: fuIn 1.1s cubic-bezier(0.16,1,0.3,1) 0.1s forwards;
+  }
+
+  .hero-kicker {
+    font-family: 'Cinzel', serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.42em;
+    color: var(--gold);
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fuIn 1s cubic-bezier(0.16,1,0.3,1) 0.3s forwards;
+    margin-bottom: 3rem;
+  }
+
+  .hero-title {
+    font-size: clamp(2.6rem, 6.5vw, 6.2rem);
+    font-weight: 300;
+    line-height: 1.08;
+    letter-spacing: 0.015em;
+    color: var(--parchment);
+    margin-bottom: 2.2rem;
+  }
+
+  .hero-title .gold-word {
+    color: var(--gold-bright);
+    font-style: italic;
+  }
+
+  /* divider between title lines */
+  .hero-divider {
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--gold);
+    margin: 0 auto 2rem;
+    opacity: 0;
+    animation: fuIn 1s cubic-bezier(0.16,1,0.3,1) 1.65s forwards;
+  }
+
+  .hero-sub-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.32em;
+    color: var(--parchment-low);
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fuIn 1s cubic-bezier(0.16,1,0.3,1) 1.85s forwards;
+    margin-bottom: 1rem;
+  }
+
+  .hero-declaration {
+    font-size: 1.18rem;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--parchment-dim);
+    max-width: 520px;
+    line-height: 1.6;
+    opacity: 0;
+    animation: fuIn 1s cubic-bezier(0.16,1,0.3,1) 2.1s forwards;
+  }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 2.2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Cinzel', serif;
+    font-size: 0.56rem;
+    letter-spacing: 0.38em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fuIn 1.2s cubic-bezier(0.16,1,0.3,1) 2.8s forwards;
+  }
+
+  @keyframes fuIn {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ══════════════════════
+     LAYOUT
+  ══════════════════════ */
+  .content-wrap {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .section {
+    padding: 7.5rem 2.5rem;
+    border-bottom: 1px solid var(--gold-line);
+  }
+  .section:last-of-type { border-bottom: none; }
+
+  .kicker {
+    font-family: 'Cinzel', serif;
+    font-size: 0.59rem;
+    letter-spacing: 0.45em;
+    color: var(--gold);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 1.5rem;
+  }
+
+  .heading {
+    font-size: clamp(1.9rem, 4.2vw, 3.1rem);
+    font-weight: 300;
+    line-height: 1.15;
+    color: var(--parchment);
+    margin-bottom: 2.2rem;
+    letter-spacing: 0.01em;
+  }
+  .heading em { font-style: italic; color: var(--gold-bright); }
+
+  .body {
+    font-size: 1.02rem;
+    color: var(--parchment-dim);
+    line-height: 1.92;
+    font-weight: 300;
+  }
+  .body + .body { margin-top: 1.5em; }
+
+  /* ── PULL QUOTE ── */
+  .pq {
+    padding: 2rem 0 2rem 2.2rem;
+    border-left: 1px solid var(--gold);
+    margin: 3.5rem 0;
+    font-size: 1.6rem;
+    font-style: italic;
+    font-weight: 300;
+    line-height: 1.38;
+    color: var(--parchment);
+    letter-spacing: 0.008em;
+  }
+  .pq em { font-style: normal; color: var(--gold-bright); }
+
+  /* ── TWO-COL CONTRAST ── */
+  .duality {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin: 2.8rem 0;
+  }
+  @media (max-width: 560px) { .duality { grid-template-columns: 1fr; } }
+
+  .duality-col {
+    background: var(--ink-mid);
+    padding: 2.2rem 1.8rem;
+    position: relative;
+  }
+  .duality-col.accent {
+    background: var(--ink-lift);
+    border-top: 1px solid var(--gold);
+  }
+
+  .duality-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.58rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--parchment-low);
+    display: block;
+    margin-bottom: 1.2rem;
+  }
+  .duality-col.accent .duality-label { color: var(--gold); }
+
+  .duality-item {
+    font-size: 0.98rem;
+    font-style: italic;
+    color: var(--parchment-dim);
+    line-height: 1.65;
+    padding: 0.38rem 0;
+    border-bottom: 1px solid rgba(122,96,64,0.14);
+  }
+  .duality-item:last-child { border-bottom: none; }
+  .duality-col.accent .duality-item { color: var(--parchment); }
+
+  /* ── TRIPTYCH (three-col) ── */
+  .triptych {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin: 3rem 0;
+  }
+  @media (max-width: 640px) { .triptych { grid-template-columns: 1fr; } }
+
+  .triptych-card {
+    background: var(--ink-mid);
+    padding: 2.4rem 1.8rem;
+    position: relative;
+  }
+  .triptych-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(to right, var(--gold) 0%, transparent 100%);
+  }
+  .tc-num {
+    font-family: 'Cinzel', serif;
+    font-size: 0.56rem;
+    letter-spacing: 0.38em;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 0.9rem;
+  }
+  .tc-title {
+    font-size: 1.08rem;
+    font-weight: 400;
+    color: var(--parchment);
+    letter-spacing: 0.03em;
+    margin-bottom: 0.5rem;
+  }
+  .tc-desc {
+    font-size: 0.9rem;
+    font-style: italic;
+    color: var(--parchment-low);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  /* ── FULL-BLEED STATEMENT ── */
+  .statement {
+    background: var(--ink-lift);
+    border-top: 1px solid var(--gold-line);
+    border-bottom: 1px solid var(--gold-line);
+    padding: 5rem 3rem;
+    text-align: center;
+    margin: 4rem 0;
+  }
+  .statement-text {
+    font-size: clamp(1.55rem, 3.2vw, 2.7rem);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.3;
+    color: var(--parchment);
+    max-width: 680px;
+    margin: 0 auto;
+    letter-spacing: 0.01em;
+  }
+  .statement-text em { font-style: normal; color: var(--gold-bright); font-weight: 400; }
+
+  /* ── GURUKULAM CALLOUT ── */
+  .gurukulam {
+    border: 1px solid rgba(184,149,90,0.28);
+    background: linear-gradient(135deg, var(--ink-lift) 0%, rgba(184,149,90,0.04) 100%);
+    padding: 3.5rem 3rem;
+    margin: 3rem 0;
+    position: relative;
+  }
+  .gurukulam::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+  }
+  .g-name {
+    font-family: 'Cinzel', serif;
+    font-size: 0.88rem;
+    letter-spacing: 0.18em;
+    color: var(--gold-bright);
+    display: block;
+    margin-bottom: 1.1rem;
+  }
+  .g-body {
+    font-size: 1rem;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--parchment-dim);
+    line-height: 1.85;
+  }
+
+  /* ── INLINE GOLD EMPHASIS ── */
+  .gold { color: var(--gold-bright); }
+  em.lit { font-style: italic; color: var(--gold-bright); }
+
+  /* ── NAV DOTS ── */
+  #nav {
+    position: fixed;
+    right: 1.8rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    z-index: 800;
+  }
+  .nd {
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--gold-dim);
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+  }
+  .nd.active { background: var(--gold); transform: scale(2); }
+  @media (max-width: 700px) { #nav { display: none; } }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 5rem 2rem 4rem;
+    border-top: 1px solid var(--gold-line);
+  }
+  .foot-mark { font-size: 1.6rem; color: var(--gold); opacity: 0.45; display: block; margin-bottom: 1.5rem; }
+  .foot-label { font-family: 'Cinzel', serif; font-size: 0.58rem; letter-spacing: 0.45em; color: var(--parchment-low); text-transform: uppercase; }
+</style>
+</head>
+<body>
+
+<!-- NAV DOTS -->
+<nav id="nav">
+  <div class="nd" data-s="hero"></div>
+  <div class="nd" data-s="intro"></div>
+  <div class="nd" data-s="external"></div>
+  <div class="nd" data-s="reveals"></div>
+  <div class="nd" data-s="clarity"></div>
+  <div class="nd" data-s="daily"></div>
+  <div class="nd" data-s="structured"></div>
+  <div class="nd" data-s="guidance"></div>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section id="hero" style="border:none;padding:0;max-width:100%;">
+  <span class="hero-rule-top"></span>
+  <p class="hero-kicker">The Siddhar Tradition · Long-form Essay</p>
+  <h1 class="hero-title" id="heroTitle"></h1>
+  <span class="hero-divider"></span>
+  <p class="hero-sub-label">Shree Easanamma Gurukulam</p>
+  <p class="hero-declaration">Silence is not the absence of sound — it is the presence of something far older than words: the space in which the self is finally seen.</p>
+  <span class="hero-scroll">Scroll to read</span>
+</section>
+
+<div class="content-wrap">
+
+<!-- ══ I · INTRO ══ -->
+<article class="section" id="intro">
+  <span class="kicker fu">I · Introduction</span>
+  <h2 class="heading js-wl">Silence as a <em>Transformative</em> Force</h2>
+  <p class="body fu">Silence is ordinarily understood as absence — the absence of sound, of voices, of activity. We treat it as a gap between things, a pause to be filled rather than a presence to be inhabited.</p>
+  <p class="body fu">In the Siddhar tradition, this reading is turned entirely on its head. Silence is not a void. It is <span class="gold">a powerful medium of transformation</span> — active, intelligent, and capable of dissolving the very structures that obscure clear perception.</p>
+  <div class="pq fu">The Siddhars did not retreat into silence to escape the world. They entered silence to <em>see it clearly</em> for the first time.
+  </div>
+</article>
+
+<!-- ══ II · WHY SILENCE MATTERS ══ -->
+<article class="section" id="external">
+  <span class="kicker fu">II · The Problem of Noise</span>
+  <h2 class="heading js-wl">Why Silence <em>Matters</em></h2>
+  <p class="body fu">The mind is constitutionally restless. Left unattended, it generates a continuous stream of internal commentary — memory surfacing, plans forming, judgements arising, narratives spinning. This activity produces noise, distraction, and distortion.</p>
+  <p class="body fu">Silence — even its first, external layer — reduces this.</p>
+
+  <div class="duality fu">
+    <div class="duality-col">
+      <span class="duality-label">External Silence — reducing speech</span>
+      <div class="duality-item">Conserves vital energy</div>
+      <div class="duality-item">Reduces outward distraction</div>
+      <div class="duality-item">Increases present awareness</div>
+    </div>
+    <div class="duality-col accent">
+      <span class="duality-label">Internal Silence — the deeper layer</span>
+      <div class="duality-item">Reduction of mental movement</div>
+      <div class="duality-item">Absence of unnecessary thought</div>
+      <div class="duality-item">Stillness beneath activity</div>
+    </div>
+  </div>
+
+  <p class="body fu">These two dimensions of silence are not separate stages — they reinforce each other. As speech reduces, the inner noise begins to quieten. As inner noise quietens, speech naturally becomes more deliberate and sparse.</p>
+</article>
+
+<!-- ══ III · SILENCE REVEALS ══ -->
+<article class="section" id="reveals">
+  <span class="kicker fu">III · The Mirror</span>
+  <h2 class="heading js-wl">What Silence <em>Reveals</em></h2>
+  <p class="body fu">Silence does not produce emptiness. It produces visibility. When the constant motion of the mind slows, what was always there but hidden beneath the noise becomes perceptible.</p>
+
+  <div class="triptych fu">
+    <div class="triptych-card">
+      <span class="tc-num">01 · Pattern</span>
+      <div class="tc-title">Thought Patterns</div>
+      <p class="tc-desc">The recurring grooves of mental habit — beliefs, assumptions, and reactive loops that normally operate below conscious awareness.</p>
+    </div>
+    <div class="triptych-card">
+      <span class="tc-num">02 · Tendency</span>
+      <div class="tc-title">Emotional Currents</div>
+      <p class="tc-desc">The subtle emotional tones — fear, longing, resistance, grasping — that colour perception long before they reach the surface as feeling.</p>
+    </div>
+    <div class="triptych-card">
+      <span class="tc-num">03 · Source</span>
+      <div class="tc-title">Internal Noise</div>
+      <p class="tc-desc">The background hum of undirected mental activity — what the Siddhars identified as the fundamental obstruction to clear seeing.</p>
+    </div>
+  </div>
+
+  <div class="pq fu">
+    Many find silence <em>uncomfortable</em> for precisely this reason: when distractions disappear, the inner activity becomes fully visible — and what is seen is not always welcome.
+  </div>
+
+  <p class="body fu">This discomfort is not a sign that something is wrong. It is the first honest encounter with what has always been present, unwitnessed. The Siddhars regarded this moment not as a problem but as the beginning of genuine inquiry.</p>
+</article>
+
+<!-- ══ IV · CLARITY & FORCED SILENCE ══ -->
+<article class="section" id="clarity">
+  <span class="kicker fu">IV · Deepening</span>
+  <h2 class="heading js-wl">Silence &amp; <em>Clarity</em></h2>
+  <p class="body fu">As silence deepens — not as a discipline imposed but as a natural consequence of sustained observation — a shift in perception becomes unmistakable. Reactions slow. The gap between stimulus and response widens. Awareness stabilises into something that no longer depends on conditions.</p>
+
+  <div class="statement fu">
+    <p class="statement-text">Forcing silence leads to suppression and tension. True silence <em>emerges through observation</em> — it is never manufactured.</p>
+  </div>
+
+  <p class="body fu">This distinction is essential. The Siddhars were not advocates of enforced muteness or performative stillness. What they pointed toward was an inner orientation — a quality of witnessing that, once established, generates its own quietude without any effort of suppression.</p>
+  <p class="body fu">The practitioner does not become silent. Silence recognises itself in the practitioner.</p>
+</article>
+
+<!-- ══ V · DAILY LIFE ══ -->
+<article class="section" id="daily">
+  <span class="kicker fu">V · Integration</span>
+  <h2 class="heading js-wl">Silence in <em>Daily Life</em></h2>
+  <p class="body fu">A common misunderstanding treats silence as a withdrawal from life — as isolation, retreat, the renunciation of ordinary engagement. The Siddhar teaching corrects this firmly.</p>
+  <p class="body fu">Silence is not isolation. It is a quality of attention that can exist within activity, within conversation, within movement. The person who carries inner silence into a crowded room has not left silence behind — they have brought it with them.</p>
+
+  <div class="pq fu">
+    This is the refinement the path asks for: not the <em>absence</em> of engagement, but engagement without the noise that ordinarily accompanies it.
+  </div>
+
+  <p class="body fu">Eating in silence. Walking in silence. Listening in silence — not in the sense of withholding words, but in the sense of being genuinely, wholly present to what is occurring. The Siddhars practiced this constantly, in every circumstance.</p>
+</article>
+
+<!-- ══ VI · STRUCTURED SILENCE ══ -->
+<article class="section" id="structured">
+  <span class="kicker fu">VI · Environment</span>
+  <h2 class="heading js-wl">Structured <em>Silence</em></h2>
+  <p class="body fu">Individual intention, however sincere, is often insufficient to sustain the quality of silence the path requires. The social environment exerts a constant pressure toward noise — speech, distraction, the ordinary busyness of collective life.</p>
+
+  <div class="gurukulam fu">
+    <span class="g-name">Shree Easanamma Gurukulam</span>
+    <p class="g-body">In the Gurukulam, silence is not practised occasionally as an exercise — it is woven into the structure of each day. The routine itself holds the silence, so the individual need not manufacture it through willpower alone. This allows for deeper observation and more consistent transformation than solitary practice can typically sustain.</p>
+  </div>
+
+  <p class="body fu">When silence is the norm of a shared environment, it ceases to be an achievement and becomes simply the atmosphere in which life is lived. This is one of the great gifts of a structured community devoted to the path.</p>
+</article>
+
+<!-- ══ VII · GUIDANCE ══ -->
+<article class="section" id="guidance">
+  <span class="kicker fu">VII · The Teacher's Role</span>
+  <h2 class="heading js-wl">The Role of <em>Guidance</em></h2>
+  <p class="body fu">Silence, left without guidance, can be misread. The practitioner may mistake suppression for stillness, withdrawal for clarity, inertia for peace. These errors are subtle — they feel, from the inside, like progress.</p>
+  <p class="body fu">Guidance from <em class="lit">Shree Easanamma</em> provides the discernment the solitary seeker cannot always generate alone. The teacher sees what the student cannot see from within their own experience — and the teaching is often delivered not in words, but in the quality of silence that the teacher embodies.</p>
+
+  <div class="pq fu">
+    The student learns silence not by being told about it, but by sitting in the presence of someone who <em>is</em> it.
+  </div>
+</article>
+
+</div><!-- /content-wrap -->
+
+<!-- FINAL STATEMENT -->
+<div class="statement" style="margin:0;">
+  <p class="statement-text fu">Silence is not emptiness. It is the <em>space where transformation happens</em>.</p>
+</div>
+
+<footer>
+  <span class="foot-mark">✦</span>
+  <p class="foot-label">Shree Easanamma Gurukulam · The Siddhar Path</p>
+</footer>
+
+<script>
+/* ── HERO WORD LIFT ── */
+(function(){
+  const el = document.getElementById('heroTitle');
+  // Line 1: "Role of Silence"  Line 2: "in Transformation"
+  const lines = [
+    [{ t:'Role' }, { t:'of' }, { t:'Silence', gold:true }],
+    [{ t:'in' }, { t:'Transformation', gold:true, italic:true }]
+  ];
+  let delay = 0.72;
+  lines.forEach((words, li) => {
+    const lineDiv = document.createElement('div');
+    words.forEach((w, wi) => {
+      const wrap = document.createElement('span');
+      wrap.className = 'wl-wrap';
+      const inner = document.createElement('span');
+      inner.className = 'wl-inner go';
+      inner.style.animationDelay = delay + 's';
+      if (w.gold) inner.style.color = 'var(--gold-bright)';
+      if (w.italic) inner.style.fontStyle = 'italic';
+      inner.textContent = w.t;
+      wrap.appendChild(inner);
+      lineDiv.appendChild(wrap);
+      if (wi < words.length - 1) lineDiv.appendChild(document.createTextNode('\u00A0'));
+      delay += 0.13;
+    });
+    el.appendChild(lineDiv);
+    if (li < lines.length - 1) delay += 0.05;
+  });
+})();
+
+/* ── SECTION HEADING WORD LIFT ── */
+function buildWordLift(el) {
+  // Preserve em tags — parse inner HTML tokens
+  const raw = el.innerHTML;
+  el.innerHTML = '';
+  // Tokenise on spaces, keep <em>…</em> as atomic units
+  const tokens = raw.split(/\s+/);
+  tokens.forEach((tok, i) => {
+    if (!tok) return;
+    const wrap = document.createElement('span');
+    wrap.className = 'wl-wrap';
+    const inner = document.createElement('span');
+    inner.className = 'wl-inner';
+    if (/<em>/i.test(tok)) {
+      inner.innerHTML = tok;
+    } else {
+      inner.textContent = tok;
+    }
+    wrap.appendChild(inner);
+    el.appendChild(wrap);
+    if (i < tokens.length - 1) el.appendChild(document.createTextNode('\u00A0'));
+  });
+}
+
+document.querySelectorAll('.js-wl').forEach(buildWordLift);
+
+/* ── INTERSECTION: WORD LIFT ── */
+const wlObs = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    const inners = entry.target.querySelectorAll('.wl-inner');
+    inners.forEach((el, i) => {
+      setTimeout(() => el.classList.add('go'), i * 85);
+    });
+    wlObs.unobserve(entry.target);
+  });
+}, { threshold: 0.25 });
+
+document.querySelectorAll('.js-wl').forEach(el => wlObs.observe(el));
+
+/* ── INTERSECTION: FADE-UP ── */
+const fuObs = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    // Stagger siblings within same parent
+    const siblings = Array.from(entry.target.parentElement.querySelectorAll('.fu'));
+    const idx = siblings.indexOf(entry.target);
+    setTimeout(() => entry.target.classList.add('on'), idx * 75);
+    fuObs.unobserve(entry.target);
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
+
+document.querySelectorAll('.fu').forEach(el => fuObs.observe(el));
+
+/* ── NAV DOTS ── */
+const sections = ['hero','intro','external','reveals','clarity','daily','structured','guidance'];
+const dots = document.querySelectorAll('.nd');
+
+dots.forEach((dot, i) => {
+  dot.addEventListener('click', () => {
+    document.getElementById(sections[i])?.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+const sEls = sections.map(id => document.getElementById(id)).filter(Boolean);
+
+const dotObs = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    const idx = sEls.indexOf(entry.target);
+    dots.forEach(d => d.classList.remove('active'));
+    if (idx >= 0) dots[idx].classList.add('active');
+  });
+}, { threshold: 0.4 });
+
+sEls.forEach(el => dotObs.observe(el));
+</script>
+</body>
+</html>

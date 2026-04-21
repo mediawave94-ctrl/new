@@ -6,6 +6,7 @@
 <title>Siddhar Civilization Timeline</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Philosopher:ital,wght@0,400;0,700;1,400&family=Cinzel+Decorative:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./style.css">
 <style>
 :root {
   --void:    #03050F;
@@ -661,8 +662,56 @@ cite {
 }
 .conclusion-text strong { color:var(--bolt2); }
 
+/* ══════════════════════════════════════
+   UTILS
+══════════════════════════════════════ */
+@keyframes fade-down {
+  from{opacity:0;transform:translateY(-20px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+/* Floating particles */
+.particle {
+  position:fixed;
+  width:2px; height:2px;
+  background:var(--bolt);
+  border-radius:50%;
+  pointer-events:none;
+  z-index:0;
+  animation:float-up linear infinite;
+  box-shadow:0 0 6px rgba(74,158,255,0.8);
+}
+@keyframes float-up {
+  0%  {transform:translateY(100vh) translateX(0); opacity:0;}
+  10% {opacity:1;}
+  90% {opacity:0.5;}
+  100%{transform:translateY(-100px) translateX(var(--dx,20px)); opacity:0;}
+}
+
+/* ══════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════ */
+@media(max-width:768px) {
+  nav{ padding:1rem 1.5rem; }
+  .nav-links{ display:none; }
+  .tl-item { grid-template-columns:30px 1fr !important; gap:1rem; }
+  .tl-empty { display:none !important; }
+  .tl-item:nth-child(odd)  .tl-content,
+  .tl-item:nth-child(even) .tl-content { grid-column:2 !important; text-align:left !important; padding:0 !important; }
+  .tl-item:nth-child(odd)  .tl-center,
+  .tl-item:nth-child(even) .tl-center  { grid-column:1 !important; }
+  .tl-item:nth-child(odd) .tl-tags { justify-content:flex-start; }
+  .chars-grid { grid-template-columns:1fr; }
+  .timeline-spine { left:15px; }
+  .arc-left,.arc-right { display:none; }
+}
+
+
+  
 /* FOOTER */
 footer {
+  position: relative;
+  z-index: 100;
   background: var(--dark, #090705);
   padding: 3rem 2rem;
 }
@@ -681,7 +730,7 @@ footer {
   flex-direction: column;
   gap: 0.9rem;
 }
-.footer-brand {
+.footer-brand { 
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -746,50 +795,6 @@ footer {
   opacity: 0.85;
   text-align: center;
 }
-
-/* ══════════════════════════════════════
-   UTILS
-══════════════════════════════════════ */
-@keyframes fade-down {
-  from{opacity:0;transform:translateY(-20px);}
-  to{opacity:1;transform:translateY(0);}
-}
-
-/* Floating particles */
-.particle {
-  position:fixed;
-  width:2px; height:2px;
-  background:var(--bolt);
-  border-radius:50%;
-  pointer-events:none;
-  z-index:0;
-  animation:float-up linear infinite;
-  box-shadow:0 0 6px rgba(74,158,255,0.8);
-}
-@keyframes float-up {
-  0%  {transform:translateY(100vh) translateX(0); opacity:0;}
-  10% {opacity:1;}
-  90% {opacity:0.5;}
-  100%{transform:translateY(-100px) translateX(var(--dx,20px)); opacity:0;}
-}
-
-/* ══════════════════════════════════════
-   RESPONSIVE
-══════════════════════════════════════ */
-@media(max-width:768px) {
-  nav{ padding:1rem 1.5rem; }
-  .nav-links{ display:none; }
-  .tl-item { grid-template-columns:30px 1fr !important; gap:1rem; }
-  .tl-empty { display:none !important; }
-  .tl-item:nth-child(odd)  .tl-content,
-  .tl-item:nth-child(even) .tl-content { grid-column:2 !important; text-align:left !important; padding:0 !important; }
-  .tl-item:nth-child(odd)  .tl-center,
-  .tl-item:nth-child(even) .tl-center  { grid-column:1 !important; }
-  .tl-item:nth-child(odd) .tl-tags { justify-content:flex-start; }
-  .chars-grid { grid-template-columns:1fr; }
-  .timeline-spine { left:15px; }
-  .arc-left,.arc-right { display:none; }
-}
 </style>
 </head>
 <body>
@@ -803,15 +808,17 @@ footer {
 
 <!-- NAV -->
 <nav>
-  <div class="nav-brand">⚡ Siddhar Civilization</div>
+  <a href="./index.html" style="text-decoration: none;">
+  <div class="nav-brand">⚡ Siddhar Civilization</div></a>
   <ul class="nav-links">
-     <li><a href="./index.html">Home</a></li>
+     
     <li><a href="#timeline">Timeline</a></li>
     <li><a href="#pillars">Pillars</a></li>
     <li><a href="#lineage">Lineage</a></li>
     <li><a href="#gurukulam">Gurukulam</a></li>
   </ul>
 </nav>
+
 
 <!-- ══ HERO ══ -->
 <section class="hero">
@@ -1089,8 +1096,6 @@ footer {
     It is not bound by time — it is <strong>rediscovered repeatedly</strong>, in every sincere heart that turns inward and asks the question the Siddhars first asked: <em>What is the nature of the observer itself?</em>
   </p>
 </section>
-
-<!-- FOOTER -->
 <footer>
   <div class="footer-content">
     <div class="footer-columns">
@@ -1100,7 +1105,7 @@ footer {
           A living space of discipline, observation, and transformation — rooted in the
           ancient Tamil Siddhar tradition under the guidance of Shree Easanamma.
         </p>
-        <a href="./index.html" class="footer-brand-link">easanamma.com</a>
+        <a href="https://easanamma.com" class="footer-brand-link" target="_blank" rel="noopener noreferrer">EASANAMMA.COM</a>
       </div>
 
       <div class="footer-column">
@@ -1122,23 +1127,14 @@ footer {
          <li><a href="./meditation_siddhar.html">Meditation</a></li>
          <li><a href="./Siddhar vs Other Spiritual Traditions.html">Siddhar vs Other Spiritual Traditions</a></li>
          <li><a href="./Why Siddhars Are Unique.html">Why Siddhars Are Unique</a></li>
-          
         </ul>
       </div>
-
-      
     </div>
 
     <p class="footer-note">© 2026 Shree Easanamma Gurukulam. All rights reserved.</p>
+    <p class="footer-note">Meditation Is Not Something You Do · <a href="https://easanamma.com" target="_blank" rel="noopener noreferrer">EASANAMMA.COM</a></p>
   </div>
 </footer>
-<!-- ══ FOOTER ══ -->
-<footer>
-  <div class="footer-brand">⚡ Siddhar Civilization</div>
-  <div class="footer-line"></div>
-  <div class="footer-sub">Tamil Spiritual Heritage · Ancient Wisdom · Living Tradition</div>
-</footer>
-
 <!-- ══════════════════════════════════════
    SCRIPTS
 ══════════════════════════════════════ -->

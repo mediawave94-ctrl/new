@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Siddhar Cosmology</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Cinzel:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink:            #0a0906;
+    --ink-mid:        #161311;
+    --ink-lift:       #211e1a;
+    --ink-panel:      #110f0d;
+    --parchment:      #e8dfc8;
+    --parchment-dim:  #c4ba9f;
+    --parchment-ghost:#8e8676;
+    --gold:           #c8a96e;
+    --gold-dim:       #7d6540;
+    --gold-bright:    #dbbf82;
+    --gold-glow:      rgba(200,169,110,0.08);
+    --rule:           rgba(200,169,110,0.18);
+    --rule-soft:      rgba(200,169,110,0.09);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--ink);
+    color: var(--parchment);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 20px;
+    line-height: 1.78;
+    overflow-x: hidden;
+  }
+
+  /* ── Grain overlay ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    pointer-events: none;
+    opacity: 0.042;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 180px 180px;
+    mix-blend-mode: overlay;
+  }
+
+  /* ── Layout ── */
+  .page-wrap { max-width: 800px; margin: 0 auto; padding: 0 44px; }
+
+  /* ── Word-lift ── */
+  .word-lift-wrap {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+    line-height: 1.15;
+    padding-bottom: 0.05em;
+  }
+  .word-lift-wrap .word {
+    display: inline-block;
+    transform: translateY(115%);
+    opacity: 0;
+  }
+  .word-lift-wrap.revealed .word {
+    animation: wordUp 0.88s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  @keyframes wordUp {
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  /* ── Fade-up ── */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.95s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.95s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  @keyframes heroFade {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ══════════════════════
+     HERO
+  ══════════════════════ */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 110px 0 88px;
+    position: relative;
+  }
+
+  .hero-eyebrow {
+    font-family: 'Cinzel', serif;
+    font-size: 10.5px;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 56px;
+    opacity: 0;
+    animation: heroFade 0.7s cubic-bezier(0.16,1,0.3,1) 0.15s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(58px, 10vw, 114px);
+    line-height: 0.97;
+    letter-spacing: -0.015em;
+    color: var(--parchment);
+    margin-bottom: 40px;
+  }
+
+  .hero-subtitle {
+    font-size: 21px;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--parchment-ghost);
+    line-height: 1.6;
+    max-width: 560px;
+    opacity: 0;
+    animation: heroFade 0.9s cubic-bezier(0.16,1,0.3,1) 1.7s forwards;
+  }
+
+  .hero-rule {
+    width: 1px;
+    height: 72px;
+    background: linear-gradient(180deg, var(--gold) 0%, transparent 100%);
+    margin: 60px 0 0;
+    opacity: 0;
+    animation: heroFade 0.7s cubic-bezier(0.16,1,0.3,1) 2.1s forwards;
+  }
+
+  /* Scroll cue */
+  .hero-scroll {
+    position: absolute;
+    bottom: 48px;
+    right: 0;
+    writing-mode: vertical-rl;
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 0.36em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    opacity: 0;
+    animation: heroFade 0.7s cubic-bezier(0.16,1,0.3,1) 2.5s forwards;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .hero-scroll::after {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 44px;
+    background: linear-gradient(180deg, var(--gold-dim), transparent);
+  }
+
+  /* ══════════════════════
+     SECTION BASE
+  ══════════════════════ */
+  section {
+    padding: 92px 0;
+    border-top: 1px solid var(--rule-soft);
+  }
+
+  .s-label {
+    font-family: 'Cinzel', serif;
+    font-size: 9.5px;
+    letter-spacing: 0.44em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 38px;
+  }
+
+  .s-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(34px, 5.5vw, 58px);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    color: var(--parchment);
+    margin-bottom: 30px;
+  }
+  .s-heading em { font-style: italic; color: var(--gold-bright); }
+
+  .s-body {
+    font-size: 19px;
+    font-weight: 400;
+    line-height: 1.88;
+    color: var(--parchment-dim);
+    max-width: 630px;
+  }
+  .s-body + .s-body { margin-top: 1.5em; }
+
+  /* ══════════════════════
+     LIVING SYSTEM — twin columns
+  ══════════════════════ */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin: 48px 0;
+  }
+
+  .two-col-item {
+    padding: 36px 30px;
+    border: 1px solid var(--rule-soft);
+    position: relative;
+  }
+
+  .two-col-item.muted {
+    background: var(--ink-panel);
+  }
+
+  .two-col-item.active {
+    background: var(--gold-glow);
+    border-color: var(--rule);
+  }
+
+  .two-col-item::before {
+    content: attr(data-label);
+    font-family: 'Cinzel', serif;
+    font-size: 8.5px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    display: block;
+    margin-bottom: 16px;
+  }
+
+  .two-col-item p {
+    font-size: 17px;
+    font-style: italic;
+    color: var(--parchment-ghost);
+    line-height: 1.7;
+  }
+
+  .two-col-item.active p {
+    color: var(--parchment-dim);
+  }
+
+  /* ══════════════════════
+     FIVE ELEMENTS — radial display
+  ══════════════════════ */
+  .elements-wrap {
+    position: relative;
+    margin: 52px 0;
+  }
+
+  .elements-center {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2px;
+  }
+
+  .element-card {
+    padding: 36px 20px 32px;
+    border: 1px solid var(--rule-soft);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    cursor: default;
+    transition: border-color 0.35s, background 0.35s;
+  }
+
+  .element-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    transform: scaleX(0);
+    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+
+  .element-card:hover {
+    background: var(--gold-glow);
+    border-color: var(--rule);
+  }
+  .element-card:hover::after { transform: scaleX(1); }
+
+  .element-glyph {
+    font-size: 28px;
+    display: block;
+    margin-bottom: 14px;
+    color: var(--gold);
+    opacity: 0.7;
+  }
+
+  .element-name {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--parchment);
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .element-qual {
+    font-size: 13px;
+    font-style: italic;
+    color: var(--parchment-ghost);
+  }
+
+  /* ══════════════════════
+     MICROCOSM / MACROCOSM — large axiom
+  ══════════════════════ */
+  .axiom {
+    margin: 56px 0;
+    padding: 52px 48px;
+    border: 1px solid var(--rule);
+    position: relative;
+    background: var(--ink-panel);
+    overflow: hidden;
+  }
+
+  .axiom::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, var(--gold) 50%, transparent 100%);
+  }
+
+  .axiom-label {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-bottom: 20px;
+  }
+
+  .axiom-text {
+    font-size: clamp(22px, 3.2vw, 34px);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.38;
+    color: var(--parchment);
+  }
+
+  .axiom-text em {
+    font-style: normal;
+    color: var(--gold-bright);
+  }
+
+  /* ══════════════════════
+     CYCLES — horizontal timeline
+  ══════════════════════ */
+  .cycles-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    margin: 48px 0;
+    border: 1px solid var(--rule-soft);
+  }
+
+  .cycle-item {
+    padding: 36px 28px;
+    border-right: 1px solid var(--rule-soft);
+    position: relative;
+  }
+  .cycle-item:last-child { border-right: none; }
+
+  .cycle-roman {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 42px;
+    font-weight: 300;
+    color: rgba(200,169,110,0.10);
+    position: absolute;
+    top: 10px; right: 16px;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .cycle-title {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .cycle-body {
+    font-size: 16.5px;
+    font-style: italic;
+    color: var(--parchment-ghost);
+    line-height: 1.65;
+  }
+
+  .cycle-levels {
+    margin-top: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .cycle-level {
+    font-family: 'Cinzel', serif;
+    font-size: 8px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+  }
+
+  /* ══════════════════════
+     MODERN PARALLELS — three cards
+  ══════════════════════ */
+  .parallels {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin: 48px 0;
+  }
+
+  .parallel-card {
+    padding: 36px 28px;
+    border: 1px solid var(--rule-soft);
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .parallel-card:hover {
+    border-color: var(--rule);
+    background: var(--gold-glow);
+  }
+
+  .parallel-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    font-style: italic;
+    color: var(--gold-dim);
+    letter-spacing: 0.08em;
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .parallel-title {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--parchment);
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .parallel-desc {
+    font-size: 16px;
+    font-style: italic;
+    color: var(--parchment-ghost);
+    line-height: 1.65;
+  }
+
+  /* ══════════════════════
+     PULL QUOTE
+  ══════════════════════ */
+  .pull-quote {
+    margin: 60px 0;
+    padding: 48px 0 48px 36px;
+    border-left: 1px solid var(--gold-dim);
+    position: relative;
+  }
+
+  .pq-text {
+    font-size: clamp(22px, 3.4vw, 36px);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.42;
+    color: var(--parchment);
+  }
+
+  .pq-attr {
+    font-family: 'Cinzel', serif;
+    font-size: 9.5px;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-top: 22px;
+  }
+
+  /* ══════════════════════
+     CLOSING
+  ══════════════════════ */
+  .closing {
+    padding: 96px 0 120px;
+    border-top: 1px solid var(--rule-soft);
+    text-align: center;
+  }
+
+  .closing-ornament {
+    display: block;
+    color: var(--gold);
+    font-size: 13px;
+    letter-spacing: 0.55em;
+    margin-bottom: 52px;
+    opacity: 0.7;
+  }
+
+  .closing-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(26px, 4.5vw, 48px);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.35;
+    color: var(--parchment);
+    margin-bottom: 30px;
+  }
+
+  .closing-body {
+    font-size: 18px;
+    color: var(--parchment-ghost);
+    line-height: 1.88;
+    max-width: 500px;
+    margin: 0 auto 44px;
+  }
+
+  .closing-name {
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  /* ══════════════════════
+     FOOTER
+  ══════════════════════ */
+  footer {
+    border-top: 1px solid var(--rule-soft);
+    padding: 30px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  footer .f-l {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 0.36em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+  }
+  footer .f-r {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    font-style: italic;
+    color: var(--parchment-ghost);
+  }
+
+  /* ══════════════════════
+     RESPONSIVE
+  ══════════════════════ */
+  @media (max-width: 680px) {
+    .page-wrap { padding: 0 24px; }
+    .two-col, .parallels { grid-template-columns: 1fr; }
+    .elements-center { grid-template-columns: repeat(3, 1fr); }
+    .cycles-row { grid-template-columns: 1fr; }
+    .cycle-item { border-right: none; border-bottom: 1px solid var(--rule-soft); }
+    .cycle-item:last-child { border-bottom: none; }
+    footer { flex-direction: column; gap: 10px; text-align: center; }
+    .axiom { padding: 36px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ HERO ═══════════ -->
+<div class="page-wrap">
+  <div class="hero">
+    <p class="hero-eyebrow">Shree Easanamma Gurukulam · Cosmological Teaching</p>
+
+    <h1 class="hero-title" id="heroTitle"></h1>
+
+    <p class="hero-subtitle">
+      Not a theory of the universe, but a direct perception of it —
+      observed through the instrument of a refined consciousness.
+    </p>
+
+    <div class="hero-rule"></div>
+    <div class="hero-scroll">Descend</div>
+  </div>
+</div>
+
+<!-- ═══════════ I · THE UNIVERSE AS A LIVING SYSTEM ═══════════ -->
+<div class="page-wrap">
+  <section>
+    <p class="s-label fade-up">I · The Universe as a Living System</p>
+    <h2 class="s-heading" data-lift>Not mechanism.<br><em>Intelligence.</em></h2>
+
+    <p class="s-body fade-up">
+      Where modern cosmology turns instruments outward — toward matter, space, and physical law —
+      the Siddhars turned perception inward. Their universe is not a machine that runs, nor a
+      random occurrence that simply <em>is</em>. It is a <strong>living, dynamic system of intelligence</strong>:
+      interconnected, interdependent, continuously evolving.
+    </p>
+
+    <div class="two-col fade-up">
+      <div class="two-col-item muted" data-label="Modern Approach">
+        <p>Observation of matter · Measurement of space · Analysis of physical laws</p>
+      </div>
+      <div class="two-col-item active" data-label="Siddhar Approach">
+        <p>Inner observation · Direct perception · Experiential understanding through consciousness</p>
+      </div>
+    </div>
+
+    <p class="s-body fade-up">
+      Their cosmology is not theoretical. It is <em>observed through consciousness</em> — the one
+      instrument no external telescope can replicate.
+    </p>
+  </section>
+</div>
+
+<!-- ═══════════ II · MICROCOSM & MACROCOSM ═══════════ -->
+<div class="page-wrap">
+  <section>
+    <p class="s-label fade-up">II · Microcosm &amp; Macrocosm</p>
+    <h2 class="s-heading" data-lift>The cosmos<br><em>within.</em></h2>
+
+    <div class="axiom fade-up">
+      <p class="axiom-label">Central Principle</p>
+      <p class="axiom-text">
+        What exists in the <em>universe</em> exists within the <em>human system</em>.
+        The body reflects cosmic principles — and inner observation reveals universal truths.
+      </p>
+    </div>
+
+    <p class="s-body fade-up">
+      This is not symbolic language. The Siddhars held it as a precise, functional principle:
+      the structures, rhythms, and processes that govern the cosmos are reproduced — in miniature
+      but in kind — within the human body and mind. To know oneself is to know the universe.
+    </p>
+  </section>
+</div>
+
+<!-- ═══════════ III · CONSCIOUSNESS ═══════════ -->
+<div class="page-wrap">
+  <section>
+    <p class="s-label fade-up">III · The Role of Consciousness</p>
+    <h2 class="s-heading" data-lift>Not produced.<br><em>Primary.</em></h2>
+
+    <p class="s-body fade-up">
+      Modern science locates consciousness as an output of the brain — an emergent property
+      of sufficient neural complexity. The Siddhars held the inverse: consciousness is not produced
+      by matter. It is the <strong>field in which everything appears</strong>. Matter, mind, and
+      universe all arise within it.
+    </p>
+
+    <div class="pull-quote fade-up">
+      <p class="pq-text">
+        Consciousness is not a product of the cosmos.<br>
+        The cosmos is a movement within consciousness.
+      </p>
+      <p class="pq-attr">Siddhar Perception</p>
+    </div>
+
+    <p class="s-body fade-up">
+      Creation, in this view, is not a one-time event. It is a continuous process: every moment
+      involves emergence, transformation, and disappearance — a perpetual breathing in and out
+      of existence.
+    </p>
+  </section>
+</div>
+
+<!-- ═══════════ IV · FIVE ELEMENTS ═══════════ -->
+<div class="page-wrap">
+  <section>
+    <p class="s-label fade-up">IV · The Five Elemental Principles</p>
+    <h2 class="s-heading" data-lift>The grammar<br><em>of existence.</em></h2>
+
+    <p class="s-body fade-up">
+      The Siddhars described the architecture of the universe through five elemental principles —
+      each operating simultaneously in the external cosmos and within the interior of the human body.
+    </p>
+
+    <div class="elements-wrap fade-up">
+      <div class="elements-center">
+        <div class="element-card">
+          <span class="element-glyph">◼</span>
+          <span class="element-name">Earth</span>
+          <span class="element-qual">Structure</span>
+        </div>
+        <div class="element-card">
+          <span class="element-glyph">◈</span>
+          <span class="element-name">Water</span>
+          <span class="element-qual">Cohesion</span>
+        </div>
+        <div class="element-card">
+          <span class="element-glyph">△</span>
+          <span class="element-name">Fire</span>
+          <span class="element-qual">Transformation</span>
+        </div>
+        <div class="element-card">
+          <span class="element-glyph">◎</span>
+          <span class="element-name">Air</span>
+          <span class="element-qual">Movement</span>
+        </div>
+        <div class="element-card">
+          <span class="element-glyph">○</span>
+          <span class="element-name">Space</span>
+          <span class="element-qual">Containment</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="s-body fade-up">
+      These five are not merely symbolic categories. They are functional principles — patterns of
+      behaviour that the Siddhars identified across every scale of reality, from the formation of
+      matter to the movement of thought.
+    </p>
+  </section>
+</div>
+
+<!-- ═══════════ V · CYCLES ═══════════ -->
+<div class="page-wrap">
+  <section>
+    <p class="s-label fade-up">V · Cycles in the Universe</p>
+    <h2 class="s-heading" data-lift>Creation, growth,<br><em>dissolution.</em></h2>
+
+    <p class="s-body fade-up">
+      The Siddhars observed that nothing in existence moves in a straight line. All of reality
+      breathes through cycles — arising, sustaining, dissolving — at every level of scale
+      simultaneously.
+    </p>
+
+    <div class="cycles-row fade-up">
+      <div class="cycle-item">
+        <span class="cycle-roman">I</span>
+        <span class="cycle-title">Creation</span>
+        <p class="cycle-body">Emergence from the unmanifest into form, structure, and presence.</p>
+        <div class="cycle-levels">
+          <span class="cycle-level">Cosmic · Biological · Psychological</span>
+        </div>
+      </div>
+      <div class="cycle-item">
+        <span class="cycle-roman">II</span>
+        <span class="cycle-title">Growth</span>
+        <p class="cycle-body">Expansion, elaboration, and the deepening of pattern and complexity.</p>
+        <div class="cycle-levels">
+          <span class="cycle-level">Cosmic · Biological · Psychological</span>
+        </div>
+      </div>
+      <div class="cycle-item">
+        <span class="cycle-roman">III</span>
+        <span class="cycle-title">Dissolution</span>
+        <p class="cycle-body">Return. Form releases back into the formless — the ground of the next creation.</p>
+        <div class="cycle-levels">
+          <span class="cycle-level">Cosmic · Biological · Psychological</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ═══════════ VI · NO SEPARATION ═══════════ -->
+<div class="page-wrap">
+  <section>
+    <p class="s-label fade-up">VI · The Dissolution of Duality</p>
+    <h2 class="s-heading" data-lift>No separation<br><em>between observer and observed.</em></h2>
+
+    <p class="s-body fade-up">
+      The Siddhars did not rely on external instruments for their understanding. They relied on
+      <em>refined perception through observation</em> — the cultivated capacity to see directly,
+      without the mediation of concept or assumption.
+    </p>
+
+    <p class="s-body fade-up">
+      Their central insight dissolves the fundamental duality of modern science: there is no strict
+      division between the observer and the observed, between the individual and the universe.
+      The perceiver and the perceived arise together within the same field of consciousness.
+    </p>
+
+    <!-- Modern Parallels -->
+    <p class="s-label fade-up" style="margin-top:52px;">Modern Resonances</p>
+    <div class="parallels fade-up">
+      <div class="parallel-card">
+        <span class="parallel-num">i.</span>
+        <span class="parallel-title">Interconnected Systems</span>
+        <p class="parallel-desc">Complex interdependence across scales — ecology, biology, cosmology.</p>
+      </div>
+      <div class="parallel-card">
+        <span class="parallel-num">ii.</span>
+        <span class="parallel-title">Quantum Observation</span>
+        <p class="parallel-desc">The act of measurement shapes what is measured — observer participates in reality.</p>
+      </div>
+      <div class="parallel-card">
+        <span class="parallel-num">iii.</span>
+        <span class="parallel-title">Dynamic Universe Models</span>
+        <p class="parallel-desc">The universe not as static backdrop but as continuous, evolving process.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ═══════════ CLOSING ═══════════ -->
+<div class="page-wrap">
+  <div class="closing fade-up">
+    <span class="closing-ornament">· · ·</span>
+    <h2 class="closing-title">
+      Siddhar cosmology is not about<br>
+      explaining the universe.<br>
+      It is about <em>perceiving it directly</em><br>through awareness.
+    </h2>
+    <p class="closing-body">
+      Understanding of this depth does not arrive through reading alone. It deepens
+      in structured environments of practice — and through the clarity that comes
+      with guidance.
+    </p>
+    <p class="closing-name">Shree Easanamma Gurukulam</p>
+  </div>
+
+  <footer>
+    <span class="f-l">Siddhar Cosmology</span>
+    <span class="f-r">Sacred Teaching · Observed Through Consciousness</span>
+  </footer>
+</div>
+
+<script>
+/* ── Hero word-lift (on load) ── */
+(function () {
+  const lines = [
+    { words: ['Siddhar'],        italic: false },
+    { words: ['Cosmology'],      italic: true  },
+  ];
+
+  const el = document.getElementById('heroTitle');
+  lines.forEach((line, li) => {
+    const div = document.createElement('div');
+    div.style.display = 'block';
+    line.words.forEach((w, wi) => {
+      const wrap = document.createElement('span');
+      wrap.className = 'word-lift-wrap';
+      const inner = document.createElement('span');
+      inner.className = 'word';
+      if (line.italic) {
+        inner.style.fontStyle = 'italic';
+        inner.style.color = 'var(--gold-bright)';
+      }
+      inner.textContent = w;
+      inner.style.animationDelay = (0.5 + li * 0.42 + wi * 0.12) + 's';
+      wrap.appendChild(inner);
+      div.appendChild(wrap);
+      if (wi < line.words.length - 1) div.appendChild(document.createTextNode('\u00A0'));
+    });
+    el.appendChild(div);
+    setTimeout(() => div.querySelectorAll('.word-lift-wrap').forEach(ww => ww.classList.add('revealed')), 60);
+  });
+})();
+
+/* ── Section heading word-lift prep ── */
+document.querySelectorAll('[data-lift]').forEach(heading => {
+  const original = heading.innerHTML;
+  // preserve <br> and <em> tags, wrap bare words
+  const processed = original
+    .split(/(<br\s*\/?>|<em>.*?<\/em>)/g)
+    .map(chunk => {
+      if (chunk.match(/^<br/i)) return chunk;
+      if (chunk.match(/^<em>/i)) {
+        const inner = chunk.replace(/<\/?em>/g, '');
+        return inner.trim().split(/\s+/).map(w =>
+          `<span class="word-lift-wrap"><span class="word" style="font-style:italic;color:var(--gold-bright)">${w}</span></span>`
+        ).join('\u00A0');
+      }
+      return chunk.trim().split(/\s+/).filter(Boolean).map(w =>
+        `<span class="word-lift-wrap"><span class="word">${w}</span></span>`
+      ).join('\u00A0');
+    })
+    .join('');
+  heading.innerHTML = processed;
+});
+
+/* ── Intersection observer ── */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    const el = entry.target;
+
+    if (el.classList.contains('fade-up')) el.classList.add('visible');
+
+    if (el.hasAttribute('data-lift')) {
+      el.querySelectorAll('.word-lift-wrap').forEach((w, i) => {
+        w.querySelector('.word').style.animationDelay = (i * 0.085) + 's';
+        w.classList.add('revealed');
+      });
+    }
+    io.unobserve(el);
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.fade-up, [data-lift]').forEach(el => io.observe(el));
+
+/* stagger children in grid/list containers */
+document.querySelectorAll('.two-col, .elements-center, .cycles-row, .parallels').forEach(parent => {
+  Array.from(parent.children).forEach((child, i) => {
+    if (child.style !== undefined) child.style.transitionDelay = (i * 0.09) + 's';
+  });
+});
+</script>
+</body>
+</html>

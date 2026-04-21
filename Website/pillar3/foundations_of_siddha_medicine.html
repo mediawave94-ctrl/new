@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Foundations of Siddha Medicine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Cinzel:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --ink:          #0a0906;
+    --ink-raised:   #111009;
+    --parchment:    #e8dfc8;
+    --parchment-dim:#b8a98a;
+    --parchment-ghost: rgba(232,223,200,0.06);
+    --gold:         #c9a84c;
+    --gold-dim:     #8a6e2f;
+    --gold-faint:   rgba(201,168,76,0.10);
+    --gold-line:    rgba(201,168,76,0.28);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--ink);
+    color: var(--parchment);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 20px;
+    line-height: 1.78;
+    overflow-x: hidden;
+  }
+
+  /* Grain */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: .048;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 180px 180px;
+  }
+
+  /* ── Word-lift ── */
+  .word-lift { display: block; overflow: hidden; }
+  .word-lift .w {
+    display: inline-block;
+    transform: translateY(108%);
+    opacity: 0;
+    transition: transform .88s cubic-bezier(.22,1,.36,1), opacity .88s cubic-bezier(.22,1,.36,1);
+  }
+  .word-lift.in .w { transform: translateY(0); opacity: 1; }
+
+  /* ── Fade-up ── */
+  .fu {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity .92s cubic-bezier(.22,1,.36,1), transform .92s cubic-bezier(.22,1,.36,1);
+  }
+  .fu.in { opacity: 1; transform: translateY(0); }
+
+  /* ── Layout ── */
+  .wrap { max-width: 800px; margin: 0 auto; padding: 0 44px; }
+
+  /* ── Horizontal rule ── */
+  .rule {
+    border: none;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    opacity: .32;
+    margin: 80px 0;
+  }
+
+  /* ═══════════════════════ HERO ═══════════════════════ */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 44px 96px;
+    max-width: 1040px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  /* vertical gold bar */
+  .hero::before {
+    content: '';
+    position: absolute;
+    left: 44px;
+    top: 120px;
+    width: 1px;
+    height: 72px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: grow .8s cubic-bezier(.22,1,.36,1) .15s both;
+  }
+  @keyframes grow { from { transform: scaleY(0); transform-origin: top; } }
+
+  .hero-eyebrow {
+    font-family: 'Cinzel', serif;
+    font-size: 9.5px;
+    letter-spacing: .38em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 44px;
+    opacity: 0;
+    animation: fu .75s cubic-bezier(.22,1,.36,1) .35s forwards;
+  }
+
+  .hero-title {
+    font-size: clamp(52px, 8.5vw, 108px);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.0;
+    color: var(--parchment);
+    margin-bottom: 0;
+  }
+  .hero-title em { color: var(--gold); font-style: normal; }
+
+  .hero-subtitle {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: .30em;
+    color: var(--parchment-dim);
+    text-transform: uppercase;
+    margin-top: 40px;
+    margin-bottom: 56px;
+    opacity: 0;
+    animation: fu .85s cubic-bezier(.22,1,.36,1) 1.55s forwards;
+  }
+
+  .hero-lead {
+    max-width: 580px;
+    font-size: 21px;
+    font-weight: 300;
+    color: var(--parchment-dim);
+    line-height: 1.82;
+    opacity: 0;
+    animation: fu .9s cubic-bezier(.22,1,.36,1) 1.8s forwards;
+  }
+
+  .hero-scroll {
+    margin-top: 72px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    opacity: 0;
+    animation: fu .75s cubic-bezier(.22,1,.36,1) 2.1s forwards;
+  }
+  .hero-scroll span {
+    font-family: 'Cinzel', serif;
+    font-size: 8px;
+    letter-spacing: .38em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+  }
+  .hero-scroll::before {
+    content: '';
+    display: block;
+    width: 48px;
+    height: 1px;
+    background: var(--gold-dim);
+  }
+
+  @keyframes fu { to { opacity: 1; transform: translateY(0); } }
+
+  /* ═══════════════════════ SECTIONS ═══════════════════════ */
+  section { padding: 72px 0; }
+
+  .sec-label {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: .40em;
+    color: var(--gold);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 32px;
+  }
+
+  .sec-heading {
+    font-size: clamp(36px, 5vw, 60px);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.08;
+    color: var(--parchment);
+    margin-bottom: 40px;
+  }
+
+  .body-p {
+    font-size: 19px;
+    font-weight: 300;
+    color: var(--parchment-dim);
+    line-height: 1.86;
+    margin-bottom: 28px;
+  }
+
+  /* ── Three Forces grid ── */
+  .forces {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 1px;
+    background: var(--gold-line);
+    border: 1px solid var(--gold-line);
+    margin: 52px 0;
+  }
+
+  .force-cell {
+    background: var(--ink);
+    padding: 44px 32px 40px;
+    text-align: center;
+    position: relative;
+  }
+
+  .force-cell::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 24px;
+    height: 1px;
+    background: var(--gold);
+    opacity: .4;
+  }
+
+  .force-glyph {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 52px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 18px;
+  }
+
+  .force-name {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: .28em;
+    color: var(--parchment);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .force-role {
+    font-size: 15px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--parchment-dim);
+  }
+
+  /* ── Pull quote ── */
+  .pq {
+    border-left: 1px solid var(--gold);
+    padding: 4px 0 4px 44px;
+    margin: 56px 0;
+  }
+  .pq p {
+    font-size: clamp(26px, 3.2vw, 42px);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--parchment);
+    line-height: 1.28;
+  }
+  .pq cite {
+    display: block;
+    margin-top: 18px;
+    font-family: 'Cinzel', serif;
+    font-size: 8.5px;
+    letter-spacing: .3em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    font-style: normal;
+  }
+
+  /* ── Pillars (root cause + diet + lifestyle) ── */
+  .pillars { margin: 52px 0; }
+  .pillar {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 0 36px;
+    padding: 36px 0;
+    border-bottom: 1px solid var(--gold-line);
+    align-items: start;
+  }
+  .pillar:first-child { border-top: 1px solid var(--gold-line); }
+
+  .pillar-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 46px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--gold-dim);
+    line-height: 1;
+    padding-top: 4px;
+  }
+  .pillar-title {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: .3em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .pillar-body {
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--parchment-dim);
+    line-height: 1.74;
+  }
+
+  /* ── Balance vs Disease panel ── */
+  .duality {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--gold-line);
+    border: 1px solid var(--gold-line);
+    margin: 52px 0;
+  }
+  .dual-cell { background: var(--ink); padding: 44px 36px; }
+  .dual-label {
+    font-family: 'Cinzel', serif;
+    font-size: 8.5px;
+    letter-spacing: .35em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .dual-label.health { color: var(--gold); }
+  .dual-label.disease { color: var(--parchment-dim); }
+  .dual-value {
+    font-size: clamp(22px, 2.8vw, 34px);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.2;
+    color: var(--parchment);
+  }
+
+  /* ── Herbal knowledge row ── */
+  .herb-row {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 1px;
+    background: var(--gold-line);
+    border: 1px solid var(--gold-line);
+    margin: 48px 0;
+  }
+  .herb-cell {
+    background: var(--ink);
+    padding: 36px 28px;
+    text-align: center;
+  }
+  .herb-icon {
+    font-size: 32px;
+    margin-bottom: 14px;
+    line-height: 1;
+  }
+  .herb-name {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: .28em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .herb-desc {
+    font-size: 15px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--parchment-dim);
+    line-height: 1.6;
+  }
+
+  /* ── Mind-body spectrum ── */
+  .spectrum { margin: 52px 0; }
+  .spec-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--gold-line);
+    gap: 20px;
+  }
+  .spec-row:first-child { border-top: 1px solid var(--gold-line); }
+  .spec-cause {
+    font-size: 18px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--parchment-dim);
+    flex: 1;
+  }
+  .spec-arrow {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: .2em;
+    color: var(--gold-dim);
+    flex-shrink: 0;
+  }
+  .spec-effect {
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--parchment);
+    flex: 1;
+    text-align: right;
+  }
+
+  /* ── Modern relevance tags ── */
+  .tags { display: flex; flex-wrap: wrap; gap: 12px; margin: 44px 0; }
+  .tag {
+    border: 1px solid var(--gold-line);
+    padding: 10px 22px;
+    font-family: 'Cinzel', serif;
+    font-size: 8.5px;
+    letter-spacing: .28em;
+    color: var(--parchment-dim);
+    text-transform: uppercase;
+    transition: border-color .3s, color .3s;
+  }
+  .tag:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* ── Gurukulam ── */
+  .gurukulam {
+    border: 1px solid var(--gold-line);
+    padding: 64px 60px;
+    text-align: center;
+    position: relative;
+    margin: 60px 0;
+    background: var(--gold-faint);
+  }
+  .gurukulam::before {
+    content: '✦';
+    position: absolute;
+    top: -10px; left: 50%;
+    transform: translateX(-50%);
+    background: var(--ink);
+    padding: 0 14px;
+    color: var(--gold);
+    font-size: 10px;
+  }
+  .gurukulam::after {
+    content: '✦';
+    position: absolute;
+    bottom: -10px; left: 50%;
+    transform: translateX(-50%);
+    background: var(--ink);
+    padding: 0 14px;
+    color: var(--gold);
+    font-size: 10px;
+  }
+  .guru-name {
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    letter-spacing: .26em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .guru-body {
+    font-size: 20px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--parchment-dim);
+    line-height: 1.75;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  /* ── Conclusion ── */
+  .conclusion {
+    padding: 120px 44px;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .conclusion-text {
+    font-size: clamp(30px, 4.2vw, 54px);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.22;
+    color: var(--parchment);
+    margin-bottom: 48px;
+  }
+  .conclusion-text em { color: var(--gold); font-style: normal; }
+  .conclusion-tag {
+    font-family: 'Cinzel', serif;
+    font-size: 8.5px;
+    letter-spacing: .38em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+  }
+
+  /* ── Footer ── */
+  footer {
+    border-top: 1px solid var(--gold-line);
+    padding: 48px 44px;
+    text-align: center;
+    font-family: 'Cinzel', serif;
+    font-size: 8.5px;
+    letter-spacing: .30em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 680px) {
+    .hero { padding: 0 28px 80px; }
+    .wrap { padding: 0 28px; }
+    .forces, .herb-row { grid-template-columns: 1fr; }
+    .duality { grid-template-columns: 1fr; }
+    .gurukulam { padding: 48px 28px; }
+    .conclusion { padding: 80px 28px; }
+    footer { padding: 40px 28px; }
+    .pillar { grid-template-columns: 44px 1fr; gap: 0 24px; }
+    .pq { padding-left: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════ HERO ════════════ -->
+<div class="hero">
+  <p class="hero-eyebrow">Siddhar Science &nbsp;·&nbsp; Ancient Systems of Healing</p>
+
+  <h1 class="hero-title">
+    <span class="word-lift" id="hl1"></span>
+    <span class="word-lift" id="hl2"></span>
+    <span class="word-lift" id="hl3"></span>
+  </h1>
+
+  <p class="hero-subtitle">A Complete Approach to Health &amp; Balance</p>
+
+  <p class="hero-lead">
+    Siddha medicine is among the oldest known systems of healing — forged through
+    centuries of observation, experimentation, and an intimate understanding of the
+    living body. It is not merely a treatment system. It is a philosophy of
+    existence.
+  </p>
+
+  <div class="hero-scroll"><span>Scroll to explore</span></div>
+</div>
+
+<!-- ════════════ BODY ════════════ -->
+<div class="wrap">
+
+  <hr class="rule">
+
+  <!-- I · Holistic System -->
+  <section>
+    <span class="sec-label fu">I &nbsp;·&nbsp; Origin &amp; Essence</span>
+    <h2 class="sec-heading word-lift" data-text="A Holistic System of Healing"></h2>
+
+    <p class="body-p fu">
+      Developed by the Siddhars through sustained observation, rigorous
+      experimentation, and a profound understanding of the body, Siddha medicine
+      stands apart from symptom-based approaches. It sees the human being whole —
+      not as a collection of complaints, but as a living intelligence seeking its
+      natural state of balance.
+    </p>
+
+    <p class="body-p fu">
+      At its foundation lies a deceptively simple principle: health is balance;
+      disease is imbalance. Everything within the system flows from this single,
+      unifying insight.
+    </p>
+
+    <div class="duality fu">
+      <div class="dual-cell">
+        <div class="dual-label health">Health Defined As</div>
+        <div class="dual-value">Balance<br>within the body</div>
+      </div>
+      <div class="dual-cell">
+        <div class="dual-label disease">Disease Defined As</div>
+        <div class="dual-value">Imbalance<br>within the body</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- II · Three Forces -->
+  <section>
+    <span class="sec-label fu">II &nbsp;·&nbsp; The Governing Forces</span>
+    <h2 class="sec-heading word-lift" data-text="Vatha, Pitha & Kapha"></h2>
+
+    <p class="body-p fu">
+      Siddha medicine identifies three functional forces — or humors — that govern
+      every physiological and psychological process within the body. They are not
+      abstract concepts but observable patterns of activity, each with its own
+      domain, character, and consequence when disrupted.
+    </p>
+
+    <div class="forces fu">
+      <div class="force-cell">
+        <div class="force-glyph">வ</div>
+        <div class="force-name">Vatha</div>
+        <div class="force-role">Movement</div>
+      </div>
+      <div class="force-cell">
+        <div class="force-glyph">பி</div>
+        <div class="force-name">Pitha</div>
+        <div class="force-role">Transformation</div>
+      </div>
+      <div class="force-cell">
+        <div class="force-glyph">க</div>
+        <div class="force-name">Kapha</div>
+        <div class="force-role">Stability</div>
+      </div>
+    </div>
+
+    <p class="body-p fu">
+      Balance among the three is not a static condition. It is a dynamic, living
+      equilibrium — responsive to season, age, diet, emotion, and the quality of
+      one's awareness. The Siddhar's art lay in reading this equilibrium with
+      precision and restoring it with gentleness.
+    </p>
+  </section>
+
+  <hr class="rule">
+
+  <!-- III · Root Cause -->
+  <section>
+    <span class="sec-label fu">III &nbsp;·&nbsp; The Root-Cause Doctrine</span>
+    <h2 class="sec-heading word-lift" data-text="Beyond the Symptom"></h2>
+
+    <p class="body-p fu">
+      Where modern systems are often compelled to act upon what is visible —
+      the symptom — Siddha medicine asks a prior question: what allowed this
+      condition to arise? The answer, invariably, lies upstream of the complaint.
+    </p>
+
+    <div class="pillars">
+      <div class="pillar fu">
+        <div class="pillar-num">I</div>
+        <div>
+          <div class="pillar-title">Identify Root Causes</div>
+          <div class="pillar-body">Trace the disturbance to its origin — not its surface expression. Every disease has a history; the Siddhar reads that history.</div>
+        </div>
+      </div>
+      <div class="pillar fu">
+        <div class="pillar-num">II</div>
+        <div>
+          <div class="pillar-title">Correct the Imbalance</div>
+          <div class="pillar-body">Address the source of disruption — dietary, environmental, or psychological — rather than suppressing the symptom.</div>
+        </div>
+      </div>
+      <div class="pillar fu">
+        <div class="pillar-num">III</div>
+        <div>
+          <div class="pillar-title">Restore Harmony</div>
+          <div class="pillar-body">Allow the body's own intelligence to reassert equilibrium, supported — never overridden — by the practitioner's intervention.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pq fu">
+      <p>"Siddha medicine does not fight the body. It listens to it."</p>
+      <cite>Siddhar Lineage Teaching</cite>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- IV · Diet & Lifestyle -->
+  <section>
+    <span class="sec-label fu">IV &nbsp;·&nbsp; Foundation Disciplines</span>
+    <h2 class="sec-heading word-lift" data-text="Diet, Rest & Daily Life"></h2>
+
+    <p class="body-p fu">
+      Within Siddha medicine, food is not merely nutrition — it is medicine. Every
+      substance taken into the body either supports or disrupts the balance of the
+      three forces. Diet influences energy, digestion, and the subtle quality of
+      one's internal state with a directness that cannot be overstated.
+    </p>
+
+    <p class="body-p fu">
+      Daily habits carry equal weight. Sleep, physical activity, and the quality of
+      mental engagement are not peripheral concerns — they are primary variables in
+      the equation of health. A disturbed lifestyle will defeat even the finest
+      herbal preparation.
+    </p>
+
+    <div class="spectrum fu">
+      <div class="spec-row">
+        <span class="spec-cause">Poor diet</span>
+        <span class="spec-arrow">→ disrupts →</span>
+        <span class="spec-effect">Digestion &amp; energy</span>
+      </div>
+      <div class="spec-row">
+        <span class="spec-cause">Disordered sleep</span>
+        <span class="spec-arrow">→ disturbs →</span>
+        <span class="spec-effect">Vatha equilibrium</span>
+      </div>
+      <div class="spec-row">
+        <span class="spec-cause">Sedentary habit</span>
+        <span class="spec-arrow">→ accumulates →</span>
+        <span class="spec-effect">Kapha imbalance</span>
+      </div>
+      <div class="spec-row">
+        <span class="spec-cause">Chronic stress</span>
+        <span class="spec-arrow">→ elevates →</span>
+        <span class="spec-effect">Pitha disturbance</span>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- V · Herbal Knowledge -->
+  <section>
+    <span class="sec-label fu">V &nbsp;·&nbsp; The Pharmacopeia</span>
+    <h2 class="sec-heading word-lift" data-text="Herbal & Mineral Wisdom"></h2>
+
+    <p class="body-p fu">
+      The Siddhars developed an extraordinarily rich pharmacopeia over millennia —
+      one that drew not only from the plant kingdom but from minerals and natural
+      compounds whose properties were documented with scientific rigor long before
+      the modern era.
+    </p>
+
+    <div class="herb-row fu">
+      <div class="herb-cell">
+        <div class="herb-icon">🌿</div>
+        <div class="herb-name">Herbs</div>
+        <div class="herb-desc">Plant-kingdom medicines for every imbalance and constitution</div>
+      </div>
+      <div class="herb-cell">
+        <div class="herb-icon">⚗</div>
+        <div class="herb-name">Minerals</div>
+        <div class="herb-desc">Purified mineral compounds with precise therapeutic action</div>
+      </div>
+      <div class="herb-cell">
+        <div class="herb-icon">◈</div>
+        <div class="herb-name">Natural Compounds</div>
+        <div class="herb-desc">Complex formulations transmitting accumulated Siddhar knowledge</div>
+      </div>
+    </div>
+
+    <p class="body-p fu">
+      Crucially, no preparation was universal. Every treatment was calibrated to
+      the individual — their body type, their specific condition, and the
+      environment in which they lived. This individualized approach is among
+      Siddha medicine's most distinctive and enduring contributions.
+    </p>
+  </section>
+
+  <hr class="rule">
+
+  <!-- VI · Mind-Body -->
+  <section>
+    <span class="sec-label fu">VI &nbsp;·&nbsp; The Invisible Dimension</span>
+    <h2 class="sec-heading word-lift" data-text="Mind, Body & Consciousness"></h2>
+
+    <p class="body-p fu">
+      Siddha medicine recognized — millennia before neuroscience confirmed — that
+      mental state and physical health are not separate territories. Stress,
+      emotional disturbance, and absence of clarity are not merely psychological
+      events. They manifest in the body as measurable imbalance.
+    </p>
+
+    <p class="body-p fu">
+      Health, in the fullest Siddhar understanding, encompasses mental clarity,
+      emotional stability, and awareness — the quality of one's relationship with
+      consciousness itself. A body in balance without a mind in clarity is, at
+      best, half the picture.
+    </p>
+
+    <div class="pq fu">
+      <p>"The Siddhars did not separate the healer of the body from the cultivator of awareness. They were one vocation."</p>
+      <cite>Siddhar Science</cite>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- VII · Modern Relevance -->
+  <section>
+    <span class="sec-label fu">VII &nbsp;·&nbsp; The Contemporary Moment</span>
+    <h2 class="sec-heading word-lift" data-text="Ancient Wisdom, Modern World"></h2>
+
+    <p class="body-p fu">
+      Today, a growing global movement turns toward natural healing, holistic
+      medicine, and preventive health — precisely the domains in which Siddha
+      medicine has always operated. The principles have not changed. Only the
+      audience discovering them is new.
+    </p>
+
+    <div class="tags fu">
+      <span class="tag">Natural Healing</span>
+      <span class="tag">Holistic Medicine</span>
+      <span class="tag">Preventive Health</span>
+      <span class="tag">Root-Cause Care</span>
+      <span class="tag">Mind-Body Integration</span>
+      <span class="tag">Individualized Treatment</span>
+    </div>
+
+    <p class="body-p fu">
+      Siddha medicine aligns with these contemporary orientations not because it
+      has adapted to them — but because it preceded and anticipated them by
+      centuries. Its modernity lies in the fact that it was never merely modern.
+    </p>
+  </section>
+
+  <hr class="rule">
+
+  <!-- VIII · Living Application -->
+  <section>
+    <span class="sec-label fu">VIII &nbsp;·&nbsp; Living Application</span>
+    <h2 class="sec-heading word-lift" data-text="Practice & Guidance"></h2>
+
+    <p class="body-p fu">
+      Understanding Siddha medicine at the level of principle is the beginning, not
+      the end. Its demands are practical: sustained observation, disciplined living,
+      and a quality of awareness cultivated through consistent practice.
+    </p>
+
+    <div class="gurukulam fu">
+      <div class="guru-name">Shree Easanamma Gurukulam</div>
+      <p class="guru-body">
+        In structured environments such as the Gurukulam, the principles of Siddha
+        medicine are not studied from a distance — they are lived. Under the guidance
+        of Shree Easanamma, knowledge aligns with practice, and understanding becomes
+        embodied rather than merely intellectual.
+      </p>
+    </div>
+  </section>
+
+</div><!-- /wrap -->
+
+<!-- ════════════ CONCLUSION ════════════ -->
+<div class="conclusion">
+  <p class="conclusion-text fu">
+    Siddha medicine is not about<br>curing disease.<br>
+    It is about <em>maintaining balance</em><br>and living in harmony with life.
+  </p>
+  <span class="conclusion-tag fu">Siddha Medicine &nbsp;·&nbsp; Ancient Path &nbsp;·&nbsp; Living Wisdom</span>
+</div>
+
+<footer>
+  Foundations of Siddha Medicine &nbsp;·&nbsp; Siddhar Science &nbsp;·&nbsp; Shree Easanamma Gurukulam
+</footer>
+
+<script>
+  /* ── Word-lift builder ── */
+  function buildWordLift(el, text) {
+    el.textContent = '';
+    const words = text.split(' ');
+    words.forEach((word, i) => {
+      const s = document.createElement('span');
+      s.className = 'w';
+      s.textContent = word + (i < words.length - 1 ? '\u00a0' : '');
+      s.style.transitionDelay = (i * 0.088) + 's';
+      el.appendChild(s);
+    });
+  }
+
+  /* ── Hero title — three lines ── */
+  const heroData = [
+    { id: 'hl1', text: 'Foundations',   baseDelay: 0.45 },
+    { id: 'hl2', text: 'of Siddha',     baseDelay: 0.72 },
+    { id: 'hl3', text: 'Medicine',      baseDelay: 0.98 },
+  ];
+
+  heroData.forEach(({ id, text, baseDelay }) => {
+    const el = document.getElementById(id);
+    buildWordLift(el, text);
+    setTimeout(() => {
+      el.querySelectorAll('.w').forEach((w, i) => {
+        w.style.transitionDelay = (i * 0.10) + 's';
+      });
+      el.classList.add('in');
+    }, baseDelay * 1000);
+  });
+
+  /* ── Build section headings ── */
+  document.querySelectorAll('.sec-heading.word-lift').forEach(el => {
+    buildWordLift(el, el.dataset.text || el.textContent.trim());
+  });
+
+  /* ── IntersectionObserver ── */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      if (el.classList.contains('word-lift')) {
+        el.querySelectorAll('.w').forEach((w, i) => {
+          w.style.transitionDelay = (i * 0.092) + 's';
+        });
+      }
+      el.classList.add('in');
+      io.unobserve(el);
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -36px 0px' });
+
+  document.querySelectorAll('.word-lift:not(#hl1):not(#hl2):not(#hl3), .fu').forEach(el => io.observe(el));
+</script>
+</body>
+</html>

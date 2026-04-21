@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Breath & Life Force — Prana in Siddhar Science</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Cinzel:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --ink: #0a0906;
+    --parchment: #e8dfc8;
+    --parchment-dim: #b8a98a;
+    --gold: #c9a84c;
+    --gold-dim: #8a6e2f;
+    --gold-faint: rgba(201,168,76,0.12);
+    --divider: rgba(201,168,76,0.25);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--ink);
+    color: var(--parchment);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 20px;
+    line-height: 1.75;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* ── Grain overlay ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.045;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+  }
+
+  /* ── Typography ── */
+  .cinzel { font-family: 'Cinzel', serif; letter-spacing: 0.12em; }
+
+  /* ── Word-lift reveal system ── */
+  .word-lift {
+    display: block;
+    overflow: hidden;
+  }
+  .word-lift .word {
+    display: inline-block;
+    transform: translateY(110%);
+    opacity: 0;
+    transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .word-lift.revealed .word { transform: translateY(0); opacity: 1; }
+
+  /* ── Fade-up reveal ── */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .fade-up.revealed { opacity: 1; transform: translateY(0); }
+
+  /* ── Layout ── */
+  .container {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 120px 40px 80px;
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .hero-kicker {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 52px;
+    opacity: 0;
+    transform: translateY(16px);
+    animation: fadeUp 0.8s cubic-bezier(0.22,1,0.36,1) 0.2s forwards;
+  }
+
+  .hero-title {
+    font-size: clamp(56px, 9vw, 104px);
+    font-weight: 300;
+    line-height: 1.02;
+    color: var(--parchment);
+    margin-bottom: 36px;
+    font-style: italic;
+  }
+
+  .hero-title em {
+    font-style: normal;
+    color: var(--gold);
+  }
+
+  .hero-sub {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    color: var(--parchment-dim);
+    text-transform: uppercase;
+    margin-bottom: 64px;
+    opacity: 0;
+    transform: translateY(16px);
+    animation: fadeUp 0.9s cubic-bezier(0.22,1,0.36,1) 1.4s forwards;
+  }
+
+  .hero-intro {
+    font-size: 22px;
+    font-weight: 300;
+    color: var(--parchment-dim);
+    line-height: 1.8;
+    max-width: 560px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 1s cubic-bezier(0.22,1,0.36,1) 1.7s forwards;
+  }
+
+  .hero-line {
+    width: 1px;
+    height: 80px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    margin: 64px 0 0;
+    opacity: 0;
+    animation: fadeUp 0.8s cubic-bezier(0.22,1,0.36,1) 2s forwards;
+  }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Gold rule ── */
+  .gold-rule {
+    border: none;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    margin: 80px 0;
+    opacity: 0.4;
+  }
+
+  /* ── Section ── */
+  section { padding: 80px 0; }
+
+  .section-label {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 36px;
+    display: block;
+  }
+
+  .section-heading {
+    font-size: clamp(38px, 5vw, 62px);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.1;
+    color: var(--parchment);
+    margin-bottom: 40px;
+  }
+
+  .body-text {
+    font-size: 19px;
+    font-weight: 300;
+    color: var(--parchment-dim);
+    line-height: 1.85;
+    margin-bottom: 28px;
+  }
+
+  /* ── Triptych (three pillars) ── */
+  .triptych {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--divider);
+    margin: 60px 0;
+    border: 1px solid var(--divider);
+  }
+
+  .triptych-cell {
+    background: var(--ink);
+    padding: 40px 32px;
+    text-align: center;
+  }
+
+  .triptych-cell .number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 56px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+
+  .triptych-cell .label {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    color: var(--parchment-dim);
+    text-transform: uppercase;
+  }
+
+  /* ── Pull quote ── */
+  .pull-quote {
+    border-left: 1px solid var(--gold);
+    padding: 8px 0 8px 40px;
+    margin: 56px 0;
+  }
+
+  .pull-quote p {
+    font-size: clamp(28px, 3.5vw, 44px);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--parchment);
+    line-height: 1.3;
+  }
+
+  .pull-quote cite {
+    display: block;
+    margin-top: 20px;
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+    font-style: normal;
+  }
+
+  /* ── Breath states ── */
+  .states-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    background: var(--divider);
+    margin: 48px 0;
+  }
+
+  .state-cell {
+    background: var(--ink);
+    padding: 36px 32px;
+    position: relative;
+  }
+
+  .state-cell::after {
+    content: '→';
+    position: absolute;
+    right: -18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--gold);
+    font-size: 14px;
+    z-index: 2;
+  }
+
+  .state-cell:nth-child(even)::after { display: none; }
+
+  .state-title {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .state-value {
+    font-size: 22px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--parchment);
+  }
+
+  /* ── Observation steps ── */
+  .steps { margin: 48px 0; }
+
+  .step {
+    display: flex;
+    align-items: flex-start;
+    gap: 32px;
+    padding: 32px 0;
+    border-bottom: 1px solid var(--divider);
+  }
+
+  .step:first-child { border-top: 1px solid var(--divider); }
+
+  .step-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--gold-dim);
+    line-height: 1;
+    min-width: 56px;
+    margin-top: -8px;
+  }
+
+  .step-content { flex: 1; }
+  .step-label {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .step-desc {
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--parchment-dim);
+    line-height: 1.7;
+  }
+
+  /* ── Warning box ── */
+  .warning-box {
+    border: 1px solid rgba(201,168,76,0.3);
+    padding: 40px 44px;
+    position: relative;
+    margin: 56px 0;
+    background: var(--gold-faint);
+  }
+
+  .warning-box::before {
+    content: '⚠';
+    position: absolute;
+    top: -14px;
+    left: 40px;
+    background: var(--ink);
+    padding: 0 12px;
+    color: var(--gold);
+    font-size: 18px;
+  }
+
+  .warning-title {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .warning-text {
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--parchment-dim);
+    line-height: 1.7;
+  }
+
+  /* ── Gurukulam section ── */
+  .gurukulam-block {
+    border: 1px solid var(--divider);
+    padding: 60px;
+    text-align: center;
+    position: relative;
+    margin: 60px 0;
+  }
+
+  .gurukulam-block::before,
+  .gurukulam-block::after {
+    content: '✦';
+    position: absolute;
+    color: var(--gold);
+    font-size: 10px;
+  }
+
+  .gurukulam-block::before { top: 20px; left: 50%; transform: translateX(-50%); }
+  .gurukulam-block::after { bottom: 20px; left: 50%; transform: translateX(-50%); }
+
+  .gurukulam-name {
+    font-family: 'Cinzel', serif;
+    font-size: 14px;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .gurukulam-desc {
+    font-size: 20px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--parchment-dim);
+    line-height: 1.7;
+  }
+
+  /* ── Conclusion ── */
+  .conclusion {
+    padding: 120px 0;
+    text-align: center;
+  }
+
+  .conclusion-text {
+    font-size: clamp(32px, 4.5vw, 56px);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.25;
+    color: var(--parchment);
+    max-width: 660px;
+    margin: 0 auto 48px;
+  }
+
+  .conclusion-text em {
+    color: var(--gold);
+    font-style: normal;
+  }
+
+  .conclusion-label {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+  }
+
+  /* ── Footer ── */
+  footer {
+    border-top: 1px solid var(--divider);
+    padding: 48px 40px;
+    text-align: center;
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    .hero { padding: 100px 28px 60px; }
+    .container { padding: 0 28px; }
+    .triptych { grid-template-columns: 1fr; }
+    .states-grid { grid-template-columns: 1fr; }
+    .state-cell::after { display: none; }
+    .gurukulam-block { padding: 40px 28px; }
+    .pull-quote { padding-left: 24px; }
+    footer { padding: 40px 28px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════ HERO ══════════════ -->
+<section class="hero">
+  <span class="hero-kicker cinzel">Siddhar Science · Ancient Wisdom</span>
+
+  <h1 class="hero-title">
+    <span class="word-lift" id="hero-line1"></span>
+    <span class="word-lift" id="hero-line2"></span>
+  </h1>
+
+  <p class="hero-sub cinzel">Breath &amp; Life Force &nbsp;·&nbsp; Prana &nbsp;·&nbsp; Long-form Study</p>
+
+  <p class="hero-intro">
+    Among all processes in the body, breath holds a unique position —
+    continuous, automatic, and directly observable. The Siddhars understood it
+    as the living bridge between body, mind, and life-force.
+  </p>
+
+  <div class="hero-line"></div>
+</section>
+
+<!-- ══════════════ WHAT IS BREATH ══════════════ -->
+<div class="container">
+  <hr class="gold-rule">
+
+  <section>
+    <span class="section-label fade-up cinzel">I &nbsp;·&nbsp; The Nature of Breath</span>
+
+    <h2 class="section-heading word-lift" data-text="What Is Breath?"></h2>
+
+    <p class="body-text fade-up">
+      Breath is more than the movement of air. To the Siddhars, every inhalation
+      and exhalation was a living document — one that reflects the internal state,
+      the flow of energy, and the activity of the mind at any given moment.
+    </p>
+
+    <p class="body-text fade-up">
+      Far from a mechanical reflex, breath is the most intimate available mirror
+      of consciousness. Observe it without interference, and it reveals the truth
+      of what lies within.
+    </p>
+
+    <div class="triptych fade-up">
+      <div class="triptych-cell">
+        <div class="number">I</div>
+        <div class="label cinzel">Internal State</div>
+      </div>
+      <div class="triptych-cell">
+        <div class="number">II</div>
+        <div class="label cinzel">Energy Flow</div>
+      </div>
+      <div class="triptych-cell">
+        <div class="number">III</div>
+        <div class="label cinzel">Mental Activity</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="gold-rule">
+
+  <!-- ══════════════ WHAT IS PRANA ══════════════ -->
+  <section>
+    <span class="section-label fade-up cinzel">II &nbsp;·&nbsp; The Living Force</span>
+
+    <h2 class="section-heading word-lift" data-text="What Is Prana?"></h2>
+
+    <p class="body-text fade-up">
+      Prana is often translated as "life-force," yet this rendering barely touches
+      the depth of its meaning. In Siddhar understanding, prana is the animating
+      principle — the energy that sustains life, the force behind all activity,
+      and the subtle movement that rides within every breath.
+    </p>
+
+    <div class="pull-quote fade-up">
+      <p>"Breath is the visible expression of an invisible force — the one thread
+      that ties body to spirit."</p>
+      <cite cinzel>Siddhar Teaching</cite>
+    </div>
+
+    <p class="body-text fade-up">
+      Where breath flows, prana follows. Where prana is abundant, vitality is
+      present. The Siddhars mapped this relationship with extraordinary precision,
+      observing that the quality of breath directly determines the quality of
+      life-force available to body and mind.
+    </p>
+  </section>
+
+  <hr class="gold-rule">
+
+  <!-- ══════════════ MIND-BREATH ══════════════ -->
+  <section>
+    <span class="section-label fade-up cinzel">III &nbsp;·&nbsp; The Connection</span>
+
+    <h2 class="section-heading word-lift" data-text="Breath & Mind"></h2>
+
+    <p class="body-text fade-up">
+      The Siddhars observed a law so fundamental it required no elaborate proof —
+      the breath and the mind move together in perfect correspondence.
+    </p>
+
+    <div class="states-grid fade-up">
+      <div class="state-cell">
+        <div class="state-title cinzel">Rapid Breath</div>
+        <div class="state-value">Active, scattered mind</div>
+      </div>
+      <div class="state-cell">
+        <div class="state-title cinzel">Calm Mind</div>
+        <div class="state-value">Slow, measured breath</div>
+      </div>
+      <div class="state-cell">
+        <div class="state-title cinzel">Disturbed Breath</div>
+        <div class="state-value">Emotional turbulence</div>
+      </div>
+      <div class="state-cell">
+        <div class="state-title cinzel">Settled State</div>
+        <div class="state-value">Even, quiet rhythm</div>
+      </div>
+    </div>
+
+    <p class="body-text fade-up">
+      This connection is not metaphorical. It is structural — hardwired into
+      the physiology of being. By understanding it, the Siddhars possessed a
+      tool of extraordinary subtlety: a window into the mind that requires no
+      introspection, only observation.
+    </p>
+  </section>
+
+  <hr class="gold-rule">
+
+  <!-- ══════════════ OBSERVATION ══════════════ -->
+  <section>
+    <span class="section-label fade-up cinzel">IV &nbsp;·&nbsp; The Practice</span>
+
+    <h2 class="section-heading word-lift" data-text="Observation of Breath"></h2>
+
+    <p class="body-text fade-up">
+      The Siddhar method is disarming in its simplicity. There is no technique
+      to master, no posture to hold, no special circumstance required. There is
+      only one instruction: observe the breath.
+    </p>
+
+    <div class="steps">
+      <div class="step fade-up">
+        <div class="step-num">I</div>
+        <div class="step-content">
+          <div class="step-label cinzel">No Control</div>
+          <div class="step-desc">Resist the impulse to regulate, extend, or hold. Let breath move entirely of its own accord.</div>
+        </div>
+      </div>
+      <div class="step fade-up">
+        <div class="step-num">II</div>
+        <div class="step-content">
+          <div class="step-label cinzel">No Manipulation</div>
+          <div class="step-desc">Awareness alone is the instrument. The moment observation becomes interference, the practice loses its essence.</div>
+        </div>
+      </div>
+      <div class="step fade-up">
+        <div class="step-num">III</div>
+        <div class="step-content">
+          <div class="step-label cinzel">Natural Regulation</div>
+          <div class="step-desc">When breath is truly observed without agenda, it becomes rhythmic of itself. Tension dissolves. The mind settles.</div>
+        </div>
+      </div>
+      <div class="step fade-up">
+        <div class="step-num">IV</div>
+        <div class="step-content">
+          <div class="step-label cinzel">Subtle Awareness</div>
+          <div class="step-desc">With deepening attention, finer movements emerge — and the sacred pauses between breaths become perceptible.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="gold-rule">
+
+  <!-- ══════════════ DIAGNOSTIC ══════════════ -->
+  <section>
+    <span class="section-label fade-up cinzel">V &nbsp;·&nbsp; Breath as Diagnostic</span>
+
+    <h2 class="section-heading word-lift" data-text="Reading the Inner State"></h2>
+
+    <p class="body-text fade-up">
+      The Siddhars used breath as both a diagnostic instrument and a treatment.
+      Breath reflects emotional state, stress levels, and internal balance with
+      perfect fidelity — offering the attentive observer a continuous reading of
+      one's inner condition without a single word being spoken.
+    </p>
+
+    <p class="body-text fade-up">
+      Breath also influences circulation, the nervous system, and the distribution
+      of vitality through the body. It is the great distributor — carrying
+      life-force into tissues, organs, and the subtler channels the Siddhars
+      called nadis.
+    </p>
+
+    <div class="pull-quote fade-up">
+      <p>"By watching the breath, you are watching life itself move through form."</p>
+      <cite cinzel>Siddhar Lineage</cite>
+    </div>
+  </section>
+
+  <hr class="gold-rule">
+
+  <!-- ══════════════ WARNING ══════════════ -->
+  <section>
+    <span class="section-label fade-up cinzel">VI &nbsp;·&nbsp; A Caution</span>
+
+    <h2 class="section-heading word-lift" data-text="On Forcing the Breath"></h2>
+
+    <div class="warning-box fade-up">
+      <div class="warning-title cinzel">The Siddhar Warning</div>
+      <p class="warning-text">
+        Forcing breath leads to imbalance, strain, and confusion. The Siddhars were
+        careful to distinguish between observation — which heals — and manipulation,
+        which disturbs. Any practice that imposes will upon the breath moves away
+        from the natural intelligence the Siddhars sought to cultivate.
+      </p>
+    </div>
+
+    <p class="body-text fade-up">
+      This caution is not timidity. It reflects a deep understanding of the body's
+      own wisdom — an intelligence older than any technique. The Siddhar path trusts
+      that wisdom. It does not seek to override it.
+    </p>
+  </section>
+
+  <hr class="gold-rule">
+
+  <!-- ══════════════ DAILY LIFE ══════════════ -->
+  <section>
+    <span class="section-label fade-up cinzel">VII &nbsp;·&nbsp; Living Practice</span>
+
+    <h2 class="section-heading word-lift" data-text="Breath in Daily Life"></h2>
+
+    <p class="body-text fade-up">
+      The Siddhars did not confine awareness to the sitting posture or the
+      meditation hall. Awareness of breath can — and must — be maintained across
+      the full fabric of living: while walking, while working, while speaking.
+    </p>
+
+    <p class="body-text fade-up">
+      Every moment holds the breath. Every breath holds the possibility of
+      remembrance. This is the democratic genius of the teaching — it requires
+      no retreat from the world, only a quality of attention within it.
+    </p>
+
+    <div class="gurukulam-block fade-up">
+      <div class="gurukulam-name cinzel">Shree Easanamma Gurukulam</div>
+      <p class="gurukulam-desc">
+        In disciplined environments such as the Gurukulam, breath observation is
+        woven into the rhythm of daily life — not as a separate practice but as the
+        very texture of waking existence. Under the guidance of Shree Easanamma,
+        subtle dimensions of the breath are understood with clarity, precision,
+        and grace.
+      </p>
+    </div>
+  </section>
+</div>
+
+<!-- ══════════════ CONCLUSION ══════════════ -->
+<section class="conclusion">
+  <div class="container">
+    <p class="conclusion-text fade-up">
+      Breath is not merely a biological function.<br>
+      It is the <em>visible expression</em><br>of life-force itself.
+    </p>
+    <span class="conclusion-label cinzel fade-up">Prana &nbsp;·&nbsp; Siddhar Science &nbsp;·&nbsp; Ancient Path</span>
+  </div>
+</section>
+
+<footer>
+  <span class="cinzel">Breath &amp; Life Force &nbsp;·&nbsp; Prana in Siddhar Science &nbsp;·&nbsp; Shree Easanamma Gurukulam</span>
+</footer>
+
+<script>
+  // ── Word-lift helper ──
+  function makeWordLift(el, text) {
+    if (!text) text = el.textContent.trim();
+    el.textContent = '';
+    text.split(' ').forEach((w, i) => {
+      const span = document.createElement('span');
+      span.className = 'word';
+      span.textContent = w + (i < text.split(' ').length - 1 ? '\u00a0' : '');
+      span.style.transitionDelay = (i * 0.085) + 's';
+      el.appendChild(span);
+    });
+  }
+
+  // ── Hero title animation on load ──
+  const heroLines = [
+    { el: document.getElementById('hero-line1'), text: 'Breath &' },
+    { el: document.getElementById('hero-line2'), text: 'Life Force' },
+  ];
+
+  heroLines.forEach(({ el, text }) => makeWordLift(el, text));
+
+  setTimeout(() => {
+    document.getElementById('hero-line1').classList.add('revealed');
+    document.querySelectorAll('#hero-line1 .word').forEach((w, i) => {
+      w.style.transitionDelay = (0.5 + i * 0.12) + 's';
+    });
+    setTimeout(() => {
+      document.getElementById('hero-line2').classList.add('revealed');
+      document.querySelectorAll('#hero-line2 .word').forEach((w, i) => {
+        w.style.transitionDelay = (i * 0.12) + 's';
+      });
+    }, 300);
+  }, 100);
+
+  // ── Prepare section headings ──
+  document.querySelectorAll('.section-heading.word-lift').forEach(el => {
+    const text = el.dataset.text || el.textContent.trim();
+    makeWordLift(el, text);
+  });
+
+  // ── Intersection Observer ──
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+
+      if (el.classList.contains('word-lift')) {
+        el.querySelectorAll('.word').forEach((w, i) => {
+          w.style.transitionDelay = (i * 0.09) + 's';
+        });
+        el.classList.add('revealed');
+      } else {
+        el.classList.add('revealed');
+      }
+
+      io.unobserve(el);
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.word-lift, .fade-up').forEach(el => {
+    // Don't double-observe hero lines already handled above
+    if (el.id === 'hero-line1' || el.id === 'hero-line2') return;
+    io.observe(el);
+  });
+</script>
+</body>
+</html>

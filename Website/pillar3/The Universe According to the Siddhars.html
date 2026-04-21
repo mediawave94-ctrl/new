@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Universe According to the Siddhars</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Cinzel:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0a0906;
+    --ink-mid: #1a1612;
+    --ink-light: #2a241e;
+    --parchment: #e8d9be;
+    --parchment-dim: #c9b89a;
+    --parchment-faint: #6b5c46;
+    --gold: #c9a84c;
+    --gold-bright: #e2c06a;
+    --gold-dim: #7a6229;
+    --gold-ghost: rgba(201,168,76,0.12);
+    --rule: rgba(201,168,76,0.25);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--ink);
+    color: var(--parchment);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.75;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* ── NOISE GRAIN OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.038;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 200px 200px;
+  }
+
+  /* ── CINZEL LABEL STYLE ── */
+  .cinzel { font-family: 'Cinzel', serif; letter-spacing: 0.18em; }
+  .kicker {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+
+  /* ── GOLD RULE ── */
+  .gold-rule {
+    width: 60px;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0.5;
+    margin: 0 auto;
+  }
+  .gold-rule.left { margin: 0; }
+
+  /* ──────────────────────────────────────────
+     ANIMATION SYSTEM
+  ────────────────────────────────────────── */
+
+  /* Word-lift: each word slides up from a clip */
+  .word-lift-wrap {
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: bottom;
+  }
+  .word-lift-wrap .word {
+    display: inline-block;
+    transform: translateY(110%);
+    opacity: 0;
+    transition: transform 0.85s cubic-bezier(0.16,1,0.3,1), opacity 0.7s ease;
+  }
+  .word-lift-wrap.revealed .word {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  /* Fade-up: body text, kickers, supporting elements */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1);
+  }
+  .fade-up.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Hero cascade (triggered immediately on load) */
+  .hero-seq {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 1s cubic-bezier(0.16,1,0.3,1), transform 1s cubic-bezier(0.16,1,0.3,1);
+  }
+  .hero-seq.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ──────────────────────────────────────────
+     LAYOUT UTILITIES
+  ────────────────────────────────────────── */
+  .container {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+  .container-wide {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* ──────────────────────────────────────────
+     HEADER / NAV
+  ────────────────────────────────────────── */
+  header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.4rem 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(to bottom, rgba(10,9,6,0.95) 60%, rgba(10,9,6,0));
+    pointer-events: none;
+  }
+  .nav-brand {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.35em;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+  .nav-rule {
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+    margin: 0 2rem;
+  }
+  .nav-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.3em;
+    color: var(--parchment-faint);
+  }
+
+  /* ──────────────────────────────────────────
+     HERO
+  ────────────────────────────────────────── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    padding: 8rem 2rem 5rem;
+    overflow: hidden;
+  }
+
+  /* Radial vignette glow */
+  #hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 50% at 50% 50%, rgba(201,168,76,0.04) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* Fine decorative border lines */
+  .hero-border-top,
+  .hero-border-bottom {
+    position: absolute;
+    left: 4rem; right: 4rem;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+    opacity: 0.4;
+  }
+  .hero-border-top { top: 6rem; }
+  .hero-border-bottom { bottom: 3.5rem; }
+
+  .hero-inner { position: relative; z-index: 1; }
+
+  .hero-eyebrow {
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-title {
+    font-size: clamp(2.8rem, 7vw, 6.5rem);
+    font-weight: 300;
+    line-height: 1.08;
+    color: var(--parchment);
+    letter-spacing: -0.01em;
+    margin-bottom: 0.3rem;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold-bright);
+  }
+
+  .hero-subtitle {
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    color: var(--parchment-dim);
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    margin-top: 1.8rem;
+    font-style: italic;
+  }
+
+  .hero-descriptor {
+    margin-top: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+  .hero-descriptor span {
+    font-family: 'Cinzel', serif;
+    font-size: 0.58rem;
+    letter-spacing: 0.3em;
+    color: var(--parchment-faint);
+  }
+  .hero-dot {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--gold-dim);
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    opacity: 0.4;
+  }
+  .scroll-hint span {
+    font-family: 'Cinzel', serif;
+    font-size: 0.5rem;
+    letter-spacing: 0.4em;
+    color: var(--parchment-faint);
+  }
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--gold-dim), transparent);
+    animation: scrollDrop 2s ease-in-out infinite;
+  }
+  @keyframes scrollDrop {
+    0%,100% { transform: scaleY(0); transform-origin: top; }
+    50% { transform: scaleY(1); transform-origin: top; }
+  }
+
+  /* ──────────────────────────────────────────
+     INTRO PULL-QUOTE / LEDE
+  ────────────────────────────────────────── */
+  #intro {
+    padding: 7rem 2rem;
+    position: relative;
+  }
+  #intro::before {
+    content: '';
+    display: block;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--rule), transparent);
+    margin-bottom: 7rem;
+  }
+
+  .lede {
+    font-size: clamp(1.5rem, 3vw, 2.3rem);
+    font-weight: 300;
+    line-height: 1.5;
+    color: var(--parchment);
+    text-align: center;
+    font-style: italic;
+  }
+  .lede strong {
+    font-style: normal;
+    font-weight: 500;
+    color: var(--gold-bright);
+  }
+
+  .question-pair {
+    margin-top: 4rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3px;
+  }
+  .question-block {
+    background: var(--ink-mid);
+    padding: 2.5rem 2rem;
+    border: 1px solid var(--rule);
+    text-align: center;
+  }
+  .question-block.answer {
+    background: var(--gold-ghost);
+    border-color: rgba(201,168,76,0.35);
+  }
+  .question-block .q-label {
+    display: block;
+    font-family: 'Cinzel', serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.35em;
+    color: var(--parchment-faint);
+    margin-bottom: 1rem;
+  }
+  .question-block .q-text {
+    font-size: clamp(1rem, 2vw, 1.35rem);
+    font-style: italic;
+    color: var(--parchment-dim);
+    line-height: 1.5;
+  }
+  .question-block.answer .q-text {
+    color: var(--gold-bright);
+    font-weight: 500;
+  }
+  .shift-note {
+    text-align: center;
+    margin-top: 2.5rem;
+    font-size: 0.95rem;
+    color: var(--parchment-faint);
+    letter-spacing: 0.06em;
+  }
+
+  /* ──────────────────────────────────────────
+     SECTION PATTERN
+  ────────────────────────────────────────── */
+  section { padding: 6rem 0; }
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+  .section-label .kicker { flex-shrink: 0; }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  .section-title {
+    font-size: clamp(2rem, 4.5vw, 3.5rem);
+    font-weight: 300;
+    line-height: 1.15;
+    color: var(--parchment);
+    margin-bottom: 1.5rem;
+  }
+  .section-title em { color: var(--gold-bright); font-style: italic; }
+
+  .body-text {
+    font-size: 1.05rem;
+    line-height: 1.85;
+    color: var(--parchment-dim);
+  }
+  .body-text + .body-text { margin-top: 1.2rem; }
+
+  /* ──────────────────────────────────────────
+     LAYERS OF REALITY — GRID
+  ────────────────────────────────────────── */
+  #layers { background: var(--ink-mid); }
+
+  .layers-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    margin-top: 3.5rem;
+    border: 1px solid var(--rule);
+  }
+  .layer-card {
+    background: var(--ink);
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.4s ease;
+  }
+  .layer-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
+  }
+  .layer-card:hover { background: var(--ink-mid); }
+  .layer-card:hover::before { transform: scaleX(1); }
+
+  .layer-num {
+    font-family: 'Cinzel', serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.3em;
+    color: var(--gold-dim);
+    display: block;
+    margin-bottom: 1.2rem;
+  }
+  .layer-name {
+    font-size: 1.4rem;
+    font-weight: 300;
+    color: var(--parchment);
+    display: block;
+    margin-bottom: 0.8rem;
+  }
+  .layer-desc {
+    font-size: 0.85rem;
+    color: var(--parchment-faint);
+    line-height: 1.6;
+  }
+
+  /* ──────────────────────────────────────────
+     PERCEPTION + ILLUSION — TWO-COL
+  ────────────────────────────────────────── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  /* ──────────────────────────────────────────
+     TRUTHS — NUMBERED LIST
+  ────────────────────────────────────────── */
+  #truths { background: var(--ink-mid); }
+
+  .truth-list { margin-top: 3.5rem; }
+  .truth-item {
+    display: flex;
+    gap: 2rem;
+    padding: 2rem 0;
+    border-bottom: 1px solid var(--rule);
+    align-items: flex-start;
+  }
+  .truth-item:first-child { border-top: 1px solid var(--rule); }
+
+  .truth-num {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    color: var(--gold-dim);
+    padding-top: 0.25rem;
+    flex-shrink: 0;
+    min-width: 3rem;
+  }
+  .truth-body {}
+  .truth-heading {
+    font-size: 1.35rem;
+    font-weight: 400;
+    color: var(--parchment);
+    margin-bottom: 0.5rem;
+  }
+  .truth-text {
+    font-size: 0.95rem;
+    color: var(--parchment-faint);
+    line-height: 1.7;
+  }
+
+  /* ──────────────────────────────────────────
+     PULL QUOTE
+  ────────────────────────────────────────── */
+  .pull-quote-section {
+    padding: 6rem 2rem;
+    text-align: center;
+    position: relative;
+  }
+  .pull-quote-section::before,
+  .pull-quote-section::after {
+    content: '';
+    display: block;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--rule), transparent);
+  }
+  .pull-quote-section::before { margin-bottom: 6rem; }
+  .pull-quote-section::after { margin-top: 6rem; }
+
+  blockquote {
+    font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.45;
+    color: var(--parchment);
+    max-width: 700px;
+    margin: 0 auto;
+    position: relative;
+  }
+  blockquote::before {
+    content: '\201C';
+    position: absolute;
+    top: -1.5rem;
+    left: -2rem;
+    font-size: 6rem;
+    color: var(--gold);
+    opacity: 0.15;
+    line-height: 1;
+    font-style: normal;
+  }
+  blockquote em { color: var(--gold-bright); font-style: normal; }
+
+  /* ──────────────────────────────────────────
+     AWARENESS — TRIPTYCH
+  ────────────────────────────────────────── */
+  .triptych {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 2px;
+    margin-top: 3.5rem;
+  }
+  .triptych-card {
+    background: var(--ink-mid);
+    padding: 3rem 2rem;
+    border: 1px solid transparent;
+    transition: border-color 0.4s ease, background 0.4s ease;
+  }
+  .triptych-card:hover {
+    background: var(--ink-light);
+    border-color: var(--rule);
+  }
+  .triptych-icon {
+    width: 32px;
+    height: 1px;
+    background: var(--gold);
+    margin-bottom: 2rem;
+    opacity: 0.6;
+  }
+  .triptych-title {
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--parchment);
+    margin-bottom: 0.8rem;
+  }
+  .triptych-text {
+    font-size: 0.9rem;
+    color: var(--parchment-faint);
+    line-height: 1.7;
+  }
+
+  /* ──────────────────────────────────────────
+     MODERN RELEVANCE — SCIENCE / BRIDGE
+  ────────────────────────────────────────── */
+  #modern { background: var(--ink-mid); }
+
+  .modern-grid {
+    display: grid;
+    grid-template-columns: 1fr 1px 1fr;
+    gap: 3.5rem;
+    margin-top: 3.5rem;
+    align-items: start;
+  }
+  .modern-divider {
+    background: var(--rule);
+    height: 100%;
+    min-height: 200px;
+  }
+  .modern-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.3em;
+    color: var(--gold-dim);
+    margin-bottom: 1.2rem;
+  }
+  .modern-title {
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: var(--parchment);
+    margin-bottom: 1rem;
+  }
+  .modern-text {
+    font-size: 0.95rem;
+    color: var(--parchment-faint);
+    line-height: 1.75;
+  }
+  .modern-pill {
+    display: inline-block;
+    border: 1px solid var(--rule);
+    padding: 0.3rem 0.9rem;
+    font-size: 0.8rem;
+    color: var(--parchment-faint);
+    letter-spacing: 0.05em;
+    margin: 0.3rem 0.2rem 0 0;
+  }
+
+  /* ──────────────────────────────────────────
+     GURUKULAM / CLOSING CTA
+  ────────────────────────────────────────── */
+  #gurukulam {
+    text-align: center;
+    padding: 8rem 2rem;
+    position: relative;
+  }
+  #gurukulam::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(201,168,76,0.04) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .guru-ornament {
+    font-size: 2rem;
+    color: var(--gold);
+    opacity: 0.3;
+    letter-spacing: 0.5em;
+    margin-bottom: 2rem;
+    font-family: 'Cormorant Garamond', serif;
+  }
+  .guru-name {
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--gold-bright);
+    margin-bottom: 0.5rem;
+  }
+  .guru-name span {
+    font-style: normal;
+    display: block;
+    font-size: 0.6em;
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.3em;
+    color: var(--parchment-faint);
+    margin-bottom: 0.8rem;
+  }
+  .guru-desc {
+    max-width: 520px;
+    margin: 2rem auto 0;
+    font-size: 1rem;
+    color: var(--parchment-faint);
+    line-height: 1.75;
+  }
+
+  /* ──────────────────────────────────────────
+     CONCLUSION
+  ────────────────────────────────────────── */
+  #conclusion {
+    background: var(--ink-mid);
+    padding: 7rem 2rem;
+    text-align: center;
+  }
+  .conclusion-text {
+    font-size: clamp(1.3rem, 2.5vw, 2rem);
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--parchment);
+    max-width: 600px;
+    margin: 2rem auto;
+  }
+  .conclusion-text em {
+    font-style: italic;
+    color: var(--gold-bright);
+  }
+
+  /* ──────────────────────────────────────────
+     FOOTER
+  ────────────────────────────────────────── */
+  footer {
+    padding: 3rem 2rem;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-brand {
+    font-family: 'Cinzel', serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.35em;
+    color: var(--parchment-faint);
+  }
+  .footer-tagline {
+    font-size: 0.85rem;
+    font-style: italic;
+    color: var(--parchment-faint);
+    opacity: 0.6;
+  }
+
+  /* ──────────────────────────────────────────
+     RESPONSIVE
+  ────────────────────────────────────────── */
+  @media (max-width: 768px) {
+    .layers-grid { grid-template-columns: 1fr 1fr; }
+    .two-col { grid-template-columns: 1fr; gap: 3rem; }
+    .triptych { grid-template-columns: 1fr; }
+    .question-pair { grid-template-columns: 1fr; }
+    .modern-grid { grid-template-columns: 1fr; }
+    .modern-divider { display: none; }
+    .hero-border-top, .hero-border-bottom { left: 1.5rem; right: 1.5rem; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+  }
+  @media (max-width: 480px) {
+    .layers-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── FIXED HEADER ── -->
+<header>
+  <div class="nav-brand">Siddhar Wisdom</div>
+  <div class="nav-rule"></div>
+  <div class="nav-label cinzel">Sacred Editorial</div>
+</header>
+
+<!-- ══════════════════════════════════════════
+     HERO
+══════════════════════════════════════════ -->
+<section id="hero">
+  <div class="hero-border-top"></div>
+  <div class="hero-inner">
+
+    <div class="hero-eyebrow hero-seq" style="--d:0.2s">
+      <div class="kicker">Ancient Wisdom · Tamil Siddhar Tradition</div>
+    </div>
+
+    <h1 class="hero-title hero-seq word-lift-heading" style="--d:0.5s" data-text="The Universe According to the Siddhars">
+      The Universe<br>According to<br><em>the Siddhars</em>
+    </h1>
+
+    <p class="hero-subtitle hero-seq" style="--d:1s">
+      Not what the universe is made of — but how it is<br><em>experienced through awareness</em>
+    </p>
+
+    <div class="hero-descriptor hero-seq" style="--d:1.4s">
+      <span>Perception</span>
+      <div class="hero-dot"></div>
+      <span>Consciousness</span>
+      <div class="hero-dot"></div>
+      <span>Reality</span>
+      <div class="hero-dot"></div>
+      <span>Liberation</span>
+    </div>
+  </div>
+
+  <div class="scroll-hint hero-seq" style="--d:2s">
+    <span>Descend</span>
+    <div class="scroll-line"></div>
+  </div>
+  <div class="hero-border-bottom"></div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     INTRO — THE SHIFT
+══════════════════════════════════════════ -->
+<section id="intro">
+  <div class="container">
+
+    <p class="lede fade-up">
+      The Siddhars did not seek to dissect the cosmos.<br>
+      They sought to <strong>dissolve into it</strong> — through the supreme clarity of direct perception.
+    </p>
+
+    <div class="question-pair fade-up">
+      <div class="question-block">
+        <span class="q-label cinzel">The question science asks</span>
+        <p class="q-text">"What is the universe made of?"</p>
+      </div>
+      <div class="question-block answer">
+        <span class="q-label cinzel">The question the Siddhars asked</span>
+        <p class="q-text">"How is the universe experienced?"</p>
+      </div>
+    </div>
+
+    <p class="shift-note fade-up" style="margin-top:2.5rem;">
+      This shift — from <em>composition</em> to <em>experience</em> — changes everything.
+    </p>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     UNIVERSE AS EXPERIENCE
+══════════════════════════════════════════ -->
+<section id="experience">
+  <div class="container">
+
+    <div class="section-label fade-up">
+      <span class="kicker">I · Universe as Experience</span>
+    </div>
+
+    <h2 class="section-title section-word-lift fade-up">
+      Beyond Matter<br>and <em>Energy</em>
+    </h2>
+
+    <div class="two-col" style="margin-top:2.5rem;">
+      <div>
+        <p class="body-text fade-up">
+          To the Siddhars, the universe was never merely a collection of particles and forces. Matter and energy are the skin of reality — necessary, but profoundly incomplete as a description of what is.
+        </p>
+        <p class="body-text fade-up">
+          The universe equally encompasses <strong style="color:var(--parchment)">perception</strong>, <strong style="color:var(--parchment)">experience</strong>, and <strong style="color:var(--parchment)">awareness</strong>. To leave these out is to mistake the shadow for the object casting it.
+        </p>
+      </div>
+      <div>
+        <p class="body-text fade-up">
+          The Siddhars observed something that centuries later quantum physics would whisper toward: the observer is not separate from what is observed. Perception itself shapes the reality it witnesses.
+        </p>
+        <p class="body-text fade-up">
+          This is not metaphor. It is the foundational principle from which their entire cosmological science proceeds.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     LAYERS OF REALITY
+══════════════════════════════════════════ -->
+<section id="layers">
+  <div class="container-wide">
+
+    <div class="container">
+      <div class="section-label fade-up">
+        <span class="kicker">II · Layers of Reality</span>
+      </div>
+      <h2 class="section-title section-word-lift fade-up">
+        The Architecture<br>of <em>Existence</em>
+      </h2>
+      <p class="body-text fade-up">
+        Reality, according to Siddhar understanding, is not flat. It is stratified — a series of interpenetrating planes, each influencing and being influenced by the others in endless reciprocity.
+      </p>
+    </div>
+
+    <div class="layers-grid" style="margin-top:3.5rem;">
+      <div class="layer-card fade-up">
+        <span class="layer-num cinzel">Layer I</span>
+        <span class="layer-name">Physical</span>
+        <p class="layer-desc">The gross body of the universe — matter in its tangible, sensory form. The domain of weight, form, and measurement.</p>
+      </div>
+      <div class="layer-card fade-up">
+        <span class="layer-num cinzel">Layer II</span>
+        <span class="layer-name">Energetic</span>
+        <p class="layer-desc">The pranic substrate — vibration, force, and the animating currents that move through all forms.</p>
+      </div>
+      <div class="layer-card fade-up">
+        <span class="layer-num cinzel">Layer III</span>
+        <span class="layer-name">Mental</span>
+        <p class="layer-desc">The field of thought, imagination, and the constructs through which awareness interprets its experience.</p>
+      </div>
+      <div class="layer-card fade-up">
+        <span class="layer-num cinzel">Layer IV</span>
+        <span class="layer-name">Conscious</span>
+        <p class="layer-desc">Pure awareness — the ground of being from which all other layers arise and into which they return.</p>
+      </div>
+    </div>
+
+    <div class="container">
+      <p class="body-text fade-up" style="margin-top:2.5rem; text-align:center; font-style:italic; color:var(--parchment-faint);">
+        Each layer influences the others. None can be understood in isolation.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     DYNAMIC NATURE / ILLUSION
+══════════════════════════════════════════ -->
+<section id="illusion">
+  <div class="container">
+
+    <div class="section-label fade-up">
+      <span class="kicker">III · Illusion &amp; Perception</span>
+    </div>
+
+    <h2 class="section-title section-word-lift fade-up">
+      Nothing is Fixed.<br><em>Everything Moves.</em>
+    </h2>
+
+    <div class="two-col" style="margin-top:2.5rem;">
+      <div>
+        <p class="body-text fade-up">
+          The Siddhar worldview insists on radical impermanence. Everything is changing, evolving, interacting — ceaselessly. What appears fixed is an artifact of the speed of perception.
+        </p>
+        <p class="body-text fade-up">
+          When perception becomes distorted — through conditioning, desire, or accumulated misunderstanding — reality appears fragmented. Confusion arises not from complexity, but from misperception of that which is actually whole.
+        </p>
+      </div>
+      <div>
+        <div style="padding:2rem; background:var(--ink-mid); border:1px solid var(--rule); margin-bottom:1.5rem;" class="fade-up">
+          <p class="kicker" style="margin-bottom:1rem;">The Siddhar Diagnosis</p>
+          <p style="font-size:1.15rem; font-style:italic; color:var(--parchment); line-height:1.55;">
+            <em style="color:var(--gold-bright);">Misperception creates illusion.</em><br>
+            Illusion creates fragmentation.<br>
+            Fragmentation creates suffering.
+          </p>
+        </div>
+        <p class="body-text fade-up">
+          The remedy is not more knowledge — it is <strong style="color:var(--parchment)">clarity of observation</strong>. When perception is purified, distortion reduces and reality reveals itself as it has always been: unified, dynamic, aware.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     PULL QUOTE
+══════════════════════════════════════════ -->
+<div class="pull-quote-section">
+  <div class="container">
+    <blockquote class="fade-up">
+      Space is not empty — it is a field of <em>infinite potential</em>, a medium through which existence breathes.
+    </blockquote>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     CORE TRUTHS
+══════════════════════════════════════════ -->
+<section id="truths">
+  <div class="container">
+
+    <div class="section-label fade-up">
+      <span class="kicker">IV · Core Cosmological Truths</span>
+    </div>
+    <h2 class="section-title section-word-lift fade-up">
+      The Siddhar<br><em>Observations</em>
+    </h2>
+
+    <div class="truth-list">
+
+      <div class="truth-item fade-up">
+        <div class="truth-num cinzel">01</div>
+        <div class="truth-body">
+          <div class="truth-heading">Interconnected Existence</div>
+          <p class="truth-text">Everything is connected. No object, no being, no event exists independently. The appearance of separation is the fundamental illusion — maya — that the Siddhars dedicated their lives to transcending.</p>
+        </div>
+      </div>
+
+      <div class="truth-item fade-up">
+        <div class="truth-num cinzel">02</div>
+        <div class="truth-body">
+          <div class="truth-heading">Time as the Experience of Change</div>
+          <p class="truth-text">Time is not a container in which events occur. Time is the experienced sequence of change itself. Without change, there is no time — only the eternal present of pure awareness.</p>
+        </div>
+      </div>
+
+      <div class="truth-item fade-up">
+        <div class="truth-num cinzel">03</div>
+        <div class="truth-body">
+          <div class="truth-heading">Space as Potentiality</div>
+          <p class="truth-text">What appears as emptiness is a field dense with potential. Space is the womb of form — the silent ground from which all manifest reality continuously emerges and withdraws.</p>
+        </div>
+      </div>
+
+      <div class="truth-item fade-up">
+        <div class="truth-num cinzel">04</div>
+        <div class="truth-body">
+          <div class="truth-heading">The Observer Is Not Separate</div>
+          <p class="truth-text">The Siddhar insight anticipates what physicists would call the observer effect: consciousness is not a passive spectator of the universe. It participates in, and in some sense co-creates, what it perceives.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     AWARENESS — TRIPTYCH
+══════════════════════════════════════════ -->
+<section id="awareness">
+  <div class="container">
+
+    <div class="section-label fade-up">
+      <span class="kicker">V · The Role of Awareness</span>
+    </div>
+    <h2 class="section-title section-word-lift fade-up">
+      What Awareness<br><em>Reveals</em>
+    </h2>
+    <p class="body-text fade-up">
+      Clarity of awareness is not passive enlightenment. It is an active faculty of perception — trained, refined, and directed. The Siddhars identified three domains revealed only through sustained, purified attention.
+    </p>
+
+    <div class="triptych">
+      <div class="triptych-card fade-up">
+        <div class="triptych-icon"></div>
+        <div class="triptych-title">Patterns</div>
+        <p class="triptych-text">The recurring structures through which consciousness organises experience — from the spiral of a galaxy to the rhythm of breath.</p>
+      </div>
+      <div class="triptych-card fade-up">
+        <div class="triptych-icon"></div>
+        <div class="triptych-title">Connections</div>
+        <p class="triptych-text">The invisible threads of causality, resonance, and sympathy that bind apparently separate phenomena into a seamless whole.</p>
+      </div>
+      <div class="triptych-card fade-up">
+        <div class="triptych-icon"></div>
+        <div class="triptych-title">Processes</div>
+        <p class="triptych-text">The living, moving nature of reality — the way everything transforms, flows, and participates in the endless becoming of the universe.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     MODERN RELEVANCE
+══════════════════════════════════════════ -->
+<section id="modern">
+  <div class="container">
+
+    <div class="section-label fade-up">
+      <span class="kicker">VI · Modern Relevance</span>
+    </div>
+    <h2 class="section-title section-word-lift fade-up">
+      Science Approaches<br><em>the Same Shore</em>
+    </h2>
+
+    <div class="modern-grid">
+      <div>
+        <p class="modern-label cinzel">Ancient Science</p>
+        <p class="modern-title">Siddhar Cosmology</p>
+        <p class="modern-text">
+          Developed through millennia of disciplined inner observation, the Siddhars mapped the structure of consciousness and its relationship to the cosmos with extraordinary precision — not through external instruments, but through the refined instrument of the aware mind itself.
+        </p>
+        <div style="margin-top:1.5rem;">
+          <span class="modern-pill">Observer Principle</span>
+          <span class="modern-pill">Non-locality</span>
+          <span class="modern-pill">Emergence</span>
+          <span class="modern-pill">Field Theory</span>
+        </div>
+      </div>
+      <div class="modern-divider"></div>
+      <div>
+        <p class="modern-label cinzel">Contemporary Science</p>
+        <p class="modern-title">Physics &amp; Systems Theory</p>
+        <p class="modern-text">
+          Modern science is beginning to explore the observer effect — the role of consciousness in shaping quantum outcomes — and the behaviour of interconnected systems that cannot be understood by analysing their parts in isolation. The convergence is striking.
+        </p>
+        <div style="margin-top:1.5rem;">
+          <span class="modern-pill">Quantum Entanglement</span>
+          <span class="modern-pill">Systems Biology</span>
+          <span class="modern-pill">Consciousness Studies</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     GURUKULAM
+══════════════════════════════════════════ -->
+<section id="gurukulam">
+  <div class="container">
+    <div class="fade-up">
+      <div class="guru-ornament">✦ ✦ ✦</div>
+    </div>
+    <div class="kicker fade-up" style="margin-bottom:1.5rem;">Living Transmission</div>
+    <h2 class="guru-name fade-up">
+      <span>Shree Easanamma Gurukulam</span>
+      A Structured Path of Deeper Perception
+    </h2>
+    <p class="guru-desc fade-up">
+      Understanding the Siddhar universe is not an intellectual exercise. It requires environments structured for deepening perception and guidance that helps the student avoid the conceptual labyrinths the untrained mind inevitably enters.
+    </p>
+    <p class="guru-desc fade-up" style="margin-top:1rem;">
+      The lineage of <em style="color:var(--parchment)">Shree Easanamma</em> offers exactly this — a living transmission of the inner science the Siddhars refined across centuries.
+    </p>
+    <div style="margin-top:3rem;" class="fade-up">
+      <div class="gold-rule" style="margin:0 auto;"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     CONCLUSION
+══════════════════════════════════════════ -->
+<section id="conclusion">
+  <div class="container">
+    <div class="kicker fade-up" style="margin-bottom:2rem;">Conclusion</div>
+    <div class="gold-rule fade-up" style="margin:0 auto 2.5rem;"></div>
+
+    <p class="conclusion-text fade-up">
+      The universe is not something separate from you.
+    </p>
+    <p class="conclusion-text fade-up">
+      It is something <em>experienced through awareness</em>.
+    </p>
+    <p class="conclusion-text fade-up" style="font-size:1rem; color:var(--parchment-faint); margin-top:2rem;">
+      When that awareness is purified — through practice, through the guidance of an unbroken lineage, through structured immersion in the Siddhar tradition — the universe ceases to be a puzzle to be solved and becomes a reality to be <em style="color:var(--parchment)">inhabited</em>.
+    </p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════ -->
+<footer>
+  <div class="footer-brand cinzel">The Universe According to the Siddhars</div>
+  <p class="footer-tagline">Ancient wisdom · Living tradition</p>
+</footer>
+
+<!-- ══════════════════════════════════════════
+     JAVASCRIPT — ANIMATION SYSTEM
+══════════════════════════════════════════ -->
+<script>
+(function() {
+
+  // ── 1. HERO SEQUENCE: cascade in on load ──
+  document.querySelectorAll('.hero-seq').forEach(el => {
+    const delay = el.style.getPropertyValue('--d') || '0s';
+    setTimeout(() => {
+      el.classList.add('visible');
+    }, parseFloat(delay) * 1000);
+  });
+
+  // ── 2. WORD-LIFT HEADINGS: split and animate ──
+  function buildWordLift(el) {
+    const rawText = el.innerText;
+    el.innerHTML = '';
+    const lines = rawText.split('\n').filter(l => l.trim());
+    lines.forEach((line, li) => {
+      const words = line.trim().split(/\s+/);
+      words.forEach((word, wi) => {
+        const wrap = document.createElement('span');
+        wrap.className = 'word-lift-wrap';
+        const inner = document.createElement('span');
+        inner.className = 'word';
+        inner.textContent = word + (wi < words.length - 1 ? '\u00a0' : '');
+        inner.style.transitionDelay = ((li * words.length + wi) * 0.07) + 's';
+        wrap.appendChild(inner);
+        el.appendChild(wrap);
+      });
+      if (li < lines.length - 1) el.appendChild(document.createElement('br'));
+    });
+  }
+
+  // Build word-lift for all section headings
+  document.querySelectorAll('.section-word-lift').forEach(buildWordLift);
+
+  // ── 3. INTERSECTION OBSERVER ──
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+
+        // word-lift triggers
+        if (el.querySelectorAll('.word-lift-wrap').length > 0) {
+          el.classList.add('revealed');
+        }
+
+        // fade-up triggers (also section headings that are both)
+        el.classList.add('revealed');
+
+        io.unobserve(el);
+      }
+    });
+  }, {
+    threshold: 0.15,
+    rootMargin: '0px 0px -60px 0px'
+  });
+
+  document.querySelectorAll('.fade-up, .section-word-lift').forEach(el => io.observe(el));
+
+})();
+</script>
+</body>
+</html>

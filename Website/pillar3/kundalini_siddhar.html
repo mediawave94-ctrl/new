@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kundalini in Siddhar Tradition</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Cinzel:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0a0906;
+    --parchment: #e8dfc8;
+    --parchment-dim: #a89878;
+    --gold: #c8a96e;
+    --gold-pale: #d4b88a;
+    --gold-faint: rgba(200,169,110,0.12);
+    --rule: rgba(200,169,110,0.25);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--ink);
+    color: var(--parchment);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 20px;
+    line-height: 1.75;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* ── Grain overlay ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    pointer-events: none;
+    opacity: 0.045;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+  }
+
+  /* ── Gold ornament line ── */
+  .rule {
+    display: block;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold) 30%, var(--gold) 70%, transparent);
+    opacity: 0.4;
+    margin: 0 auto;
+  }
+  .rule-short {
+    width: 120px;
+    margin: 0 auto;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0.55;
+  }
+
+  /* ── Word-lift animation infrastructure ── */
+  .word-lift-wrapper {
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: bottom;
+  }
+  .word-lift-wrapper span {
+    display: inline-block;
+    transform: translateY(110%);
+    opacity: 0;
+  }
+  .word-lift-wrapper.animated span {
+    animation: wordLift 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes wordLift {
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  /* ── Fade-up ── */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ══════════════ LAYOUT ══════════════ */
+
+  .container {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 80px 40px 100px;
+    position: relative;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 200px;
+    background: linear-gradient(to bottom, transparent, var(--ink));
+    pointer-events: none;
+  }
+
+  .hero-kicker {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 0.35em;
+    color: var(--gold);
+    text-transform: uppercase;
+    opacity: 0;
+    transform: translateY(14px);
+    animation: fadeUpIn 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+    margin-bottom: 36px;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(56px, 9vw, 108px);
+    font-weight: 300;
+    line-height: 1.0;
+    letter-spacing: -0.01em;
+    color: var(--parchment);
+    margin-bottom: 12px;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold-pale);
+  }
+
+  .hero-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(18px, 2.5vw, 24px);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--parchment-dim);
+    letter-spacing: 0.04em;
+    opacity: 0;
+    transform: translateY(18px);
+    animation: fadeUpIn 1s cubic-bezier(0.16, 1, 0.3, 1) 1.4s forwards;
+    margin-top: 28px;
+  }
+
+  .hero-ornament {
+    margin-top: 56px;
+    opacity: 0;
+    animation: fadeUpIn 1s cubic-bezier(0.16, 1, 0.3, 1) 1.8s forwards;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .hero-ornament svg {
+    opacity: 0.6;
+  }
+
+  @keyframes fadeUpIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* word lift rows in hero */
+  .hero-title .word-row {
+    display: block;
+    overflow: hidden;
+  }
+  .hero-title .word-row .inner {
+    display: block;
+    transform: translateY(110%);
+    opacity: 0;
+  }
+  .hero-title .word-row.a1 .inner { animation: wordLift 1s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards; }
+  .hero-title .word-row.a2 .inner { animation: wordLift 1s cubic-bezier(0.16, 1, 0.3, 1) 0.75s forwards; }
+  .hero-title .word-row.a3 .inner { animation: wordLift 1s cubic-bezier(0.16, 1, 0.3, 1) 1.0s forwards; }
+
+  /* ── INTRO ── */
+  .intro-section {
+    padding: 120px 0 80px;
+    position: relative;
+  }
+
+  .section-label {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .section-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(34px, 5vw, 54px);
+    font-weight: 300;
+    line-height: 1.15;
+    color: var(--parchment);
+    margin-bottom: 32px;
+  }
+  .section-heading em { font-style: italic; color: var(--gold-pale); }
+
+  .lead-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--parchment-dim);
+    margin-bottom: 24px;
+  }
+  .lead-text strong {
+    color: var(--parchment);
+    font-weight: 500;
+  }
+
+  .body-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 19px;
+    font-weight: 300;
+    line-height: 1.85;
+    color: var(--parchment-dim);
+    margin-bottom: 20px;
+  }
+  .body-text strong {
+    color: var(--parchment);
+    font-weight: 500;
+  }
+
+  /* ── PULL QUOTE ── */
+  .pull-quote {
+    border-left: 1px solid var(--gold);
+    margin: 64px 0;
+    padding: 8px 0 8px 40px;
+    position: relative;
+  }
+  .pull-quote::before {
+    content: '\201C';
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 80px;
+    color: var(--gold);
+    opacity: 0.3;
+    position: absolute;
+    top: -16px;
+    left: 12px;
+    line-height: 1;
+  }
+  .pull-quote p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(22px, 3.5vw, 32px);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.45;
+    color: var(--parchment);
+    letter-spacing: 0.01em;
+  }
+
+  /* ── TRIAD CARDS ── */
+  .triad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--rule);
+    margin: 72px 0;
+    border: 1px solid var(--rule);
+  }
+  .triad-card {
+    background: var(--ink);
+    padding: 40px 28px;
+    text-align: center;
+    position: relative;
+  }
+  .triad-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%; transform: translateX(-50%);
+    width: 1px; height: 24px;
+    background: var(--gold);
+    opacity: 0.4;
+  }
+  .triad-card:first-child::before { display: none; }
+  .triad-label {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 0.35em;
+    color: var(--gold);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 14px;
+  }
+  .triad-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--parchment);
+    line-height: 1.3;
+  }
+
+  /* ── NADI SECTION ── */
+  .nadi-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    margin: 64px 0;
+    align-items: start;
+  }
+  .nadi-list {
+    list-style: none;
+  }
+  .nadi-list li {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--parchment);
+    padding: 18px 0;
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .nadi-list li::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+    flex-shrink: 0;
+    opacity: 0.7;
+  }
+  .nadi-list li:first-child { border-top: 1px solid var(--rule); }
+
+  /* ── DANGER / WARNING BLOCK ── */
+  .warning-block {
+    border: 1px solid rgba(200,169,110,0.2);
+    padding: 48px;
+    margin: 72px 0;
+    position: relative;
+    background: var(--gold-faint);
+  }
+  .warning-block::before {
+    content: 'CAUTION';
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    color: var(--gold);
+    position: absolute;
+    top: -6px;
+    left: 40px;
+    background: var(--ink);
+    padding: 0 12px;
+  }
+
+  /* ── ALIGNMENT SEQUENCE ── */
+  .sequence {
+    counter-reset: seq;
+    margin: 48px 0;
+  }
+  .seq-item {
+    counter-increment: seq;
+    display: flex;
+    align-items: flex-start;
+    gap: 28px;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .seq-item:first-child { border-top: 1px solid var(--rule); }
+  .seq-num {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    opacity: 0.6;
+    flex-shrink: 0;
+    padding-top: 6px;
+    min-width: 28px;
+  }
+  .seq-num::before { content: counter(seq, decimal-leading-zero); }
+  .seq-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 300;
+    color: var(--parchment-dim);
+    line-height: 1.65;
+  }
+  .seq-text strong { color: var(--parchment); font-weight: 500; }
+
+  /* ── CONCLUSION ── */
+  .conclusion {
+    padding: 120px 0 160px;
+    text-align: center;
+  }
+  .conclusion-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(26px, 4vw, 44px);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--parchment);
+    line-height: 1.4;
+    max-width: 640px;
+    margin: 0 auto 48px;
+    letter-spacing: 0.01em;
+  }
+  .conclusion-text em { color: var(--gold-pale); }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--rule);
+    padding: 48px 40px;
+    text-align: center;
+  }
+  footer p {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    opacity: 0.5;
+    text-transform: uppercase;
+  }
+
+  /* spacing helpers */
+  .mt-64 { margin-top: 64px; }
+  .mb-32 { margin-bottom: 32px; }
+  .section-gap { padding: 100px 0; }
+
+  hr.section-rule {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 80px 0;
+  }
+
+  @media (max-width: 640px) {
+    .container { padding: 0 24px; }
+    .triad { grid-template-columns: 1fr; }
+    .nadi-grid { grid-template-columns: 1fr; gap: 40px; }
+    .warning-block { padding: 32px 24px; }
+    .pull-quote { padding-left: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <span class="hero-kicker">Shree Easanamma Gurukulam &nbsp;·&nbsp; Sacred Teachings</span>
+
+  <h1 class="hero-title">
+    <span class="word-row a1"><span class="inner">Kundalini</span></span>
+    <span class="word-row a2"><span class="inner"><em>in the</em></span></span>
+    <span class="word-row a3"><span class="inner">Siddhar Tradition</span></span>
+  </h1>
+
+  <p class="hero-subtitle">Beyond myth, misinterpretation, and the chase for awakening</p>
+
+  <div class="hero-ornament">
+    <div class="rule-short" style="width:80px"></div>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="3" fill="#c8a96e"/>
+      <path d="M12 2 L12 8 M12 16 L12 22 M2 12 L8 12 M16 12 L22 12" stroke="#c8a96e" stroke-width="1" opacity="0.5"/>
+      <path d="M5.6 5.6 L8.5 8.5 M15.5 15.5 L18.4 18.4 M18.4 5.6 L15.5 8.5 M8.5 15.5 L5.6 18.4" stroke="#c8a96e" stroke-width="1" opacity="0.3"/>
+    </svg>
+    <div class="rule-short" style="width:80px"></div>
+  </div>
+</section>
+
+<!-- ══ INTRODUCTION ══ -->
+<section class="intro-section">
+  <div class="container">
+    <span class="section-label fade-up">Introduction</span>
+    <h2 class="section-heading fade-up">Beyond Myth &amp;<br><em>Misinterpretation</em></h2>
+    <div class="rule" style="margin-bottom:48px"></div>
+
+    <p class="lead-text fade-up">
+      Kundalini is one of the most misunderstood concepts in spiritual discourse. It is often described as a mystical energy rising through the spine — a sudden awakening, a supernatural force summoned by will.
+    </p>
+    <p class="body-text fade-up">
+      In the Siddhar tradition, Kundalini is understood in a more grounded and precise way. It is not something mystical to chase. It is a <strong>natural potential within the human system</strong> — ever-present, patient, waiting not for performance but for readiness.
+    </p>
+
+    <div class="pull-quote fade-up">
+      <p>Kundalini is not a sudden event — it is a gradual process of alignment.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ WHAT IS KUNDALINI ══ -->
+<section class="section-gap">
+  <div class="container">
+    <span class="section-label fade-up">Definition</span>
+    <h2 class="section-heading fade-up">What Is <em>Kundalini?</em></h2>
+    <div class="rule" style="margin-bottom:48px"></div>
+
+    <p class="body-text fade-up">
+      Kundalini refers to the <strong>latent life-energy within the human system</strong>. This energy is always present — not dormant in the theatrical sense, but unmanifest. It is not always fully active or aligned. The Siddhar understanding makes this crucial distinction: Kundalini is not a force to be unlocked or triggered. It is an energy that <em>clarifies</em> as the being clarifies.
+    </p>
+
+    <div class="triad fade-up" style="margin-top:64px">
+      <div class="triad-card">
+        <span class="triad-label">Nature</span>
+        <span class="triad-value">Latent Life-Energy</span>
+      </div>
+      <div class="triad-card">
+        <span class="triad-label">Quality</span>
+        <span class="triad-value">Always Present</span>
+      </div>
+      <div class="triad-card">
+        <span class="triad-label">Process</span>
+        <span class="triad-value">Gradual Alignment</span>
+      </div>
+    </div>
+
+    <p class="body-text fade-up" style="margin-top:48px">
+      This process involves the whole being — <strong>body, breath, mind, and awareness</strong> — moving into coherence. Not one aspect alone. Not breath without mind, nor mind without body.
+    </p>
+  </div>
+</section>
+
+<!-- ══ NADIS ══ -->
+<section class="section-gap" style="padding-top:0">
+  <div class="container">
+    <hr class="section-rule">
+    <span class="section-label fade-up">Energetic Channels</span>
+    <h2 class="section-heading fade-up">The Nadis &amp;<br><em>Their Relationship</em></h2>
+    <div class="rule" style="margin-bottom:48px"></div>
+
+    <div class="nadi-grid fade-up">
+      <div>
+        <p class="body-text">
+          Kundalini is closely connected with the three primary nadis — the subtle channels through which life-force moves in the human system. When these are in balance, energy flows more freely and awareness naturally deepens.
+        </p>
+        <p class="body-text" style="margin-top:24px">
+          This balance is not achieved by effort directed at the nadis themselves. It emerges as a consequence of right living, steady breath, and an undisturbed mind — the preconditions the Siddhars held sacred.
+        </p>
+      </div>
+      <div>
+        <ul class="nadi-list">
+          <li>Ida — the lunar channel</li>
+          <li>Pingala — the solar channel</li>
+          <li>Sushumna — the central passage</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ MISCONCEPTIONS ══ -->
+<section class="section-gap" style="padding-top:0">
+  <div class="container">
+    <hr class="section-rule">
+    <span class="section-label fade-up">Common Misconceptions</span>
+    <h2 class="section-heading fade-up">The Myth of<br><em>Sudden Awakening</em></h2>
+    <div class="rule" style="margin-bottom:48px"></div>
+
+    <p class="body-text fade-up">
+      Many believe Kundalini awakening is dramatic, intense, and instant — a cosmic event that announces itself unmistakably. The Siddhar view is profoundly different from this popular imagination.
+    </p>
+
+    <div class="sequence fade-up" style="margin:56px 0">
+      <div class="seq-item">
+        <span class="seq-num"></span>
+        <p class="seq-text">True transformation is <strong>gradual</strong> — it unfolds over seasons of disciplined living, not moments of peak experience.</p>
+      </div>
+      <div class="seq-item">
+        <span class="seq-num"></span>
+        <p class="seq-text">True transformation is <strong>stable</strong> — it does not oscillate between highs and crashes, but settles into an unwavering quality of being.</p>
+      </div>
+      <div class="seq-item">
+        <span class="seq-num"></span>
+        <p class="seq-text">True transformation is <strong>integrated</strong> — it expresses in ordinary life: in how one breathes, speaks, rests, and engages with the world.</p>
+      </div>
+    </div>
+
+    <p class="body-text fade-up">
+      The pursuit of dramatic awakening is, in the Siddhar view, itself an obstacle. The seeking mind creates turbulence precisely where stillness is required.
+    </p>
+  </div>
+</section>
+
+<!-- ══ PREPARATION ══ -->
+<section class="section-gap" style="padding-top:0">
+  <div class="container">
+    <hr class="section-rule">
+    <span class="section-label fade-up">Prerequisites</span>
+    <h2 class="section-heading fade-up">The Role of<br><em>Preparation</em></h2>
+    <div class="rule" style="margin-bottom:48px"></div>
+
+    <p class="body-text fade-up">
+      The Siddhar tradition is uncompromising on this point: without preparation, the system is not stable, and imbalance can occur. Energy is not the problem — an unprepared vessel is.
+    </p>
+
+    <div class="triad fade-up" style="margin:56px 0">
+      <div class="triad-card">
+        <span class="triad-label">Foundation</span>
+        <span class="triad-value">Disciplined Living</span>
+      </div>
+      <div class="triad-card">
+        <span class="triad-label">Body</span>
+        <span class="triad-value">Balanced Diet</span>
+      </div>
+      <div class="triad-card">
+        <span class="triad-label">Mind</span>
+        <span class="triad-value">Mental Clarity</span>
+      </div>
+    </div>
+
+    <p class="body-text fade-up">
+      When energy aligns naturally through this preparation, the signs are quiet rather than spectacular. <strong>Breath becomes steady. Mind becomes calm. Awareness deepens.</strong> There is no disturbance — only an increasing settledness that is its own testimony.
+    </p>
+  </div>
+</section>
+
+<!-- ══ DANGER ══ -->
+<section class="section-gap" style="padding-top:0">
+  <div class="container">
+    <hr class="section-rule">
+    <span class="section-label fade-up">On Forcing</span>
+    <h2 class="section-heading fade-up">The Dangers of<br><em>Forcing Energy</em></h2>
+    <div class="rule" style="margin-bottom:48px"></div>
+
+    <div class="warning-block fade-up">
+      <p class="body-text" style="margin:0">
+        Forced practices can lead to mental instability, physical discomfort, and confusion. The Siddhars avoided force <em>completely</em>. Their method was never coercion — it was cultivation. The difference is absolute. One violates the system; the other refines it.
+      </p>
+    </div>
+
+    <p class="body-text fade-up">
+      Instead of attempting to "activate" Kundalini, the Siddhar method is observation: observe the breath, observe the mind, maintain discipline. When the ground is properly prepared, <strong>alignment happens naturally</strong> — not as a destination reached but as a quality that increasingly pervades ordinary existence.
+    </p>
+
+    <div class="pull-quote fade-up">
+      <p>The Siddhars did not chase Kundalini. They created the conditions in which it could not help but arise.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ INTEGRATION ══ -->
+<section class="section-gap" style="padding-top:0">
+  <div class="container">
+    <hr class="section-rule">
+    <span class="section-label fade-up">Living the Teaching</span>
+    <h2 class="section-heading fade-up">Integration with<br><em>Daily Life</em></h2>
+    <div class="rule" style="margin-bottom:48px"></div>
+
+    <p class="body-text fade-up">
+      Kundalini is not separate from life. In the Siddhar understanding, it expresses as <strong>clarity, stability, and balanced energy</strong> in the lived moment — not as an experience reserved for formal practice. The kitchen, the conversation, the moment of rest: these are all arenas in which alignment is expressed or obscured.
+    </p>
+
+    <p class="body-text fade-up">
+      A stable environment is essential for this kind of sustained work. Places like <strong>Shree Easanamma Gurukulam</strong> provide the structure, discipline, and safety within which subtle processes can unfold without distortion. Guidance from <strong>Shree Easanamma</strong> prevents misinterpretation — for energy-related processes are subtle, and the untrained eye easily confuses noise for signal.
+    </p>
+  </div>
+</section>
+
+<!-- ══ CONCLUSION ══ -->
+<section class="conclusion">
+  <div class="container">
+    <div class="rule-short fade-up" style="margin-bottom:64px"></div>
+    <p class="conclusion-text fade-up">
+      Kundalini is not something to chase.<br>
+      It is something that <em>aligns naturally</em><br>
+      when the system becomes clear and balanced.
+    </p>
+    <div class="rule-short fade-up" style="margin-top:64px"></div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <p>Shree Easanamma Gurukulam &nbsp;·&nbsp; Siddhar Tradition &nbsp;·&nbsp; Sacred Teachings</p>
+</footer>
+
+<script>
+  // ── Intersection Observer for fade-up + heading word-lift ──
+  const fadeEls = document.querySelectorAll('.fade-up');
+  const headings = document.querySelectorAll('h2.section-heading');
+
+  // Prepare headings for word-lift
+  headings.forEach(h2 => {
+    h2.classList.add('fade-up');
+    h2.dataset.wordLift = 'true';
+  });
+
+  const allFade = document.querySelectorAll('.fade-up');
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const delay = parseFloat(el.dataset.delay || 0);
+
+        if (el.dataset.wordLift) {
+          // word-lift for heading
+          setTimeout(() => {
+            wrapWords(el);
+            el.style.opacity = '1';
+            el.style.transform = 'none';
+            requestAnimationFrame(() => {
+              el.querySelectorAll('.word-lift-wrapper').forEach((w, i) => {
+                setTimeout(() => {
+                  w.classList.add('animated');
+                  w.querySelector('span').style.animationDelay = '0ms';
+                }, i * 65);
+              });
+            });
+          }, delay * 1000);
+        } else {
+          setTimeout(() => el.classList.add('visible'), delay * 1000);
+        }
+        obs.unobserve(el);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+  // Stagger siblings
+  const sections = document.querySelectorAll('section, footer');
+  sections.forEach(sec => {
+    const children = sec.querySelectorAll('.fade-up');
+    children.forEach((child, i) => {
+      child.dataset.delay = (i * 0.12).toFixed(2);
+    });
+  });
+
+  allFade.forEach(el => obs.observe(el));
+
+  function wrapWords(el) {
+    // Walk text nodes in el, replace each word
+    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
+    const textNodes = [];
+    while (walker.nextNode()) textNodes.push(walker.currentNode);
+
+    textNodes.forEach(node => {
+      if (!node.parentNode) return;
+      const words = node.textContent.split(/(\s+)/);
+      const frag = document.createDocumentFragment();
+      words.forEach(token => {
+        if (/^\s+$/.test(token)) {
+          frag.appendChild(document.createTextNode(token));
+        } else if (token) {
+          const wrap = document.createElement('span');
+          wrap.className = 'word-lift-wrapper';
+          const inner = document.createElement('span');
+          inner.textContent = token;
+          wrap.appendChild(inner);
+          frag.appendChild(wrap);
+        }
+      });
+      node.parentNode.replaceChild(frag, node);
+    });
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Time & Space — The Siddhar View</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Cinzel:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --ink: #0a0906;
+    --ink-mid: #13100d;
+    --ink-surface: #1a1510;
+    --parchment: #e8dfc8;
+    --parchment-dim: #b8a98a;
+    --parchment-faint: #6b5d47;
+    --gold: #c9a84c;
+    --gold-dim: #7d6530;
+    --gold-faint: #3d3018;
+    --rule: rgba(201, 168, 76, 0.18);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--ink);
+    color: var(--parchment);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.75;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── NOISE GRAIN OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0.045;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-size: 160px 160px;
+  }
+
+  /* ── WORD LIFT ANIMATION ── */
+  .word-lift-container {
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: bottom;
+  }
+  .word-lift-container .word {
+    display: inline-block;
+    transform: translateY(110%);
+    opacity: 0;
+  }
+  .word-lift-container .word.in-view {
+    animation: wordLift 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  @keyframes wordLift {
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  /* ── FADE UP ── */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .fade-up.in-view { opacity: 1; transform: translateY(0); }
+
+  /* ── HORIZONTAL RULE ── */
+  .rule {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+    margin: 0 auto;
+  }
+  .rule-short {
+    width: 80px;
+    height: 1px;
+    background: var(--gold);
+    display: block;
+    margin: 0 auto;
+  }
+
+  /* ══════════════════════════════
+     NAVIGATION
+  ══════════════════════════════ */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.4rem 4rem;
+    background: linear-gradient(to bottom, rgba(10,9,6,0.95), transparent);
+    backdrop-filter: blur(2px);
+  }
+  .nav-brand {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: 'Cinzel', serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--parchment-dim);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* ══════════════════════════════
+     HERO
+  ══════════════════════════════ */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 8rem 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Radial glow behind hero */
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 40% at 50% 55%, rgba(201,168,76,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-kicker {
+    font-family: 'Cinzel', serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 2.2rem;
+    opacity: 0;
+    animation: fadeUpIn 0.9s cubic-bezier(0.22,1,0.36,1) 0.3s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.8rem, 9vw, 8rem);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    color: var(--parchment);
+    margin-bottom: 0.3rem;
+  }
+
+  /* Each word in hero title is individually animated */
+  .hero-title .word-wrap {
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: bottom;
+    margin-right: 0.25em;
+  }
+  .hero-title .word-wrap span {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(100%);
+    animation: wordLift 1s cubic-bezier(0.22,1,0.36,1) forwards;
+  }
+  .hero-title .w1 span { animation-delay: 0.5s; }
+  .hero-title .w2 span { animation-delay: 0.7s; }
+  .hero-title .w3 span { animation-delay: 0.9s; }
+  .hero-title .w4 span { animation-delay: 1.1s; }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .hero-ampersand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 6vw, 5rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--gold-dim);
+    opacity: 0;
+    animation: fadeUpIn 0.9s cubic-bezier(0.22,1,0.36,1) 1.15s forwards;
+    display: block;
+    line-height: 1;
+    margin: 0.1em 0;
+  }
+
+  .hero-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--parchment-dim);
+    max-width: 520px;
+    margin: 2.5rem auto 0;
+    opacity: 0;
+    animation: fadeUpIn 1s cubic-bezier(0.22,1,0.36,1) 1.5s forwards;
+    line-height: 1.6;
+  }
+
+  .hero-scroll-hint {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0;
+    animation: fadeUpIn 1s ease 2.2s forwards;
+  }
+  .hero-scroll-hint span {
+    font-family: 'Cinzel', serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--parchment-faint);
+  }
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--gold-dim), transparent);
+    animation: scrollPulse 2s ease-in-out infinite 2.5s;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+  }
+
+  @keyframes fadeUpIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ══════════════════════════════
+     SECTIONS SHARED
+  ══════════════════════════════ */
+  section {
+    padding: 7rem 2rem;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+  section.wide { max-width: 1100px; }
+  section.full { max-width: none; }
+
+  .section-kicker {
+    font-family: 'Cinzel', serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.38em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 2rem;
+  }
+
+  .section-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    font-weight: 300;
+    line-height: 1.12;
+    color: var(--parchment);
+    margin-bottom: 1.5rem;
+  }
+  .section-heading em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .section-body {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.1rem, 1.8vw, 1.3rem);
+    font-weight: 300;
+    color: var(--parchment-dim);
+    line-height: 1.85;
+    margin-bottom: 1.5rem;
+  }
+
+  /* ══════════════════════════════
+     INTRO / RETHINKING
+  ══════════════════════════════ */
+  .intro-section {
+    padding-top: 6rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .large-pull {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--parchment);
+    line-height: 1.4;
+    border-left: 2px solid var(--gold-dim);
+    padding-left: 2rem;
+    margin: 3rem 0;
+  }
+
+  /* ══════════════════════════════
+     DUALITY SPLIT PANEL
+  ══════════════════════════════ */
+  .duality-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border: 1px solid var(--rule);
+    margin: 3rem 0;
+  }
+  .duality-panel {
+    padding: 3.5rem 2.5rem;
+    position: relative;
+  }
+  .duality-panel:first-child {
+    border-right: 1px solid var(--rule);
+  }
+  .duality-panel-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.58rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    display: block;
+  }
+  .duality-panel h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.9rem;
+    font-weight: 300;
+    color: var(--parchment);
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+  .duality-panel p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+    font-weight: 300;
+    color: var(--parchment-dim);
+    line-height: 1.8;
+  }
+
+  /* ══════════════════════════════
+     CONCEPT CARDS
+  ══════════════════════════════ */
+  .concepts-section {
+    background: var(--ink-mid);
+    max-width: none;
+    padding: 6rem 2rem;
+  }
+  .concepts-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .concepts-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px;
+    background: var(--rule);
+    margin-top: 4rem;
+  }
+  .concept-card {
+    background: var(--ink-mid);
+    padding: 2.8rem 2rem;
+  }
+  .concept-number {
+    font-family: 'Cinzel', serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.3em;
+    color: var(--gold-dim);
+    display: block;
+    margin-bottom: 1.8rem;
+  }
+  .concept-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.55rem;
+    font-weight: 400;
+    color: var(--parchment);
+    margin-bottom: 0.8rem;
+    line-height: 1.25;
+  }
+  .concept-card p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-weight: 300;
+    color: var(--parchment-faint);
+    line-height: 1.75;
+  }
+
+  /* ══════════════════════════════
+     QUOTE BLOCK
+  ══════════════════════════════ */
+  .quote-section {
+    text-align: center;
+    padding: 8rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .quote-section::before {
+    content: '❧';
+    font-size: 3rem;
+    color: var(--gold-faint);
+    display: block;
+    margin-bottom: 2rem;
+    line-height: 1;
+  }
+  .quote-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--parchment);
+    line-height: 1.45;
+    max-width: 760px;
+    margin: 0 auto 2.5rem;
+  }
+  .quote-attr {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+  }
+
+  /* ══════════════════════════════
+     PATH / PRACTICAL SECTION
+  ══════════════════════════════ */
+  .path-list {
+    list-style: none;
+    margin: 2.5rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .path-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    padding: 1.4rem 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .path-list li:first-child { border-top: 1px solid var(--rule); }
+  .path-num {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    min-width: 32px;
+    padding-top: 0.3rem;
+  }
+  .path-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-weight: 300;
+    color: var(--parchment-dim);
+    line-height: 1.65;
+  }
+  .path-text strong {
+    color: var(--parchment);
+    font-weight: 500;
+  }
+
+  /* ══════════════════════════════
+     GURUKULAM CTA
+  ══════════════════════════════ */
+  .cta-section {
+    background: var(--ink-surface);
+    border: 1px solid var(--rule);
+    max-width: 860px;
+    margin: 0 auto 6rem;
+    padding: 5rem 4rem;
+    text-align: center;
+    position: relative;
+  }
+  .cta-section::before,
+  .cta-section::after {
+    content: '';
+    position: absolute;
+    left: 2.5rem; right: 2.5rem;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+  }
+  .cta-section::before { top: 1.5rem; }
+  .cta-section::after { bottom: 1.5rem; }
+
+  .cta-eyebrow {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    display: block;
+  }
+  .cta-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 300;
+    color: var(--parchment);
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+  }
+  .cta-body {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--parchment-dim);
+    max-width: 480px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.7;
+  }
+  .cta-btn {
+    display: inline-block;
+    font-family: 'Cinzel', serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ink);
+    background: var(--gold);
+    padding: 1rem 2.5rem;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: background 0.3s, color 0.3s;
+  }
+  .cta-btn:hover {
+    background: var(--parchment);
+    color: var(--ink);
+  }
+  .cta-btn-ghost {
+    display: inline-block;
+    font-family: 'Cinzel', serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--parchment-dim);
+    background: transparent;
+    padding: 1rem 2.5rem;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid var(--rule);
+    margin-left: 1rem;
+    transition: border-color 0.3s, color 0.3s;
+  }
+  .cta-btn-ghost:hover {
+    color: var(--gold);
+    border-color: var(--gold-dim);
+  }
+
+  /* ══════════════════════════════
+     FOOTER
+  ══════════════════════════════ */
+  footer {
+    border-top: 1px solid var(--rule);
+    padding: 3rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-brand {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+  }
+  .footer-copy {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem;
+    color: var(--parchment-faint);
+  }
+
+  /* ══════════════════════════════
+     RESPONSIVE
+  ══════════════════════════════ */
+  @media (max-width: 768px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links { display: none; }
+    .duality-grid { grid-template-columns: 1fr; }
+    .duality-panel:first-child { border-right: none; border-bottom: 1px solid var(--rule); }
+    .concepts-grid { grid-template-columns: 1fr; }
+    .cta-section { padding: 3.5rem 1.5rem; }
+    .cta-btn-ghost { margin-left: 0; margin-top: 0.8rem; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2.5rem 1.5rem; }
+    section { padding: 5rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── NAVIGATION ─── -->
+<nav>
+  <a class="nav-brand" href="#">Shree Easanamma Gurukulam</a>
+  <ul class="nav-links">
+    <li><a href="#time">Time</a></li>
+    <li><a href="#space">Space</a></li>
+    <li><a href="#path">The Path</a></li>
+    <li><a href="#gurukulam">Gurukulam</a></li>
+  </ul>
+</nav>
+
+<!-- ─── HERO ─── -->
+<div class="hero">
+  <span class="hero-kicker">The Siddhar View</span>
+
+  <h1 class="hero-title" aria-label="Time and Space">
+    <span class="word-wrap w1"><span>Time</span></span>
+    <span class="hero-ampersand">&amp;</span>
+    <span class="word-wrap w2"><span>Space</span></span>
+  </h1>
+
+  <p class="hero-subtitle">
+    What the ancient Siddhars perceived about the nature of time and space — and how their wisdom reshapes our understanding of reality.
+  </p>
+
+  <div class="hero-scroll-hint">
+    <span>Descend</span>
+    <div class="scroll-line"></div>
+  </div>
+</div>
+
+<div class="rule"></div>
+
+<!-- ─── INTRO / RETHINKING ─── -->
+<section class="intro-section" id="time">
+  <span class="section-kicker fade-up">Introduction</span>
+  <h2 class="section-heading" data-word-lift>
+    Rethinking <em>Time</em>
+  </h2>
+  <div class="large-pull fade-up">
+    In modern understanding, time is linear and space is physical. The Siddhars explored these differently.
+  </div>
+  <p class="section-body fade-up">
+    We inherit a view of time as a river — moving in one direction, carrying us toward an inevitable end. Yet the Siddhars, those wandering mystics of ancient Tamil Nadu, questioned the very architecture of this assumption. For them, time was not a container. It was a creation — a movement of the mind.
+  </p>
+  <p class="section-body fade-up">
+    Without change, time is not experienced. Without a mind to measure, there is no past or future — only the vast, unbroken present. This was not philosophy alone. It was a direct perception they cultivated through disciplined awareness.
+  </p>
+</section>
+
+<!-- ─── DUALITY PANEL ─── -->
+<section class="wide" style="padding-top: 0;">
+  <div class="duality-grid fade-up">
+    <div class="duality-panel">
+      <span class="duality-panel-label">The Common View</span>
+      <h3>Psychological Time</h3>
+      <p>The mind constructs time through memory of the past and projection into the future. This creates anxiety, expectation, and the persistent ache of living anywhere but now.</p>
+    </div>
+    <div class="duality-panel">
+      <span class="duality-panel-label">The Siddhar View</span>
+      <h3>Direct Perception</h3>
+      <p>The Siddhars emphasized living in direct perception of the present moment. When the mind grows still, time loses its grip — its significance dissolves into awareness itself.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── QUOTE ─── -->
+<section class="quote-section full">
+  <blockquote>
+    <p class="quote-text fade-up">
+      "When the mind is still, time loses significance. Awareness becomes the only reality."
+    </p>
+    <footer class="quote-attr fade-up">— Siddhar Wisdom</footer>
+  </blockquote>
+</section>
+
+<div class="rule"></div>
+
+<!-- ─── SPACE SECTION ─── -->
+<section id="space">
+  <span class="section-kicker fade-up">On Space</span>
+  <h2 class="section-heading" data-word-lift>
+    Space Is Not <em>Emptiness</em>
+  </h2>
+  <p class="section-body fade-up">
+    What we call empty space, the Siddhars understood as the field in which everything exists — the container of all forms, all experience, all becoming. Space is not absence. It is the condition for presence.
+  </p>
+  <p class="section-body fade-up">
+    Just as there is outer space stretching beyond measure, there is an inner space — the space of awareness, of perception, of consciousness itself. This inner space cannot be filled or emptied. It is not limited. It simply is.
+  </p>
+
+  <div class="large-pull fade-up">
+    Awareness functions like space — it contains experience without being diminished by it.
+  </div>
+
+  <p class="section-body fade-up">
+    The relationship between time and mind becomes visible here. When the mind is turbulent, time feels compressed or endless. When the mind settles into the stillness of inner space, time loses its tyranny. The Siddhars did not merely theorise about this — they demonstrated it through their lives and their transmission.
+  </p>
+</section>
+
+<!-- ─── CONCEPTS GRID ─── -->
+<section class="concepts-section full" style="padding: 6rem 2rem;">
+  <div class="concepts-inner">
+    <span class="section-kicker fade-up" style="text-align:center; display:block;">Core Insights</span>
+    <h2 class="section-heading fade-up" style="text-align:center;" data-word-lift>Three Understandings</h2>
+    <div class="concepts-grid">
+      <div class="concept-card fade-up">
+        <span class="concept-number">I</span>
+        <h3>Time is a Measure of Change</h3>
+        <p>Without change, there is no time. The Siddhars perceived that what we call time is not an external force — it is the mind registering transformation. Still the mind, and time stills.</p>
+      </div>
+      <div class="concept-card fade-up" style="transition-delay:0.1s">
+        <span class="concept-number">II</span>
+        <h3>Space Contains Without Limiting</h3>
+        <p>Outer and inner space share one quality: neither is diminished by what they hold. Awareness, understood as inner space, receives all experience without being disturbed by it.</p>
+      </div>
+      <div class="concept-card fade-up" style="transition-delay:0.2s">
+        <span class="concept-number">III</span>
+        <h3>Freedom from Psychological Time</h3>
+        <p>Liberation arises not through suppression of memory or future-thinking, but through recognition — seeing that past and future are constructions, and the present is always already here.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- ─── PATH / PRACTICAL ─── -->
+<section id="path">
+  <span class="section-kicker fade-up">The Seeker's Path</span>
+  <h2 class="section-heading" data-word-lift>
+    Observation as <em>Practice</em>
+  </h2>
+  <p class="section-body fade-up">
+    The Siddhars were not content with doctrine. They observed — carefully, relentlessly — how time was being experienced in each moment, and how thought creates the very substance of time.
+  </p>
+
+  <ul class="path-list">
+    <li class="fade-up">
+      <span class="path-num">01</span>
+      <span class="path-text"><strong>Observe how time is experienced.</strong> Notice when hours collapse into moments and moments stretch into hours. What conditions create each?</span>
+    </li>
+    <li class="fade-up">
+      <span class="path-num">02</span>
+      <span class="path-text"><strong>Observe how thoughts create time.</strong> Memory is the past made present. Anticipation is the future made present. Both are movements of thought.</span>
+    </li>
+    <li class="fade-up">
+      <span class="path-num">03</span>
+      <span class="path-text"><strong>Rest in direct perception.</strong> Before the mind names and categorises, there is a bare awareness. This is the doorway the Siddhars pointed toward.</span>
+    </li>
+    <li class="fade-up">
+      <span class="path-num">04</span>
+      <span class="path-text"><strong>Integrate with life.</strong> Understanding time and space is not an abstract pursuit — it leads to clarity, presence, and stability in every dimension of living.</span>
+    </li>
+  </ul>
+</section>
+
+<!-- ─── CTA ─── -->
+<section id="gurukulam" style="padding: 2rem 2rem 6rem; max-width: none;">
+  <div class="cta-section fade-up">
+    <span class="cta-eyebrow">Shree Easanamma Gurukulam</span>
+    <h2 class="cta-title">A Disciplined Environment for<br>Present Awareness</h2>
+    <p class="cta-body">
+      Under the guidance of Shree Easanamma, the Gurukulam offers seekers a space where these understandings are not merely studied — but lived.
+    </p>
+    <a href="#" class="cta-btn">Enter the Gurukulam</a>
+    <a href="#" class="cta-btn-ghost">Learn More</a>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <span class="footer-brand">Shree Easanamma Gurukulam</span>
+  <span class="footer-copy">Time is experienced through perception. Awareness is the only reality.</span>
+</footer>
+
+<script>
+  // ── INTERSECTION OBSERVER for .fade-up ──
+  const fadeEls = document.querySelectorAll('.fade-up');
+  const fadeObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        fadeObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  fadeEls.forEach(el => fadeObserver.observe(el));
+
+  // ── WORD LIFT for section headings ──
+  function wrapWordsForLift(el) {
+    const html = el.innerHTML;
+    // Handle HTML with em tags — split on spaces but preserve em tags
+    const parts = el.innerHTML.split(/(\s+)/);
+    let result = '';
+    let wordIndex = 0;
+    parts.forEach(part => {
+      if (/^\s+$/.test(part)) {
+        result += ' ';
+      } else if (part.length > 0) {
+        const delay = 0.1 + wordIndex * 0.12;
+        result += `<span class="word-lift-container"><span class="word" style="animation-delay:${delay}s">${part}</span></span>`;
+        wordIndex++;
+      }
+    });
+    el.innerHTML = result;
+  }
+
+  const headings = document.querySelectorAll('[data-word-lift]');
+  const headingObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.querySelectorAll('.word').forEach(w => w.classList.add('in-view'));
+        headingObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  headings.forEach(h => {
+    wrapWordsForLift(h);
+    headingObserver.observe(h);
+  });
+
+  // ── Stagger the fade-up children within concept cards ──
+  document.querySelectorAll('.concept-card.fade-up').forEach((card, i) => {
+    card.style.transitionDelay = `${i * 0.12}s`;
+  });
+</script>
+
+</body>
+</html>

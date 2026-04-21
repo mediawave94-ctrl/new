@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Food as Awareness — Siddhar View of Diet</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --leaf:    #2D5016;
+  --leaf2:   #3D6B20;
+  --moss:    #5A7A35;
+  --moss-lt: #C4D9A8;
+  --moss-pale:#EAF2DC;
+  --clay:    #8B4513;
+  --clay2:   #A0522D;
+  --clay-lt: #F2DDD0;
+  --turmeric:#C8930A;
+  --turm-lt: #FDF0C8;
+  --cream:   #FAFAF5;
+  --cream2:  #F2F0E8;
+  --cream3:  #E5E1D5;
+  --ink:     #1A1A14;
+  --muted:   #5A5848;
+  --hint:    #8A8470;
+  --white:   #FFFFFF;
+}
+
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter',sans-serif;
+  font-weight:300;
+  background:var(--cream);
+  color:var(--ink);
+  overflow-x:hidden;
+}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:1.1rem 3.5rem;
+  display:flex;justify-content:space-between;align-items:center;
+  background:rgba(250,250,245,0.95);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--cream3);
+}
+.nav-logo{
+  font-family:'Lora',serif;font-size:0.95rem;
+  color:var(--leaf);text-decoration:none;letter-spacing:0.02em;
+}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{
+  font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--muted);text-decoration:none;transition:color 0.25s;
+}
+.nav-links a:hover{color:var(--leaf)}
+.nav-pill{
+  padding:0.55rem 1.4rem;background:var(--leaf);color:var(--cream);
+  font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;
+  text-decoration:none;border-radius:100px;transition:background 0.3s;
+}
+.nav-pill:hover{background:var(--leaf2)}
+
+/* ═══ HERO — full organic feel ═══ */
+.hero{
+  min-height:100vh;
+  display:grid;grid-template-columns:55% 45%;
+  padding-top:64px;
+  background:var(--leaf);
+  position:relative;overflow:hidden;
+}
+
+/* organic blob shapes */
+.hero::before{
+  content:'';position:absolute;
+  width:700px;height:700px;border-radius:60% 40% 55% 45%/50% 60% 40% 50%;
+  background:rgba(255,255,255,0.03);
+  top:-150px;right:25%;pointer-events:none;
+  animation:blobMorph 12s ease-in-out infinite;
+}
+@keyframes blobMorph{
+  0%,100%{border-radius:60% 40% 55% 45%/50% 60% 40% 50%}
+  50%{border-radius:40% 60% 45% 55%/60% 40% 50% 50%}
+}
+
+.hero-left{
+  padding:5rem 4rem;
+  display:flex;flex-direction:column;justify-content:center;
+  position:relative;z-index:2;
+}
+.hero-kicker{
+  display:inline-flex;align-items:center;gap:0.6rem;
+  font-size:0.62rem;letter-spacing:0.35em;text-transform:uppercase;
+  color:var(--moss-lt);margin-bottom:2.5rem;
+}
+.kicker-line{width:24px;height:1px;background:var(--moss-lt);display:block}
+.hero-h1{
+  font-family:'Lora',serif;
+  font-size:clamp(2.8rem,5.5vw,5.5rem);
+  font-weight:400;line-height:1.1;
+  color:var(--cream);margin-bottom:2rem;
+}
+.hero-h1 em{font-style:italic;color:var(--moss-lt)}
+.hero-body{
+  font-size:1rem;line-height:1.9;
+  color:rgba(242,240,232,0.6);
+  max-width:42ch;margin-bottom:3rem;
+}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap}
+.btn-cream{
+  padding:0.9rem 2.2rem;background:var(--cream);color:var(--leaf);
+  font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;
+  text-decoration:none;border-radius:2px;font-weight:400;transition:all 0.3s;
+}
+.btn-cream:hover{background:var(--moss-pale)}
+.btn-outline-cream{
+  padding:0.9rem 2.2rem;border:1px solid rgba(242,240,232,0.25);
+  color:rgba(242,240,232,0.75);
+  font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;
+  text-decoration:none;border-radius:2px;transition:all 0.3s;
+}
+.btn-outline-cream:hover{border-color:var(--cream);color:var(--cream)}
+
+.hero-right{
+  display:flex;align-items:center;justify-content:center;
+  position:relative;z-index:2;padding:3rem;
+}
+.bowl-visual{
+  width:360px;height:360px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.08);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+  animation:bowlFloat 7s ease-in-out infinite;
+}
+@keyframes bowlFloat{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-14px)}
+}
+.bowl-visual::before{
+  content:'';position:absolute;inset:24px;border-radius:50%;
+  border:1px dashed rgba(255,255,255,0.06);
+}
+.bowl-center{text-align:center}
+.bowl-emoji{font-size:5.5rem;display:block;line-height:1;margin-bottom:0.5rem}
+.bowl-caption{
+  font-family:'Lora',serif;font-style:italic;
+  font-size:0.85rem;color:rgba(196,217,168,0.7);letter-spacing:0.08em;
+}
+/* orbiting tags */
+.orbit{position:absolute;width:100%;height:100%}
+.orbit-tag{
+  position:absolute;
+  font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;
+  color:rgba(196,217,168,0.5);white-space:nowrap;
+}
+.orbit-tag:nth-child(1){top:8%;left:50%;transform:translateX(-50%)}
+.orbit-tag:nth-child(2){right:2%;top:50%;transform:translateY(-50%)}
+.orbit-tag:nth-child(3){bottom:8%;left:50%;transform:translateX(-50%)}
+.orbit-tag:nth-child(4){left:2%;top:50%;transform:translateY(-50%)}
+
+/* ═══ INTRO STRIP ═══ */
+.intro-strip{
+  background:var(--turmeric);
+  padding:2rem 3.5rem;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:2rem;flex-wrap:wrap;
+}
+.strip-item{text-align:center;flex:1;min-width:140px}
+.strip-num{
+  font-family:'Lora',serif;font-size:2.2rem;font-weight:400;
+  color:var(--white);line-height:1;margin-bottom:0.3rem;
+}
+.strip-label{
+  font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:rgba(255,255,255,0.7);
+}
+.strip-divider{width:1px;height:40px;background:rgba(255,255,255,0.2);flex-shrink:0}
+
+/* ═══ BEYOND NUTRITION ═══ */
+.beyond{
+  padding:7rem 3.5rem;
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:6rem;align-items:center;
+  max-width:1200px;margin:0 auto;
+}
+.tag{
+  display:inline-block;font-size:0.6rem;letter-spacing:0.28em;text-transform:uppercase;
+  padding:0.3rem 0.85rem;margin-bottom:1.5rem;
+}
+.tag.leaf{background:var(--moss-pale);color:var(--leaf)}
+.tag.clay{background:var(--clay-lt);color:var(--clay)}
+.tag.turm{background:var(--turm-lt);color:#7A5A06}
+.sec-h2{
+  font-family:'Lora',serif;font-size:clamp(1.8rem,3vw,2.8rem);
+  font-weight:400;line-height:1.25;color:var(--ink);margin-bottom:1.2rem;
+}
+.sec-h2 em{font-style:italic;color:var(--leaf)}
+.rule{width:28px;height:3px;background:var(--moss);margin:1.4rem 0}
+.body-p{font-size:0.93rem;line-height:1.9;color:var(--muted)}
+
+/* Influence matrix */
+.influence-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:1px;
+  background:var(--cream3);
+}
+.inf-cell{
+  background:var(--cream2);padding:2rem 1.8rem;
+  position:relative;overflow:hidden;
+  transition:background 0.3s;
+}
+.inf-cell:hover{background:var(--moss-pale)}
+.inf-icon{font-size:1.8rem;margin-bottom:0.9rem;display:block}
+.inf-title{font-family:'Lora',serif;font-size:1rem;font-style:italic;color:var(--leaf2);margin-bottom:0.5rem}
+.inf-text{font-size:0.8rem;line-height:1.75;color:var(--muted)}
+
+/* ═══ PRINCIPLES SECTION ═══ */
+.principles-section{
+  background:var(--cream2);
+  padding:7rem 3.5rem;
+}
+.prin-header{text-align:center;max-width:580px;margin:0 auto 5rem}
+.prin-header .rule{margin:1.4rem auto}
+
+.principles-list{
+  max-width:1100px;margin:0 auto;
+  display:grid;grid-template-columns:repeat(2,1fr);gap:2px;
+  background:var(--cream3);
+}
+.prin-card{
+  background:var(--cream);
+  padding:3rem 2.5rem;
+  display:grid;grid-template-columns:60px 1fr;gap:1.5rem;align-items:start;
+  transition:background 0.3s;
+}
+.prin-card:hover{background:var(--white)}
+.prin-num{
+  font-family:'Lora',serif;font-size:2.8rem;font-weight:400;
+  color:var(--cream3);line-height:1;
+}
+.prin-title{
+  font-family:'Lora',serif;font-size:1.1rem;font-style:italic;
+  color:var(--leaf);margin-bottom:0.6rem;
+}
+.prin-text{font-size:0.83rem;line-height:1.8;color:var(--muted)}
+
+/* ═══ FOOD MIND SPECTRUM ═══ */
+.spectrum-section{
+  background:var(--leaf);
+  padding:7rem 3.5rem;
+  position:relative;overflow:hidden;
+}
+.spectrum-section::after{
+  content:'';position:absolute;
+  bottom:-80px;right:-80px;
+  width:350px;height:350px;border-radius:50%;
+  background:rgba(255,255,255,0.03);
+}
+.spec-header{text-align:center;margin-bottom:5rem}
+.spec-header .sec-h2{color:var(--cream)}
+.spec-header .body-p{color:rgba(242,240,232,0.55);max-width:50ch;margin:1rem auto 0}
+.spec-header .rule{background:var(--moss-lt);margin:1.4rem auto}
+
+.spectrum-bar{
+  max-width:900px;margin:0 auto 3rem;
+  background:linear-gradient(to right, var(--moss-pale), var(--moss), var(--leaf2), var(--leaf));
+  border-radius:100px;height:8px;position:relative;
+}
+.spec-poles{display:flex;justify-content:space-between;max-width:900px;margin:0.8rem auto 3.5rem}
+.spec-pole{font-size:0.75rem;color:rgba(242,240,232,0.5);letter-spacing:0.1em}
+
+.spectrum-cards{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:2px;max-width:900px;margin:0 auto;
+  background:rgba(255,255,255,0.06);
+}
+.spec-card{
+  padding:2.5rem 2rem;background:rgba(45,80,22,0.6);
+}
+.spec-card.light-food{background:rgba(90,122,53,0.5)}
+.spec-card-tag{
+  display:inline-block;
+  font-size:0.58rem;letter-spacing:0.25em;text-transform:uppercase;
+  padding:0.25rem 0.7rem;margin-bottom:1rem;border-radius:100px;
+}
+.light-food .spec-card-tag{background:var(--moss-lt);color:var(--leaf)}
+.heavy-food .spec-card-tag{background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.6)}
+.spec-card-title{
+  font-family:'Lora',serif;font-size:1.2rem;color:var(--cream);
+  margin-bottom:0.8rem;font-style:italic;
+}
+.spec-card-effects{list-style:none}
+.spec-card-effects li{
+  font-size:0.82rem;color:rgba(242,240,232,0.6);
+  padding:0.5rem 0;border-bottom:1px solid rgba(255,255,255,0.06);
+  display:flex;align-items:center;gap:0.7rem;
+}
+.spec-card-effects li::before{
+  content:'';width:4px;height:4px;border-radius:50%;
+  background:var(--moss-lt);flex-shrink:0;
+}
+
+/* ═══ AWARENESS WHILE EATING ═══ */
+.awareness-section{
+  padding:7rem 3.5rem;
+  background:var(--cream);
+  display:grid;grid-template-columns:1fr 1.4fr;gap:6rem;align-items:center;
+  max-width:1200px;margin:0 auto;
+}
+.aw-steps{display:flex;flex-direction:column;gap:0;margin-top:2rem}
+.aw-step{
+  display:flex;gap:1.5rem;align-items:flex-start;
+  padding:1.8rem 0;
+  border-bottom:1px solid var(--cream3);
+}
+.aw-step:first-child{border-top:1px solid var(--cream3)}
+.aw-step-icon{
+  width:42px;height:42px;border-radius:50%;
+  background:var(--moss-pale);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;flex-shrink:0;margin-top:0.1rem;
+}
+.aw-step-title{font-size:0.92rem;color:var(--ink);margin-bottom:0.35rem;font-weight:400}
+.aw-step-text{font-size:0.82rem;line-height:1.75;color:var(--muted)}
+
+/* Breath + Food visual panel */
+.breath-panel{
+  background:var(--clay-lt);
+  padding:3rem;position:relative;overflow:hidden;
+}
+.breath-panel::before{
+  content:'';position:absolute;
+  top:-40px;right:-40px;width:180px;height:180px;
+  border-radius:50%;background:rgba(139,69,19,0.06);
+}
+.bp-tag{margin-bottom:1.5rem}
+.bp-h3{
+  font-family:'Lora',serif;font-size:1.5rem;font-style:italic;
+  color:var(--clay);margin-bottom:1rem;
+}
+.bp-text{font-size:0.88rem;line-height:1.85;color:var(--muted);margin-bottom:2rem}
+.breath-diagram{display:flex;flex-direction:column;gap:1px;background:rgba(139,69,19,0.12)}
+.bd-row{
+  background:rgba(255,255,255,0.7);
+  padding:1rem 1.4rem;
+  display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:0.5rem;
+}
+.bd-left{
+  font-family:'Lora',serif;font-style:italic;
+  font-size:0.88rem;color:var(--clay2);
+}
+.bd-arrow{font-size:0.85rem;color:var(--cream3)}
+.bd-right{font-size:0.78rem;color:var(--muted)}
+
+/* ═══ GURUKULAM ═══ */
+.gurukulam{
+  background:var(--cream2);
+  padding:7rem 3.5rem;
+  display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;
+}
+.guru-left{}
+.guru-box{
+  background:var(--leaf);
+  padding:4rem 3rem;
+  position:relative;overflow:hidden;
+}
+.guru-box::after{
+  content:'';position:absolute;bottom:-60px;left:-60px;
+  width:220px;height:220px;border-radius:50%;
+  background:rgba(255,255,255,0.04);
+}
+.guru-label{
+  font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;
+  color:var(--moss-lt);margin-bottom:1.5rem;
+  display:flex;align-items:center;gap:0.8rem;
+}
+.guru-label::before{content:'';width:20px;height:1px;background:var(--moss-lt);display:block}
+.guru-name{
+  font-family:'Lora',serif;font-size:clamp(1.6rem,3vw,2.5rem);
+  font-weight:400;color:var(--cream);margin-bottom:0.5rem;
+}
+.guru-guide{
+  font-family:'Lora',serif;font-style:italic;font-size:1rem;
+  color:rgba(196,217,168,0.7);margin-bottom:2.5rem;
+}
+.guru-features{display:flex;flex-direction:column;gap:1px;background:rgba(255,255,255,0.06)}
+.gf-item{
+  background:rgba(45,80,22,0.6);padding:1.2rem 1.5rem;
+  display:flex;gap:1rem;align-items:flex-start;
+}
+.gf-dot{
+  width:6px;height:6px;border-radius:50%;background:var(--moss-lt);
+  flex-shrink:0;margin-top:0.45rem;
+}
+.gf-text{font-size:0.83rem;color:rgba(242,240,232,0.65);line-height:1.6}
+
+.btn-leaf{
+  display:inline-block;margin-top:2.5rem;
+  padding:0.9rem 2rem;background:rgba(255,255,255,0.12);
+  color:var(--cream);text-decoration:none;
+  font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;
+  border:1px solid rgba(255,255,255,0.15);transition:all 0.3s;
+}
+.btn-leaf:hover{background:rgba(255,255,255,0.2)}
+
+/* ═══ FINAL CTA ═══ */
+.final{
+  background:var(--turmeric);
+  padding:7rem 3.5rem;
+  text-align:center;
+  position:relative;overflow:hidden;
+}
+.final::before{
+  content:'';position:absolute;
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,255,255,0.08),transparent 65%);
+}
+.final-label{
+  font-size:0.62rem;letter-spacing:0.35em;text-transform:uppercase;
+  color:rgba(255,255,255,0.65);margin-bottom:2rem;position:relative;
+}
+.final-h2{
+  font-family:'Lora',serif;font-size:clamp(2rem,4vw,3.8rem);
+  font-weight:400;color:var(--white);line-height:1.2;
+  margin-bottom:1.5rem;position:relative;
+}
+.final-h2 em{font-style:italic}
+.final-sub{
+  font-size:0.93rem;color:rgba(255,255,255,0.65);
+  max-width:44ch;margin:0 auto 3rem;line-height:1.9;position:relative;
+}
+.final-btns{display:flex;gap:1rem;justify-content:center;position:relative}
+
+/* ═══ FOOTER ═══ */
+footer{
+  background:var(--leaf);
+  padding:2.5rem 3.5rem;
+  display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:1rem;
+}
+.foot-brand{font-family:'Lora',serif;font-size:0.9rem;color:var(--moss-lt)}
+.foot-links{display:flex;gap:2rem}
+.foot-links a{
+  font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;
+  color:rgba(196,217,168,0.5);text-decoration:none;transition:color 0.25s;
+}
+.foot-links a:hover{color:var(--moss-lt)}
+.foot-copy{font-size:0.62rem;color:rgba(196,217,168,0.35)}
+
+/* ═══ QUOTE BAND ═══ */
+.quote-band{
+  background:var(--clay);padding:5rem 3.5rem;text-align:center;
+}
+.qb-text{
+  font-family:'Lora',serif;font-size:clamp(1.3rem,3vw,2.4rem);
+  font-style:italic;color:var(--cream);
+  max-width:700px;margin:0 auto 1rem;line-height:1.55;
+}
+.qb-attr{font-size:0.62rem;letter-spacing:0.3em;text-transform:uppercase;color:rgba(250,250,245,0.45)}
+
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr}
+  .hero-right{min-height:50vw}
+  .beyond{grid-template-columns:1fr;gap:3rem}
+  .principles-list{grid-template-columns:1fr}
+  .spectrum-cards{grid-template-columns:1fr}
+  .awareness-section{grid-template-columns:1fr;gap:3rem;padding:5rem 1.5rem}
+  .gurukulam{grid-template-columns:1fr;gap:3rem}
+  nav{padding:1rem 1.5rem}
+  .nav-links{display:none}
+  footer{flex-direction:column;text-align:center}
+  .intro-strip{justify-content:center}
+  .strip-divider{display:none}
+}
+
+/* entrance animations */
+@keyframes riseIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.hero-left>*{animation:riseIn 0.9s ease both}
+.hero-kicker{animation-delay:.1s}
+.hero-h1{animation-delay:.25s}
+.hero-body{animation-delay:.4s}
+.hero-btns{animation-delay:.55s}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Shree Easanamma Gurukulam</a>
+  <ul class="nav-links">
+    <li><a href="#principles">Principles</a></li>
+    <li><a href="#mind">Food & Mind</a></li>
+    <li><a href="#awareness">Eating with Awareness</a></li>
+    <li><a href="#gurukulam">Gurukulam</a></li>
+  </ul>
+  <a href="#begin" class="nav-pill">Begin Inquiry</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <p class="hero-kicker"><span class="kicker-line"></span>Siddhar Tradition — Food & Diet</p>
+    <h1 class="hero-h1">Food is a<br>Continuous<br><em>Influence</em></h1>
+    <p class="hero-body">
+      In the Siddhar tradition, food is not merely fuel or pleasure. It is a living influence on the body, the breath, and the clarity of awareness — understood not through nutrition labels, but through direct observation.
+    </p>
+    <div class="hero-btns">
+      <a href="#principles" class="btn-cream">Explore the View</a>
+      <a href="#gurukulam" class="btn-outline-cream">The Gurukulam</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="bowl-visual">
+      <div class="orbit">
+        <span class="orbit-tag">Body</span>
+        <span class="orbit-tag">Mind</span>
+        <span class="orbit-tag">Breath</span>
+        <span class="orbit-tag">Awareness</span>
+      </div>
+      <div class="bowl-center">
+        <span class="bowl-emoji">🌿</span>
+        <div class="bowl-caption">food as practice</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STAT STRIP -->
+<div class="intro-strip">
+  <div class="strip-item">
+    <div class="strip-num">3</div>
+    <div class="strip-label">Levels of Influence</div>
+  </div>
+  <div class="strip-divider"></div>
+  <div class="strip-item">
+    <div class="strip-num">5</div>
+    <div class="strip-label">Core Principles</div>
+  </div>
+  <div class="strip-divider"></div>
+  <div class="strip-item">
+    <div class="strip-num">1</div>
+    <div class="strip-label">Central Practice</div>
+  </div>
+  <div class="strip-divider"></div>
+  <div class="strip-item">
+    <div class="strip-num">∞</div>
+    <div class="strip-label">Moments to Observe</div>
+  </div>
+</div>
+
+<!-- BEYOND NUTRITION -->
+<section style="padding:7rem 0;background:var(--cream)">
+<div class="beyond">
+  <div>
+    <span class="tag leaf">Beyond Nutrition</span>
+    <h2 class="sec-h2">Food Seen at a<br><em>Deeper Level</em></h2>
+    <div class="rule"></div>
+    <p class="body-p">
+      Modern life reduces food to macronutrients and calories. The Siddhar tradition observed food's effects on the body, the breath, and the mind — three interlocking fields that cannot be separated.
+    </p>
+    <br>
+    <p class="body-p">
+      This is not a rejection of nutritional science — it is an expansion of it. Food influences energy levels, emotional states, and mental clarity in ways that calorie-counting cannot capture.
+    </p>
+  </div>
+  <div class="influence-grid">
+    <div class="inf-cell">
+      <span class="inf-icon">🫁</span>
+      <div class="inf-title">The Body</div>
+      <p class="inf-text">Digestion, energy, toxicity, and physical stability all respond directly to what is eaten and how.</p>
+    </div>
+    <div class="inf-cell">
+      <span class="inf-icon">🌬️</span>
+      <div class="inf-title">The Breath</div>
+      <p class="inf-text">Heavy food slows breath and increases lethargy. Light food supports clear, steady breathing patterns.</p>
+    </div>
+    <div class="inf-cell">
+      <span class="inf-icon">🧠</span>
+      <div class="inf-title">The Mind</div>
+      <p class="inf-text">Dullness or clarity — the quality of the mind is shaped, in part, by the quality of what was consumed.</p>
+    </div>
+    <div class="inf-cell">
+      <span class="inf-icon">👁️</span>
+      <div class="inf-title">Awareness</div>
+      <p class="inf-text">All three converge in awareness. A settled body, clear breath, and calm mind support deeper perception.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- PRINCIPLES -->
+<section class="principles-section" id="principles">
+  <div class="prin-header">
+    <span class="tag leaf">Five Guiding Principles</span>
+    <h2 class="sec-h2" style="margin-top:1rem;">How Siddhars<br><em>Understood</em> Diet</h2>
+    <div class="rule"></div>
+    <p class="body-p">Not rules to follow — observations to explore. Each principle is a lens for understanding your own relationship with food.</p>
+  </div>
+  <div class="principles-list">
+    <div class="prin-card">
+      <div class="prin-num">01</div>
+      <div>
+        <div class="prin-title">Balance over restriction</div>
+        <p class="prin-text">Diet is not about what to avoid — it is about balance. What constitutes balance depends on individual constitution, environment, and level of activity. There is no universal prescription.</p>
+      </div>
+    </div>
+    <div class="prin-card">
+      <div class="prin-num">02</div>
+      <div>
+        <div class="prin-title">Freshness and natural state</div>
+        <p class="prin-text">Fresh, minimally processed, natural ingredients support easier digestion, better absorption, and reduced internal toxicity. The closer food is to its natural state, the less work the body must do.</p>
+      </div>
+    </div>
+    <div class="prin-card">
+      <div class="prin-num">03</div>
+      <div>
+        <div class="prin-title">Moderation in quantity</div>
+        <p class="prin-text">Overeating disturbs balance. Undereating weakens the body. The Siddhar principle: eat what is necessary — not excessive. Hunger is a signal; satiety is a boundary.</p>
+      </div>
+    </div>
+    <div class="prin-card">
+      <div class="prin-num">04</div>
+      <div>
+        <div class="prin-title">Regularity of timing</div>
+        <p class="prin-text">Irregular eating leads to digestive disturbance and energy fluctuation. Consistency in timing creates a rhythm the body can anticipate and prepare for.</p>
+      </div>
+    </div>
+    <div class="prin-card">
+      <div class="prin-num">05</div>
+      <div>
+        <div class="prin-title">Simplicity of meals</div>
+        <p class="prin-text">Simple meals with minimal variety support easy digestion and reduce distraction. The goal is not culinary deprivation — it is removing unnecessary complexity from the process.</p>
+      </div>
+    </div>
+    <div class="prin-card">
+      <div class="prin-num">06</div>
+      <div>
+        <div class="prin-title">Discipline as stability</div>
+        <p class="prin-text">Consistency in diet leads to stability, predictability, and balance — creating a reliable foundation from which inner work can proceed without disruption from the body.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOD & MIND SPECTRUM -->
+<section class="spectrum-section" id="mind">
+  <div class="spec-header">
+    <span class="tag" style="background:rgba(196,217,168,0.15);color:var(--moss-lt)">Food and the Mind</span>
+    <h2 class="sec-h2" style="margin-top:1rem;">What You Eat<br><em>Shapes</em> How You Think</h2>
+    <div class="rule"></div>
+    <p class="body-p">This is why diet matters for inner work. The relationship between food and mental clarity is not metaphorical — it is direct and observable.</p>
+  </div>
+  <div class="spectrum-bar" style="max-width:900px;margin:0 auto 1rem"></div>
+  <div class="spec-poles">
+    <span class="spec-pole">← Light, fresh, simple</span>
+    <span class="spec-pole">Heavy, processed, excessive →</span>
+  </div>
+  <div class="spectrum-cards" style="max-width:900px;margin:0 auto">
+    <div class="spec-card light-food">
+      <span class="spec-card-tag">Light food</span>
+      <div class="spec-card-title">Clarity & Presence</div>
+      <ul class="spec-card-effects">
+        <li>Mental alertness and sharpness</li>
+        <li>Steady, uninterrupted breath</li>
+        <li>Emotional stability and calm</li>
+        <li>Easier access to inner observation</li>
+      </ul>
+    </div>
+    <div class="spec-card heavy-food">
+      <span class="spec-card-tag">Heavy food</span>
+      <div class="spec-card-title">Dullness & Lethargy</div>
+      <ul class="spec-card-effects">
+        <li>Mental heaviness and sluggishness</li>
+        <li>Slower, laboured breathing</li>
+        <li>Emotional cloudiness or irritability</li>
+        <li>Reduced capacity for inner work</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE BAND -->
+<div class="quote-band">
+  <p class="qb-text">"Food is not just consumption. It is a continuous influence on body, breath, and awareness."</p>
+  <p class="qb-attr">Siddhar Tradition</p>
+</div>
+
+<!-- AWARENESS WHILE EATING -->
+<section style="background:var(--cream);padding:7rem 0" id="awareness">
+<div class="awareness-section">
+  <div>
+    <span class="tag leaf">Eating as Practice</span>
+    <h2 class="sec-h2" style="margin-top:1rem;">Awareness<br><em>While</em> Eating</h2>
+    <div class="rule"></div>
+    <p class="body-p">In the Siddhar approach, eating is not mechanical. Every meal is an opportunity for observation — a direct inquiry into the relationship between what is consumed and what is experienced.</p>
+    <div class="aw-steps">
+      <div class="aw-step">
+        <div class="aw-step-icon">👅</div>
+        <div>
+          <div class="aw-step-title">Observe how food tastes</div>
+          <p class="aw-step-text">Not just flavour — but the quality, heaviness, and effect of each taste as it meets the body's intelligence.</p>
+        </div>
+      </div>
+      <div class="aw-step">
+        <div class="aw-step-icon">🫀</div>
+        <div>
+          <div class="aw-step-title">Notice how the body responds</div>
+          <p class="aw-step-text">Digestion, energy, heaviness, lightness — the body communicates clearly if you learn to listen.</p>
+        </div>
+      </div>
+      <div class="aw-step">
+        <div class="aw-step-icon">🧘</div>
+        <div>
+          <div class="aw-step-title">Watch how the mind reacts</div>
+          <p class="aw-step-text">Does the mind crave, resist, or settle? These reactions reveal patterns worth understanding.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="breath-panel">
+      <span class="tag clay bp-tag">Food & Breath</span>
+      <h3 class="bp-h3">The invisible link</h3>
+      <p class="bp-text">The connection between food and breath is one of the most overlooked and most immediate relationships in the body. Siddhars observed it directly — not as theory, but as lived experience.</p>
+      <div class="breath-diagram">
+        <div class="bd-row">
+          <div class="bd-left">Heavy meal</div>
+          <div class="bd-arrow">→</div>
+          <div class="bd-right">Slower, shallower breath</div>
+        </div>
+        <div class="bd-row">
+          <div class="bd-left">Light meal</div>
+          <div class="bd-arrow">→</div>
+          <div class="bd-right">Steady, deeper breath</div>
+        </div>
+        <div class="bd-row">
+          <div class="bd-left">Overeating</div>
+          <div class="bd-arrow">→</div>
+          <div class="bd-right">Increased lethargy</div>
+        </div>
+        <div class="bd-row">
+          <div class="bd-left">Moderation</div>
+          <div class="bd-arrow">→</div>
+          <div class="bd-right">Sustained alertness</div>
+        </div>
+        <div class="bd-row">
+          <div class="bd-left">Irregular eating</div>
+          <div class="bd-arrow">→</div>
+          <div class="bd-right">Energy fluctuation</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- GURUKULAM -->
+<section class="gurukulam" style="background:var(--cream2);padding:7rem 3.5rem;max-width:none" id="gurukulam">
+  <div class="guru-left">
+    <span class="tag leaf">A Structured Environment</span>
+    <h2 class="sec-h2" style="margin-top:1rem;">Where Diet Becomes<br><em>Aligned Practice</em></h2>
+    <div class="rule"></div>
+    <p class="body-p">
+      To truly understand food as the Siddhars did, it must be lived — not just read about. This requires an environment where discipline is maintained, simplicity is preserved, and meals are aligned with the practice of inner observation.
+    </p>
+    <br>
+    <p class="body-p">
+      Diet also varies from person to person. Individual constitution, environment, and stage of practice all shape what is appropriate. Personalised guidance — not generic rules — is what makes the difference.
+    </p>
+  </div>
+  <div>
+    <div class="guru-box">
+      <div class="guru-label">Living Transmission</div>
+      <div class="guru-name">Shree Easanamma Gurukulam</div>
+      <div class="guru-guide">Guided by Shree Easanamma</div>
+      <div class="guru-features">
+        <div class="gf-item">
+          <div class="gf-dot"></div>
+          <div class="gf-text">Food is simple, fresh, and prepared with intentional discipline — not as restriction, but as support for clarity.</div>
+        </div>
+        <div class="gf-item">
+          <div class="gf-dot"></div>
+          <div class="gf-text">Eating times are regular and rhythmic, supporting the body's natural cycles without disruption.</div>
+        </div>
+        <div class="gf-item">
+          <div class="gf-dot"></div>
+          <div class="gf-text">Diet is aligned with individual practice — personalised under the guidance of Shree Easanamma.</div>
+        </div>
+        <div class="gf-item">
+          <div class="gf-dot"></div>
+          <div class="gf-text">Meals are observed, not rushed — eating itself becomes part of the inner work.</div>
+        </div>
+      </div>
+      <a href="#begin" class="btn-leaf">Connect with the Gurukulam</a>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final" id="begin">
+  <p class="final-label">Begin the Inquiry</p>
+  <h2 class="final-h2">Your Next Meal is<br><em>Already the Practice</em></h2>
+  <p class="final-sub">
+    No belief required — only attention. The Siddhar approach to food begins with a single observation: what happens when you eat with awareness?
+  </p>
+  <div class="final-btns">
+    <a href="#" class="btn-cream">Connect with Us</a>
+    <a href="#principles" class="btn-outline-cream">Explore the Principles</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-brand">Shree Easanamma Gurukulam</div>
+  <div class="foot-links">
+    <a href="#principles">Principles</a>
+    <a href="#mind">Food & Mind</a>
+    <a href="#awareness">Awareness</a>
+    <a href="#gurukulam">Gurukulam</a>
+  </div>
+  <div class="foot-copy">© 2026 Shree Easanamma Gurukulam</div>
+</footer>
+
+</body>
+</html>

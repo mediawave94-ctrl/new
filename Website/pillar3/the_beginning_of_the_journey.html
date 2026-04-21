@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Beginning of the Journey — Shree Easanamma Gurukulam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Cinzel:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0a0906;
+    --ink-deep: #060504;
+    --parchment: #e8dfc8;
+    --parchment-dim: #b5a98a;
+    --parchment-faint: #7a6f59;
+    --gold: #c9a84c;
+    --gold-dim: #8a6e30;
+    --gold-faint: #4a3c1a;
+    --rule: rgba(201,168,76,0.18);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--ink);
+    color: var(--parchment);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 20px;
+    line-height: 1.75;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* ── Grain overlay ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+    background-size: 180px 180px;
+    opacity: 0.035;
+    mix-blend-mode: overlay;
+  }
+
+  /* ── Gold rule line ── */
+  .rule {
+    display: block;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+    margin: 0 auto;
+  }
+
+  .rule-h {
+    display: block;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold-dim), transparent);
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 6rem 2rem;
+    position: relative;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 200px;
+    background: linear-gradient(to bottom, transparent, var(--ink));
+    pointer-events: none;
+  }
+
+  .hero-kicker {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.35em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 3rem;
+    opacity: 0;
+    transform: translateY(18px);
+    animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.2rem, 8vw, 7.5rem);
+    font-weight: 300;
+    line-height: 1.05;
+    color: var(--parchment);
+    letter-spacing: -0.01em;
+    max-width: 860px;
+    margin-bottom: 0.15em;
+  }
+
+  .hero-title .word {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+    margin-right: 0.22em;
+  }
+
+  .hero-title .word span {
+    display: inline-block;
+    transform: translateY(110%);
+    animation: wordLift 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .hero-title .word:nth-child(1) span { animation-delay: 0.4s; }
+  .hero-title .word:nth-child(2) span { animation-delay: 0.55s; }
+  .hero-title .word:nth-child(3) span { animation-delay: 0.7s; }
+  .hero-title .word:nth-child(4) span { animation-delay: 0.85s; }
+  .hero-title .word:nth-child(5) span { animation-delay: 1.0s; }
+
+  .hero-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    color: var(--parchment-dim);
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    max-width: 520px;
+    margin: 2.5rem auto 0;
+    opacity: 0;
+    transform: translateY(18px);
+    animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) 1.3s forwards;
+  }
+
+  .hero-ornament {
+    margin-top: 4rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 1.6s forwards;
+  }
+
+  .hero-ornament .rule-h { width: 80px; }
+
+  .diamond {
+    width: 6px; height: 6px;
+    background: var(--gold);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+  }
+
+  /* ── ARTICLE LAYOUT ── */
+  .article {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 2rem 10rem;
+  }
+
+  /* ── SECTION BLOCK ── */
+  .section-block {
+    margin-bottom: 7rem;
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .section-block.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── SECTION HEADINGS with word-lift ── */
+  .section-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+    font-weight: 400;
+    line-height: 1.15;
+    color: var(--parchment);
+    margin-bottom: 2rem;
+    letter-spacing: 0.01em;
+  }
+
+  .section-heading .word {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+    margin-right: 0.2em;
+  }
+
+  .section-heading .word span {
+    display: inline-block;
+    transform: translateY(110%);
+    transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .section-block.visible .section-heading .word:nth-child(1) span { transform: translateY(0); transition-delay: 0.0s; }
+  .section-block.visible .section-heading .word:nth-child(2) span { transform: translateY(0); transition-delay: 0.08s; }
+  .section-block.visible .section-heading .word:nth-child(3) span { transform: translateY(0); transition-delay: 0.16s; }
+  .section-block.visible .section-heading .word:nth-child(4) span { transform: translateY(0); transition-delay: 0.24s; }
+  .section-block.visible .section-heading .word:nth-child(5) span { transform: translateY(0); transition-delay: 0.32s; }
+  .section-block.visible .section-heading .word:nth-child(6) span { transform: translateY(0); transition-delay: 0.40s; }
+  .section-block.visible .section-heading .word:nth-child(7) span { transform: translateY(0); transition-delay: 0.48s; }
+
+  /* ── KICKER labels ── */
+  .kicker {
+    display: block;
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+  }
+
+  /* ── BODY TEXT ── */
+  .body-text {
+    font-size: 1.1rem;
+    line-height: 1.9;
+    color: var(--parchment-dim);
+    font-weight: 300;
+  }
+
+  /* ── INTRO BLOCK ── */
+  .intro-text {
+    font-size: clamp(1.25rem, 2.2vw, 1.65rem);
+    line-height: 1.8;
+    color: var(--parchment);
+    font-style: italic;
+    font-weight: 300;
+    border-left: 1px solid var(--gold-dim);
+    padding-left: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  /* ── AXIOM / PULL QUOTE ── */
+  .axiom {
+    text-align: center;
+    padding: 3.5rem 2rem;
+    margin: 3rem 0;
+    position: relative;
+  }
+
+  .axiom::before, .axiom::after {
+    content: '';
+    display: block;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold-dim), transparent);
+    margin-bottom: 2.5rem;
+  }
+  .axiom::after { margin-top: 2.5rem; margin-bottom: 0; }
+
+  .axiom-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    font-weight: 400;
+    color: var(--parchment);
+    letter-spacing: 0.03em;
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  .axiom-text strong {
+    font-style: normal;
+    color: var(--gold);
+    font-weight: 500;
+  }
+
+  /* ── OBSERVATION LIST ── */
+  .obs-list {
+    list-style: none;
+    margin: 1.8rem 0;
+    padding: 0;
+  }
+
+  .obs-list li {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 0.65rem 0;
+    border-bottom: 1px solid var(--rule);
+    font-size: 1.05rem;
+    color: var(--parchment-dim);
+    font-weight: 300;
+  }
+
+  .obs-list li::before {
+    content: '◇';
+    color: var(--gold);
+    font-size: 0.65rem;
+    flex-shrink: 0;
+    letter-spacing: 0;
+  }
+
+  /* ── FROM / TO SPLIT ── */
+  .shift-grid {
+    display: grid;
+    grid-template-columns: 1fr 1px 1fr;
+    gap: 0 2rem;
+    margin: 2.5rem 0;
+    align-items: center;
+  }
+
+  .shift-grid .divider { background: var(--gold-dim); height: 100%; }
+
+  .shift-col {
+    padding: 2rem 0;
+  }
+
+  .shift-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    color: var(--gold-faint);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .shift-col p {
+    font-size: 1rem;
+    color: var(--parchment-dim);
+    font-style: italic;
+    line-height: 1.7;
+  }
+
+  /* ── GURUKULAM HIGHLIGHT ── */
+  .institution {
+    background: linear-gradient(135deg, rgba(201,168,76,0.06) 0%, rgba(201,168,76,0.02) 100%);
+    border: 1px solid rgba(201,168,76,0.15);
+    padding: 3rem;
+    margin: 3rem 0;
+    position: relative;
+  }
+
+  .institution::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: linear-gradient(to bottom, var(--gold), var(--gold-dim));
+  }
+
+  .institution-name {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    letter-spacing: 0.12em;
+    color: var(--gold);
+    margin-bottom: 0.75rem;
+    font-weight: 500;
+  }
+
+  .institution p {
+    font-size: 1rem;
+    color: var(--parchment-dim);
+    line-height: 1.8;
+  }
+
+  /* ── CHALLENGES GRID ── */
+  .challenges {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin: 2.5rem 0;
+  }
+
+  .challenge-item {
+    border: 1px solid var(--rule);
+    padding: 1.8rem 1.5rem;
+    text-align: center;
+  }
+
+  .challenge-num {
+    font-family: 'Cinzel', serif;
+    font-size: 1.8rem;
+    color: var(--gold-faint);
+    display: block;
+    margin-bottom: 0.75rem;
+    font-weight: 400;
+  }
+
+  .challenge-name {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--parchment-faint);
+    text-transform: uppercase;
+  }
+
+  /* ── CONCLUSION ── */
+  .conclusion {
+    text-align: center;
+    padding: 6rem 2rem;
+    position: relative;
+  }
+
+  .conclusion-main {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+    font-weight: 300;
+    line-height: 1.5;
+    color: var(--parchment);
+    max-width: 640px;
+    margin: 0 auto 3rem;
+  }
+
+  .conclusion-main em {
+    font-style: normal;
+    color: var(--gold);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--rule);
+    padding: 4rem 2rem;
+    text-align: center;
+  }
+
+  footer .footer-name {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.35em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+  }
+
+  footer .footer-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.95rem;
+    font-style: italic;
+    color: var(--parchment-faint);
+    margin-top: 0.75rem;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.8rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(to bottom, rgba(10,9,6,0.95), transparent);
+  }
+
+  nav .nav-logo {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+  }
+
+  nav .nav-article-type {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--parchment-faint);
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes wordLift {
+    from { transform: translateY(110%); }
+    to   { transform: translateY(0); }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 640px) {
+    .challenges { grid-template-columns: 1fr; }
+    .shift-grid { grid-template-columns: 1fr; }
+    .shift-grid .divider { display: none; }
+    nav { padding: 1.5rem; }
+    .article { padding: 0 1.2rem 6rem; }
+    .institution { padding: 2rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo">Shree Easanamma Gurukulam</span>
+  <span class="nav-article-type">Long-form Sacred Text</span>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <span class="hero-kicker">The Siddhar Path — A Sacred Inquiry</span>
+
+  <h1 class="hero-title" id="heroTitle">
+    <!-- words injected by JS -->
+  </h1>
+
+  <p class="hero-sub">Where does the journey truly begin? The Siddhar understanding is simpler than we suppose.</p>
+
+  <div class="hero-ornament">
+    <span class="rule-h"></span>
+    <span class="diamond"></span>
+    <span class="rule-h"></span>
+  </div>
+</section>
+
+<!-- ═══ ARTICLE ═══ -->
+<main class="article">
+
+  <!-- Introduction -->
+  <div class="section-block">
+    <span class="kicker">Introduction</span>
+    <p class="intro-text">Many assume the journey begins with learning techniques, reading scriptures, or meeting a teacher. The Siddhar understanding is simpler.</p>
+    <div class="axiom">
+      <p class="axiom-text">The journey begins when one<br>starts <strong>observing.</strong></p>
+    </div>
+  </div>
+
+  <!-- The First Shift -->
+  <div class="section-block">
+    <span class="kicker">The First Shift</span>
+    <h2 class="section-heading" data-words="The First Shift"></h2>
+    <p class="body-text">The beginning is marked by a profound internal movement — subtle at first, then undeniable. One discovers the difference between being swept along and simply watching.</p>
+    <div class="shift-grid">
+      <div class="shift-col">
+        <span class="shift-label">From</span>
+        <p>Reacting automatically — without pause, without awareness, without choice.</p>
+      </div>
+      <div class="divider"></div>
+      <div class="shift-col">
+        <span class="shift-label">To</span>
+        <p>Observing consciously — meeting each moment with quiet, unhurried presence.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Awareness of Patterns -->
+  <div class="section-block">
+    <span class="kicker">Inner Landscape</span>
+    <h2 class="section-heading" data-words="Awareness of Patterns"></h2>
+    <p class="body-text">At the start, one begins to notice the furniture of the mind — patterns that have always been present, but invisible until the gaze turns inward.</p>
+    <ul class="obs-list">
+      <li>Repetitive thoughts that return like tide</li>
+      <li>Emotional reactions that precede all reasoning</li>
+      <li>Behavioral patterns inscribed by long habit</li>
+    </ul>
+  </div>
+
+  <!-- Simplicity -->
+  <div class="section-block">
+    <span class="kicker">First Principles</span>
+    <h2 class="section-heading" data-words="The Importance of Simplicity"></h2>
+    <p class="body-text">The Siddhar path does not ask for elaborate preparation. It begins with acts so simple they are easily overlooked — and so powerful they transform everything.</p>
+    <ul class="obs-list">
+      <li>Sit quietly, without agenda</li>
+      <li>Observe the breath as it moves through the body</li>
+      <li>Watch thoughts arise and dissolve</li>
+    </ul>
+    <p class="body-text" style="margin-top:1.5rem;">Beginners often seek advanced techniques and special experiences. These are not required. The ordinary moment, met with full attention, is the teaching.</p>
+  </div>
+
+  <!-- Consistency -->
+  <div class="section-block">
+    <span class="kicker">The Long Practice</span>
+    <h2 class="section-heading" data-words="The Role of Consistency"></h2>
+    <p class="body-text">Small, consistent observation — maintained day after day, without drama — leads to gradual clarity and a steady reduction of inner confusion. Transformation is not an event. It is a direction.</p>
+  </div>
+
+  <!-- Challenges -->
+  <div class="section-block">
+    <span class="kicker">What Arises</span>
+    <h2 class="section-heading" data-words="Initial Challenges"></h2>
+    <p class="body-text">At the beginning, one will encounter certain companions. They are natural. They are not obstacles — they are the curriculum.</p>
+    <div class="challenges">
+      <div class="challenge-item">
+        <span class="challenge-num">I</span>
+        <span class="challenge-name">Restlessness</span>
+      </div>
+      <div class="challenge-item">
+        <span class="challenge-num">II</span>
+        <span class="challenge-name">Distraction</span>
+      </div>
+      <div class="challenge-item">
+        <span class="challenge-num">III</span>
+        <span class="challenge-name">Doubt</span>
+      </div>
+    </div>
+    <p class="body-text">Each of these, when met with patient observation rather than resistance, gradually loses its grip. This is natural. This is the path.</p>
+  </div>
+
+  <!-- Expectation -->
+  <div class="section-block">
+    <span class="kicker">A Common Snare</span>
+    <h2 class="section-heading" data-words="The Trap of Expectation"></h2>
+    <p class="body-text">Expecting results creates frustration. Comparison with others creates confusion. The Siddhar approach avoids expectation entirely — not through indifference, but through a deeper trust in the process itself.</p>
+    <div class="axiom">
+      <p class="axiom-text">Daily life is not separate<br>from the <strong>practice.</strong></p>
+    </div>
+    <p class="body-text">Observation while speaking. Awareness while acting. The journey lives in the texture of every hour.</p>
+  </div>
+
+  <!-- Structure & Gurukulam -->
+  <div class="section-block">
+    <span class="kicker">Foundation</span>
+    <h2 class="section-heading" data-words="Structure and Guidance"></h2>
+    <p class="body-text">Structure supports those at the beginning. Without it, consistency breaks before the roots have formed. Disciplined environments help establish an unshakeable foundation.</p>
+    <div class="institution">
+      <p class="institution-name">Shree Easanamma Gurukulam</p>
+      <p>A disciplined environment built to hold the beginner with care — to provide the structure within which genuine transformation can take root and grow without being swept away by the noise of ordinary life.</p>
+    </div>
+    <p class="body-text">Guidance at the beginning is essential. Clarity from <em>Shree Easanamma</em> helps the student avoid confusion, move past dead ends, and find the thread that leads inward — without losing their way in complexity.</p>
+  </div>
+
+  <!-- Conclusion -->
+  <div class="section-block">
+    <div class="conclusion">
+      <span class="kicker" style="display:block; margin-bottom:2.5rem;">Conclusion</span>
+      <p class="conclusion-main">
+        The journey does not begin with complexity.<br>
+        It begins with <em>simple, consistent observation.</em>
+      </p>
+      <div style="display:flex; align-items:center; justify-content:center; gap:1.5rem;">
+        <span class="rule-h" style="width:60px;"></span>
+        <span class="diamond"></span>
+        <span class="rule-h" style="width:60px;"></span>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <p class="footer-name">Shree Easanamma Gurukulam</p>
+  <p class="footer-tagline">Walking the Siddhar Path — one quiet observation at a time</p>
+</footer>
+
+<script>
+  // ── Hero title word-lift ──
+  const heroWords = ['The', 'Beginning', 'of', 'the', 'Journey'];
+  const heroTitle = document.getElementById('heroTitle');
+  heroWords.forEach(word => {
+    const wrap = document.createElement('span');
+    wrap.className = 'word';
+    const inner = document.createElement('span');
+    inner.textContent = word;
+    wrap.appendChild(inner);
+    heroTitle.appendChild(wrap);
+  });
+
+  // ── Section headings word-lift ──
+  document.querySelectorAll('.section-heading[data-words]').forEach(el => {
+    const words = el.dataset.words.split(' ');
+    el.innerHTML = '';
+    words.forEach(word => {
+      const wrap = document.createElement('span');
+      wrap.className = 'word';
+      const inner = document.createElement('span');
+      inner.textContent = word;
+      wrap.appendChild(inner);
+      el.appendChild(wrap);
+    });
+  });
+
+  // ── Intersection Observer for scroll reveals ──
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+
+  document.querySelectorAll('.section-block').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
